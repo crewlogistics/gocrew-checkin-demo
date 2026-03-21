@@ -385,14 +385,61 @@ function submitRequest(type){
   setTimeout(function(){overlay=null;toast("Request submitted! Operations will confirm within 2 hours.");render()},2000);
 }
 
-function startScan(){scanActive=true;render();setTimeout(initCam,300)}
+function startScan(){scanActive=true;render();setTimeout(initCam,500)}
 function stopScan(){scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render()}
 function initCam(){
-  var v=$("cam-v");if(!v)return;
-  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
-    navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false})
-      .then(function(s){camStream=s;v.srcObject=s;v.play()}).catch(function(){})
+  var v=$("cam-v");
+  if(!v){
+    // Video element not ready yet - retry
+    setTimeout(initCam, 300);
+    return;
   }
+  // Already streaming
+  if(camStream){
+    try{ v.srcObject=camStream; v.play(); }catch(e){}
+    return;
+  }
+  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
+    console.log("getUserMedia not supported");
+    showCamError("Camera not supported in this browser. Use Safari (iPhone) or Chrome (Android).");
+    return;
+  }
+  // Try rear camera first
+  navigator.mediaDevices.getUserMedia({
+    video:{facingMode:{ideal:"environment"}, width:{ideal:640}, height:{ideal:640}},
+    audio:false
+  }).then(function(stream){
+    camStream = stream;
+    var v2 = $("cam-v");
+    if(v2){
+      v2.srcObject = stream;
+      v2.setAttribute("playsinline","");
+      v2.setAttribute("autoplay","");
+      v2.play().catch(function(e){ console.log("Play error:",e); });
+    }
+  }).catch(function(err){
+    console.log("Rear camera failed:", err.name, err.message);
+    // Try any camera
+    navigator.mediaDevices.getUserMedia({video:true, audio:false}).then(function(stream){
+      camStream = stream;
+      var v3 = $("cam-v");
+      if(v3){
+        v3.srcObject = stream;
+        v3.setAttribute("playsinline","");
+        v3.play().catch(function(){});
+      }
+    }).catch(function(err2){
+      console.log("All cameras failed:", err2.name, err2.message);
+      showCamError(err2.name === "NotAllowedError" 
+        ? "Camera permission denied. Go to Settings > Safari > Camera and allow access."
+        : "Could not access camera. Please use the Simulate button below.");
+    });
+  });
+}
+
+function showCamError(msg){
+  var region = $("cam-error");
+  if(region) region.innerHTML = "<div style=\"padding:20px;text-align:center\"><p style=\"font-size:13px;color:#DC2626;font-weight:600;margin-bottom:8px\">Camera Unavailable</p><p style=\"font-size:11px;color:#8896A6;line-height:1.5\">"+msg+"</p></div>";
 }
 
 // ═══ RENDER ═══
@@ -472,8 +519,9 @@ function render(){
     } else if(scanActive){
       h+='<div class="scanner-box" style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.06);margin-bottom:16px">';
       h+='<div style="padding:16px 20px;background:var(--navy);color:#fff;text-align:center"><p style="font-size:14px;font-weight:700;margin-bottom:4px">Scanning...</p><p style="font-size:11px;color:rgba(255,255,255,.6)">Point camera at property QR code</p></div>';
-      h+='<div style="position:relative;aspect-ratio:1;background:#111;overflow:hidden"><video id="cam-v" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;display:block"></video>';
-      h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:200px;height:200px;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.4)"></div></div></div>';
+      h+='<div style="position:relative;width:100%;padding-bottom:100%;background:#111;overflow:hidden"><video id="cam-v" autoplay playsinline muted webkit-playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></video>';
+    h+='<div id="cam-error" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"></div>';
+      h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5"><div style="width:200px;height:200px;border:3px solid #C4972A;border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.4)"></div></div></div>';
       h+='<div style="padding:12px 16px"><button class="btn btn-o btn-sm" onclick="stopScan()">Cancel</button>';
       h+='<button class="btn btn-g btn-sm" onclick="doSelfCheckIn()" style="margin-bottom:0">Simulate Scan</button></div></div>';
     } else if(scanResult==="validating"){
