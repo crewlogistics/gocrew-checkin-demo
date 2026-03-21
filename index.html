@@ -666,13 +666,18 @@ function render(){
   else if(state==="CHECKING_IN") h+='<button class="btn btn-t" disabled style="opacity:.7"><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:18px;height:18px;border:2px solid white;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;display:inline-block"></span>Validating 7 Security Layers...</span></button>';
   else if(state==="CHECKED_IN"&&tab!=="manage"){
     h+='<button class="btn btn-n" onclick="doCheckOut()">Check Out</button>';
-    if(checkinTime && (Date.now()-checkinTime)/1000 < undoWindow){
-      var secsLeft = Math.max(0, undoWindow - Math.floor((Date.now()-checkinTime)/1000));
-      var mLeft = Math.floor(secsLeft/60);
-      h+='<button class="btn btn-o btn-sm" data-undo-timer="1" onclick="undoCheckIn()" style="color:#DC2626;border-color:rgba(220,38,38,.3);font-size:12px">Undo Check-In ('+mLeft+' min remaining)</button>';
-    }
   }
   else if(state==="CHECKED_OUT") h+='<div class="card" style="text-align:center;padding:24px"><div style="font-size:36px;margin-bottom:8px">&#9989;</div><div style="font-size:16px;font-weight:700;color:var(--navy)">Stay Complete</div><div style="font-size:12px;color:#8896A6;margin-top:4px">All records synced to Mission Data Brain</div></div>';
+
+
+  // ═══ UNDO CHECK-IN (standalone - shows on ALL tabs when checked in within window) ═══
+  if(state==="CHECKED_IN" && checkinTime && (Date.now()-checkinTime)/1000 < undoWindow && tab!=="manage"){
+    var undoSecs = Math.max(0, undoWindow - Math.floor((Date.now()-checkinTime)/1000));
+    var undoMins = Math.floor(undoSecs/60);
+    h+='<div style="text-align:center;margin-bottom:12px">';
+    h+='<button onclick="undoCheckIn()" style="padding:12px 24px;border-radius:12px;border:2px solid rgba(220,38,38,.3);background:rgba(220,38,38,.05);color:#DC2626;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Checked in by mistake? Undo ('+undoMins+' min left)</button>';
+    h+='</div>';
+  }
 
   h+='<div class="footer"><p class="mono">CMMC L2 &middot; AES-256 &middot; TLS 1.3 &middot; FIPS 140-2 &middot; ZERO TRUST<br>PROTOTYPE v0.4</p></div></div>';
 
