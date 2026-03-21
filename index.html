@@ -108,8 +108,8 @@ input,textarea,select{font-family:'DM Sans',system-ui,sans-serif}
 
 /* Manage Stay */
 .manage-section{margin-top:8px}
-.manage-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:12px}
-.manage-btn{flex:1;padding:12px 8px;border-radius:12px;border:2px solid #E2E8F0;background:#fff;text-align:center;font-size:11px;font-weight:600;color:var(--navy);transition:all .2s}
+.manage-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px}
+.manage-btn{padding:10px 4px;border-radius:12px;border:2px solid #E2E8F0;background:#fff;text-align:center;font-size:10px;font-weight:600;color:var(--navy);transition:all .2s;min-width:0;overflow:hidden}
 .manage-btn:active{transform:scale(.97)}
 .manage-btn svg{display:block;margin:0 auto 6px}
 .manage-btn.ext{border-color:rgba(13,115,119,.3)}
@@ -375,21 +375,43 @@ function confirmUndo(){
   tab = "checkin";
   scanResult = null;
   scanActive = false;
+  showRoomConfirm = false;
+  roomStep = 1;
+  roomInput = "";
+  roomInput2 = "";
+  feedbackRating = 0;
+  feedbackTags = [];
+  feedbackDone = false;
+  C.room = "412";
   overlay = null;
   render();
   toast("Check-in reversed. Please check in again when ready.");
 }
 
 function cancelRoomConfirm(){showRoomConfirm=false;roomError=false;roomStep=1;roomInput="";roomInput2="";roomErrorMsg="";render()}
-function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";overlay="out";render()},800)}
+function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";tab="checkin";overlay="out";render()},800)}
 function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el&&el.value===""){el.focus();}},400)}
 function doSelfCheckInConfirmed(){scanResult="validating";if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}
   render();setTimeout(function(){scanResult="success";render();setTimeout(function(){state="CHECKED_IN";checkinTime=Date.now();tab="checkin";overlay="in";scanResult=null;render()},1500)},1500)}
-function dismiss(){overlay=null;render()}
+function dismiss(){
+  overlay=null;
+  // If just checked in via self-service, make sure we're on checkin tab
+  if(state==="CHECKED_IN" && tab==="selfservice") tab="checkin";
+  render();
+}
 
 function submitRequest(type){
+  // Read form values for logging
+  var details = "";
+  if(type==="extend"){
+    var d = $("ext-date"); var r2 = $("ext-reason");
+    details = "Extension to " + (d?d.value:"") + " - " + (r2?r2.value:"");
+  } else if(type==="early"){
+    var d2 = $("early-date"); var r3 = $("early-reason");
+    details = "Early departure " + (d2?d2.value:"") + " - " + (r3?r3.value:"");
+  }
   overlay="req_sent";render();
-  setTimeout(function(){overlay=null;toast("Request submitted! Operations will confirm within 2 hours.");render()},2000);
+  setTimeout(function(){overlay=null;toast(type==="extend"?"Extension request submitted!":"Early departure request submitted!");render()},2000);
 }
 
 function startScan(){scanActive=true;camRetries=0;render();setTimeout(initCam,500)}
@@ -709,7 +731,7 @@ function render(){
       var tags = ["Clean","Comfortable","Good location","Friendly staff","Quiet","Needs improvement"];
       for(var t2=0;t2<tags.length;t2++){
         var sel = feedbackTags.indexOf(tags[t2]) >= 0;
-        h+='<button onclick="toggleTag(this,\''+tags[t2]+'\')" style="padding:6px 12px;border-radius:20px;border:1.5px solid '+(sel?"#0D7377":"#E2E8F0")+';background:'+(sel?"rgba(13,115,119,.08)":"white")+';color:'+(sel?"#0D7377":"#8896A6")+';font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">'+tags[t2]+'</button>';
+        h+='<button onclick="toggleTag(\''+tags[t2]+'\')" style="padding:6px 12px;border-radius:20px;border:1.5px solid '+(sel?"#0D7377":"#E2E8F0")+';background:'+(sel?"rgba(13,115,119,.08)":"white")+';color:'+(sel?"#0D7377":"#8896A6")+';font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">'+tags[t2]+'</button>';
       }
       h+='</div>';
       
@@ -750,7 +772,7 @@ function render(){
   h+='<div class="footer">';
   h+='<p class="mono">CMMC L2 &middot; AES-256 &middot; TLS 1.3 &middot; FIPS 140-2 &middot; ZERO TRUST</p>';
   h+='<p style="margin-top:8px"><a href="#" onclick="showTerms();return false" style="font-size:9px;color:#A0AEC0;margin-right:12px">Terms of Service</a><a href="#" onclick="showPrivacy();return false" style="font-size:9px;color:#A0AEC0">Privacy Policy</a></p>';
-  h+='<p class="mono" style="margin-top:6px;font-size:8px;color:#CBD5E0">GoCrew v1.5 by Crew Logistics</p>';
+  h+='<p class="mono" style="margin-top:6px;font-size:8px;color:#CBD5E0">GoCrew v1.6 by Crew Logistics</p>';
   h+='</div></div>';
 
   // ═══ SUCCESS OVERLAY ═══
@@ -925,7 +947,7 @@ function submitRoomChange(){
   setTimeout(function(){overlay=null;toast("Room changed to " + newRoom + ". All records updated.");render()},2000);
 }
 function setRating(n){ feedbackRating = n; render(); }
-function toggleTag(el, tag){
+function toggleTag(tag){
   var idx = feedbackTags.indexOf(tag);
   if(idx >= 0) feedbackTags.splice(idx, 1);
   else feedbackTags.push(tag);
