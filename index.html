@@ -14,7 +14,8 @@
 html,body{width:100%;overflow-x:hidden}
 body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:linear-gradient(170deg,var(--gray) 0%,#E8ECF1 40%,#DFE7EF 100%);min-height:100vh;min-height:100dvh}
 .mono{font-family:'DM Mono',monospace}
-button{-webkit-appearance:none;appearance:none;font-family:'DM Sans',system-ui,sans-serif}
+button{-webkit-appearance:none;appearance:none;font-family:'DM Sans',system-ui,sans-serif;cursor:pointer}
+input,textarea,select{font-family:'DM Sans',system-ui,sans-serif}
 
 .header{background:linear-gradient(135deg,var(--navy),#243656);padding:max(env(safe-area-inset-top),20px) 24px 24px;position:relative;overflow:hidden}
 .header::before{content:'';position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle at 2px 2px,white 1px,transparent 0);background-size:24px 24px}
@@ -28,118 +29,122 @@ button{-webkit-appearance:none;appearance:none;font-family:'DM Sans',system-ui,s
 .header h1{color:#fff;font-size:20px;font-weight:700}
 .header-time{color:rgba(255,255,255,.5);font-size:11px;margin-top:4px;letter-spacing:.5px}
 
-.tabs{display:flex;background:#fff;border-radius:14px;margin:16px 20px 0;padding:4px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
-.tab{flex:1;padding:10px 6px;border-radius:10px;text-align:center;font-size:11px;font-weight:600;color:#8896A6;cursor:pointer;transition:all .2s;letter-spacing:.3px;border:none;background:transparent}
+.tabs{display:flex;background:#fff;border-radius:14px;margin:16px 20px 0;padding:4px;box-shadow:0 2px 12px rgba(0,0,0,.06);gap:2px}
+.tab{flex:1;padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;color:#8896A6;border:none;background:transparent;transition:all .2s;letter-spacing:.2px}
 .tab.active{background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(27,42,74,.3)}
 
 .main{padding:16px 20px 120px;max-width:420px;margin:0 auto}
 
 .status-wrap{display:flex;justify-content:center;margin-bottom:16px}
-.status-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px}
-.status-badge.ready{background:rgba(13,115,119,.1);border:1px solid rgba(13,115,119,.2)}
-.status-badge.checked-in{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.2)}
-.status-badge.checked-out{background:rgba(27,42,74,.08);border:1px solid rgba(27,42,74,.15)}
-.status-dot{width:8px;height:8px;border-radius:50%}
-.status-badge.ready .status-dot{background:var(--teal)}
-.status-badge.checked-in .status-dot{background:var(--emerald);animation:pulse 2s infinite}
-.status-badge.checked-out .status-dot{background:var(--navy)}
-.status-label{font-size:11px;font-weight:700;letter-spacing:1.5px}
-.status-badge.ready .status-label{color:var(--teal)}
-.status-badge.checked-in .status-label{color:var(--emerald)}
-.status-badge.checked-out .status-label{color:var(--navy)}
+.badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px}
+.badge.ready{background:rgba(13,115,119,.1);border:1px solid rgba(13,115,119,.2)}
+.badge.in{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.2)}
+.badge.out{background:rgba(27,42,74,.08);border:1px solid rgba(27,42,74,.15)}
+.badge-dot{width:8px;height:8px;border-radius:50%}
+.badge.ready .badge-dot{background:var(--teal)}
+.badge.in .badge-dot{background:var(--emerald);animation:pulse 2s infinite}
+.badge.out .badge-dot{background:var(--navy)}
+.badge-text{font-size:11px;font-weight:700;letter-spacing:1.5px}
+.badge.ready .badge-text{color:var(--teal)}
+.badge.in .badge-text{color:var(--emerald)}
+.badge.out .badge-text{color:var(--navy)}
 
 .card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 2px 24px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.03);margin-bottom:16px}
 
-.qr-wrapper{text-align:center;padding:24px 20px}
-.qr-label{font-size:12px;color:#8896A6;margin-bottom:16px;letter-spacing:1px}
-.qr-canvas-wrap{display:flex;justify-content:center}
-.qr-canvas-wrap canvas{border-radius:12px;box-shadow:0 0 30px rgba(13,115,119,.15),0 4px 20px rgba(0,0,0,.1);display:block}
-.qr-timer{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;background:rgba(13,115,119,.08);color:var(--teal);font-size:10px;font-weight:600;margin-top:12px}
+.qr-wrap{text-align:center;padding:24px 20px}
+.qr-wrap canvas{border-radius:12px;box-shadow:0 0 30px rgba(13,115,119,.15),0 4px 20px rgba(0,0,0,.1);display:block;margin:0 auto}
 
-.wallet-pass{background:linear-gradient(145deg,var(--navy),#1e3a5f,var(--dark));border-radius:16px;overflow:hidden;color:#fff;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.2);margin-bottom:16px}
-.wallet-pass::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(13,115,119,.2),transparent 70%)}
+.wp{background:linear-gradient(145deg,var(--navy),#1e3a5f,var(--dark));border-radius:16px;overflow:hidden;color:#fff;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.2);margin-bottom:16px}
+.wp::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(13,115,119,.2),transparent 70%)}
 .wp-strip{height:4px;background:linear-gradient(90deg,var(--teal),var(--gold),var(--teal))}
-.wp-header{padding:16px 20px 12px;display:flex;justify-content:space-between;align-items:flex-start;position:relative}
+.wp-hdr{padding:16px 20px 12px;display:flex;justify-content:space-between;align-items:flex-start;position:relative}
 .wp-logo{display:flex;align-items:center;gap:8px}
-.wp-logo-icon{width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
-.wp-logo-text{font-size:14px;font-weight:700;letter-spacing:.5px}
+.wp-li{width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
+.wp-lt{font-size:14px;font-weight:700;letter-spacing:.5px}
 .wp-type{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:1.5px;font-weight:600}
 .wp-body{padding:0 20px 16px}
 .wp-name{font-size:22px;font-weight:700;margin-bottom:2px}
-.wp-program{font-size:11px;color:rgba(255,255,255,.6);margin-bottom:16px}
+.wp-pgm{font-size:11px;color:rgba(255,255,255,.6);margin-bottom:16px}
 .wp-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:16px}
-.wp-field label{display:block;font-size:8px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-bottom:2px;font-weight:600}
-.wp-field span{font-size:13px;font-weight:600}
+.wp-f label{display:block;font-size:8px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-bottom:2px;font-weight:600}
+.wp-f span{font-size:13px;font-weight:600}
 .wp-qr{background:#fff;border-radius:12px;padding:12px;text-align:center;margin:0 20px 16px}
 .wp-qr canvas{border-radius:8px;display:block;margin:0 auto}
-.wp-footer{padding:12px 20px 16px;border-top:1px dashed rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center}
-.wp-id{font-size:11px;color:rgba(255,255,255,.4)}
-.wp-badge{font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(5,150,105,.2);color:var(--emerald);font-weight:600;letter-spacing:.5px}
+.wp-ft{padding:12px 20px 16px;border-top:1px dashed rgba(255,255,255,.15);display:flex;justify-content:space-between;align-items:center}
 
-.wallet-buttons{display:flex;gap:10px;margin-bottom:16px}
-.wallet-btn{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;padding:14px 8px;border-radius:12px;border:none;font-size:12px;font-weight:600;cursor:pointer;transition:transform .15s}
-.wallet-btn:active{transform:scale(.97)}
-.wallet-btn-apple{background:#000;color:#fff}
-.wallet-btn-google{background:#fff;color:#1a1a1a;border:1px solid #e0e0e0}
-.wallet-btn svg{width:20px;height:20px;flex-shrink:0}
+.wbtns{display:flex;gap:10px;margin-bottom:16px}
+.wbtn{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:14px 8px;border-radius:12px;border:none;font-size:11px;font-weight:600;transition:transform .15s}
+.wbtn:active{transform:scale(.97)}
+.wbtn-a{background:#000;color:#fff}
+.wbtn-g{background:#fff;color:#1a1a1a;border:1px solid #e0e0e0}
+.wbtn svg{width:18px;height:18px;flex-shrink:0}
 
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.grid-item{padding:10px 12px;border-radius:10px;background:var(--gray)}
-.grid-label{font-size:9px;font-weight:600;color:#8896A6;letter-spacing:1px;margin-bottom:3px}
-.grid-value{font-size:12px;font-weight:600;color:var(--navy)}
+.gi{padding:10px 12px;border-radius:10px;background:var(--gray)}
+.gl{font-size:9px;font-weight:600;color:#8896A6;letter-spacing:1px;margin-bottom:3px}
+.gv{font-size:12px;font-weight:600;color:var(--navy)}
 
-.frs-badge{margin-top:12px;padding:8px 12px;border-radius:8px;background:rgba(13,115,119,.04);border:1px solid rgba(13,115,119,.1);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.frs-text{font-size:11px;color:var(--teal)}
-.frs-layers{display:flex;gap:3px;margin-left:auto}
-.frs-layer{width:14px;height:7px;border-radius:2px;background:var(--emerald)}
+.frs{margin-top:12px;padding:8px 12px;border-radius:8px;background:rgba(13,115,119,.04);border:1px solid rgba(13,115,119,.1);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.frs-dots{display:flex;gap:3px;margin-left:auto}
+.frs-dot{width:14px;height:7px;border-radius:2px;background:var(--emerald)}
 
-.crew-card{display:flex;align-items:center;gap:12px}
-.crew-avatar{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff;flex-shrink:0}
-.crew-name{font-size:15px;font-weight:700;color:var(--navy)}
-.crew-program{font-size:12px;color:#8896A6}
+.crew{display:flex;align-items:center;gap:12px}
+.crew-av{width:44px;height:44px;border-radius:12px;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff;flex-shrink:0}
 
-.btn{width:100%;padding:16px;border-radius:14px;border:none;color:#fff;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:transform .15s;margin-bottom:12px;display:block;text-align:center}
+.btn{width:100%;padding:16px;border-radius:14px;border:none;color:#fff;font-size:15px;font-weight:700;letter-spacing:.3px;transition:transform .15s;margin-bottom:10px;display:block;text-align:center}
 .btn:active{transform:scale(.98)}
-.btn-checkin{background:linear-gradient(135deg,var(--teal),rgba(13,115,119,.85));box-shadow:0 4px 20px rgba(13,115,119,.25)}
-.btn-checkout{background:linear-gradient(135deg,var(--navy),rgba(27,42,74,.85));box-shadow:0 4px 20px rgba(27,42,74,.2)}
-.btn-scan{background:linear-gradient(135deg,var(--gold),#d4a235);box-shadow:0 4px 20px rgba(196,151,42,.25)}
-.btn-secondary{background:transparent;color:var(--navy);border:2px solid #E2E8F0;box-shadow:none}
+.btn-t{background:linear-gradient(135deg,var(--teal),rgba(13,115,119,.85));box-shadow:0 4px 20px rgba(13,115,119,.25)}
+.btn-n{background:linear-gradient(135deg,var(--navy),rgba(27,42,74,.85));box-shadow:0 4px 20px rgba(27,42,74,.2)}
+.btn-g{background:linear-gradient(135deg,var(--gold),#d4a235);box-shadow:0 4px 20px rgba(196,151,42,.25)}
+.btn-o{background:transparent;color:var(--navy);border:2px solid #E2E8F0;box-shadow:none}
+.btn-sm{padding:12px;font-size:13px;margin-bottom:8px}
 
-.geo-bar{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;margin-top:10px;border-radius:8px;background:rgba(5,150,105,.06);border:1px solid rgba(5,150,105,.15)}
-.pulse-ring{width:10px;height:10px;border-radius:50%;background:var(--emerald);position:relative;flex-shrink:0}
-.pulse-ring::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--emerald);animation:geopulse 2s infinite;opacity:.5}
-.geo-text{font-size:11px;color:var(--emerald);font-weight:600}
+.geo{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;margin-top:10px;border-radius:8px;background:rgba(5,150,105,.06);border:1px solid rgba(5,150,105,.15)}
+.geo-ring{width:10px;height:10px;border-radius:50%;background:var(--emerald);position:relative;flex-shrink:0}
+.geo-ring::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--emerald);animation:geopulse 2s infinite;opacity:.5}
 
-.overlay{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:fadeIn .3s ease;padding:24px}
-.overlay.ci{background:linear-gradient(135deg,rgba(5,150,105,.96),rgba(13,115,119,.96))}
-.overlay.co{background:linear-gradient(135deg,rgba(27,42,74,.96),rgba(13,115,119,.96))}
-.ov-icon{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin-bottom:20px;animation:scaleIn .4s ease}
+/* Manage Stay */
+.manage-section{margin-top:8px}
+.manage-btns{display:flex;gap:8px;margin-bottom:12px}
+.manage-btn{flex:1;padding:12px 8px;border-radius:12px;border:2px solid #E2E8F0;background:#fff;text-align:center;font-size:11px;font-weight:600;color:var(--navy);transition:all .2s}
+.manage-btn:active{transform:scale(.97)}
+.manage-btn svg{display:block;margin:0 auto 6px}
+.manage-btn.ext{border-color:rgba(13,115,119,.3)}
+.manage-btn.early{border-color:rgba(196,151,42,.3)}
+
+/* Form */
+.form-card{border:2px solid rgba(13,115,119,.2);background:rgba(13,115,119,.02)}
+.form-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.form-sub{font-size:11px;color:#8896A6;margin-bottom:16px}
+.form-group{margin-bottom:14px}
+.form-label{font-size:10px;font-weight:600;color:var(--navy);letter-spacing:.5px;margin-bottom:6px;display:block}
+.form-input{width:100%;padding:12px;border-radius:10px;border:1.5px solid #E2E8F0;font-size:14px;color:var(--navy);background:var(--gray);outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--teal)}
+.form-select{width:100%;padding:12px;border-radius:10px;border:1.5px solid #E2E8F0;font-size:14px;color:var(--navy);background:var(--gray);outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%231B2A4A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+textarea.form-input{min-height:80px;resize:vertical}
+
+/* Overlay */
+.ov{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:fadeIn .3s ease;padding:24px;overflow-y:auto}
+.ov.ci{background:linear-gradient(135deg,rgba(5,150,105,.96),rgba(13,115,119,.96))}
+.ov.co{background:linear-gradient(135deg,rgba(27,42,74,.96),rgba(13,115,119,.96))}
+.ov-icon{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin-bottom:20px;animation:scaleIn .4s ease;flex-shrink:0}
 .ov-title{color:#fff;font-size:24px;font-weight:700;text-align:center}
 .ov-sub{color:rgba(255,255,255,.85);font-size:14px;margin-top:6px;text-align:center}
-.ov-meta{margin-top:20px;padding:16px 20px;border-radius:12px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);width:100%;max-width:320px}
+.ov-meta{margin-top:16px;padding:16px 20px;border-radius:12px;background:rgba(255,255,255,.1);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);width:100%;max-width:320px}
 .ov-row{display:flex;justify-content:space-between;padding:4px 0}
 .ov-label{color:rgba(255,255,255,.5);font-size:10px}
-.ov-val{color:#fff;font-size:10px;font-weight:600}
+.ov-val{color:#fff;font-size:10px;font-weight:600;text-align:right}
 .ov-wallets{margin-top:16px;display:flex;gap:8px;width:100%;max-width:320px}
-.ov-wallets .wallet-btn{padding:12px 8px;font-size:11px}
-.btn-continue{margin-top:20px;padding:14px 48px;border-radius:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:15px;font-weight:600;cursor:pointer}
+.ov-wallets .wbtn{padding:12px 8px}
+.btn-cont{margin-top:16px;padding:14px 48px;border-radius:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:15px;font-weight:600}
 
-.scanner-box{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.06);margin-bottom:16px}
-.scanner-box-hdr{padding:16px 20px;background:var(--navy);color:#fff;text-align:center}
-.scanner-box-hdr h3{font-size:14px;font-weight:700;margin-bottom:4px}
-.scanner-box-hdr p{font-size:11px;color:rgba(255,255,255,.6)}
-#scanner-view{width:100%;aspect-ratio:1;background:#111;position:relative;overflow:hidden}
-#scanner-view video{width:100%!important;height:100%!important;object-fit:cover!important;border-radius:0!important}
-.scanner-crosshair{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:10}
-.scanner-crosshair div{width:200px;height:200px;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.4)}
+/* Request Submitted Overlay */
+.req-ov{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(27,42,74,.95);animation:fadeIn .3s ease;padding:24px}
 
-.complete-card{text-align:center;padding:24px}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;color:#fff;z-index:200;animation:slideUp .3s ease;max-width:90vw;text-align:center;background:var(--emerald)}
 
-.security-footer{text-align:center;margin-top:20px;padding:12px 0}
-.security-footer p{font-size:9px;color:#A0AEC0;letter-spacing:1px;line-height:1.6}
-
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;color:#fff;z-index:200;animation:slideUp .3s ease;white-space:nowrap;max-width:90vw;text-align:center}
-.toast.s{background:var(--emerald)}
+.footer{text-align:center;margin-top:20px;padding:12px 0}
+.footer p{font-size:9px;color:#A0AEC0;letter-spacing:1px;line-height:1.6}
 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes geopulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(2);opacity:0}}
@@ -150,372 +155,337 @@ button{-webkit-appearance:none;appearance:none;font-family:'DM Sans',system-ui,s
 </style>
 </head>
 <body>
-
-<div id="app">
-  <!-- Fallback while JS loads -->
-  <div style="display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px">
-    <div>
-      <div style="width:48px;height:48px;border:3px solid #0D7377;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div>
-      <p style="font-size:14px;font-weight:600;color:#1B2A4A">Loading GoCrew Smart Check-In...</p>
-      <p style="font-size:11px;color:#8896A6;margin-top:8px">If this screen persists, open this file directly in Safari or Chrome.</p>
-    </div>
-  </div>
-</div>
+<div id="app"><div style="display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px"><div><div style="width:48px;height:48px;border:3px solid #0D7377;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p style="font-size:14px;font-weight:600;color:#1B2A4A">Loading GoCrew...</p></div></div></div>
 
 <script>
-// ── Config ──
-var CREW = {
-  name:"Andrea Tsakanikas", id:"GC-2026-04892", assignment:"ASG-TX-0312",
-  property:"Marriott Courtyard Downtown", address:"300 E 4th St, Austin, TX 78701",
-  propertyId:"PROP-TX-004", checkIn:"Mar 21, 2026", checkOut:"Mar 28, 2026",
-  program:"Federal Infrastructure Deployment", roomType:"Single King",
-  confirmation:"MCR-8847291", room:"412"
+var C = {
+  name:"Andrea Tsakanikas", id:"GC-2026-04892", asg:"ASG-TX-0312",
+  prop:"Marriott Courtyard Downtown", addr:"300 E 4th St, Austin, TX 78701",
+  pid:"PROP-TX-004", ci:"Mar 21, 2026", co:"Mar 28, 2026",
+  pgm:"Federal Infrastructure Deployment", room:"412", rt:"Single King",
+  conf:"MCR-8847291", initials:"AT"
 };
-var FRS = { composite: Math.floor(Math.random()*12)+2 };
-var state = "READY";
-var activeTab = "checkin";
-var showSuccess = null;
-var qrTimer = 30;
-var geoStatus = "Verifying...";
+var frs = Math.floor(Math.random()*12)+2;
+var state = "READY"; // READY, CHECKING_IN, CHECKED_IN, CHECKING_OUT, CHECKED_OUT
+var tab = "checkin"; // checkin, wallet, selfservice, manage
+var overlay = null; // null, "in", "out", "req_ext", "req_early"
 var scanActive = false;
 var scanResult = null;
 var toastMsg = null;
-var toastTimer = null;
-var qrAnimId = null;
+var toastTmr = null;
+var qrTimer = 30;
+var qrAnim = null;
+var geoSt = "Verifying...";
+var camStream = null;
 
-function $(id){ return document.getElementById(id); }
-
-function showToast(msg){
-  toastMsg = msg;
-  render();
-  if(toastTimer) clearTimeout(toastTimer);
-  toastTimer = setTimeout(function(){ toastMsg = null; render(); }, 2500);
-}
+function $(id){return document.getElementById(id)}
+function toast(m){toastMsg=m;render();if(toastTmr)clearTimeout(toastTmr);toastTmr=setTimeout(function(){toastMsg=null;render()},2500)}
 
 // ── QR Drawing ──
-function drawQR(id, sz, animated, seedVal){
-  var el = $(id);
-  if(!el) return;
-  var c = el.getContext("2d");
-  var s = sz || 300;
-  el.width = s; el.height = s;
-  el.style.width = Math.floor(s/2)+"px";
-  el.style.height = Math.floor(s/2)+"px";
-  var g = animated ? 25 : 21;
-  var cs = s/g;
-  var seed = seedVal || (42 + Math.floor(Date.now()/30000));
-  function rnd(){ seed=(seed*16807)%2147483647; return(seed-1)/2147483646; }
-  var pat = [];
-  for(var y=0;y<g;y++){ pat[y]=[]; for(var x=0;x<g;x++){
-    var tl=x<7&&y<7, tr=x>=g-7&&y<7, bl=x<7&&y>=g-7;
-    if(tl||tr||bl){ var lx=tl?x:tr?x-(g-7):x, ly=tl?y:tr?y:y-(g-7);
-      pat[y][x]=(lx===0||lx===6||ly===0||ly===6||(lx>=2&&lx<=4&&ly>=2&&ly<=4))?1:0;
-    } else { pat[y][x]=rnd()>.5?1:0; }
+function drawQR(id,sz,anim,sd){
+  var el=$(id);if(!el)return;
+  var ctx=el.getContext("2d");el.width=sz;el.height=sz;
+  el.style.width=Math.floor(sz/2)+"px";el.style.height=Math.floor(sz/2)+"px";
+  var g=anim?25:21,cs=sz/g,seed=sd||(42+Math.floor(Date.now()/30000));
+  function r(){seed=(seed*16807)%2147483647;return(seed-1)/2147483646}
+  var p=[];for(var y=0;y<g;y++){p[y]=[];for(var x=0;x<g;x++){
+    var tl=x<7&&y<7,tr=x>=g-7&&y<7,bl=x<7&&y>=g-7;
+    if(tl||tr||bl){var lx=tl?x:tr?x-(g-7):x,ly=tl?y:tr?y:y-(g-7);
+      p[y][x]=(lx===0||lx===6||ly===0||ly===6||(lx>=2&&lx<=4&&ly>=2&&ly<=4))?1:0;
+    }else{p[y][x]=r()>.5?1:0}
   }}
-  if(!animated){
-    c.fillStyle="#FFF"; c.fillRect(0,0,s,s);
-    for(var y2=0;y2<g;y2++) for(var x2=0;x2<g;x2++) if(pat[y2][x2]){
-      c.fillStyle="#1B2A4A"; c.fillRect(x2*cs+.5,y2*cs+.5,cs-1,cs-1);
-    }
-    return;
-  }
-  if(qrAnimId) cancelAnimationFrame(qrAnimId);
-  var frame=0;
-  function draw(){
-    frame++; var t=frame*.02;
-    c.clearRect(0,0,s,s); c.fillStyle="#FFF"; c.fillRect(0,0,s,s);
-    for(var y3=0;y3<g;y3++) for(var x3=0;x3<g;x3++) if(pat[y3][x3]){
-      var d=Math.sqrt(Math.pow(x3-g/2,2)+Math.pow(y3-g/2,2));
-      var w=Math.sin(t*2-d*.3)*.15;
-      c.fillStyle="rgba(27,42,74,"+Math.max(.4,Math.min(1,.85+w))+")";
-      c.fillRect(x3*cs+.5,y3*cs+.5,cs-1,cs-1);
-    }
-    c.save(); c.strokeStyle="#0D7377"; c.lineWidth=3; c.setLineDash([8,6]); c.lineDashOffset=-t*20;
-    c.beginPath(); c.arc(s/2,s/2,s*.42,0,Math.PI*2); c.stroke(); c.restore();
-    c.strokeStyle="#C4972A"; c.lineWidth=4; c.lineCap="round";
-    var corners=[[0,0,1,1],[s,0,-1,1],[0,s,1,-1],[s,s,-1,-1]];
-    for(var i=0;i<corners.length;i++){
-      var p=corners[i];
-      c.beginPath(); c.moveTo(p[0]+p[2]*4,p[1]+p[3]*4); c.lineTo(p[0]+p[2]*4,p[1]+p[3]*20);
-      c.moveTo(p[0]+p[2]*4,p[1]+p[3]*4); c.lineTo(p[0]+p[2]*20,p[1]+p[3]*4); c.stroke();
-    }
-    if(state==="READY" && activeTab==="checkin") qrAnimId=requestAnimationFrame(draw);
-  }
-  draw();
+  if(!anim){ctx.fillStyle="#FFF";ctx.fillRect(0,0,sz,sz);
+    for(var y2=0;y2<g;y2++)for(var x2=0;x2<g;x2++)if(p[y2][x2]){ctx.fillStyle="#1B2A4A";ctx.fillRect(x2*cs+.5,y2*cs+.5,cs-1,cs-1)}
+    return}
+  if(qrAnim)cancelAnimationFrame(qrAnim);
+  var fr=0;function draw(){fr++;var t=fr*.02;ctx.clearRect(0,0,sz,sz);ctx.fillStyle="#FFF";ctx.fillRect(0,0,sz,sz);
+    for(var y3=0;y3<g;y3++)for(var x3=0;x3<g;x3++)if(p[y3][x3]){var d=Math.sqrt(Math.pow(x3-g/2,2)+Math.pow(y3-g/2,2));
+      ctx.fillStyle="rgba(27,42,74,"+Math.max(.4,Math.min(1,.85+Math.sin(t*2-d*.3)*.15))+")";ctx.fillRect(x3*cs+.5,y3*cs+.5,cs-1,cs-1)}
+    ctx.save();ctx.strokeStyle="#0D7377";ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.lineDashOffset=-t*20;
+    ctx.beginPath();ctx.arc(sz/2,sz/2,sz*.42,0,Math.PI*2);ctx.stroke();ctx.restore();
+    ctx.strokeStyle="#C4972A";ctx.lineWidth=4;ctx.lineCap="round";
+    [[0,0,1,1],[sz,0,-1,1],[0,sz,1,-1],[sz,sz,-1,-1]].forEach(function(c){
+      ctx.beginPath();ctx.moveTo(c[0]+c[2]*4,c[1]+c[3]*4);ctx.lineTo(c[0]+c[2]*4,c[1]+c[3]*20);
+      ctx.moveTo(c[0]+c[2]*4,c[1]+c[3]*4);ctx.lineTo(c[0]+c[2]*20,c[1]+c[3]*4);ctx.stroke()});
+    if(state==="READY"&&tab==="checkin")qrAnim=requestAnimationFrame(draw)}
+  draw()
 }
 
-// ── Geofence ──
-function initGeo(){
-  setTimeout(function(){ geoStatus="Verified - Within 50m"; render(); },1500);
-  if(navigator.geolocation){
-    navigator.geolocation.getCurrentPosition(
-      function(p){ geoStatus="Verified - "+p.coords.latitude.toFixed(4)+", "+p.coords.longitude.toFixed(4); render(); },
-      function(){ geoStatus="Verified - GPS simulated"; render(); },
-      {enableHighAccuracy:true,timeout:5000}
-    );
+// ── Wallet Pass Generation ──
+function generatePassFile(type){
+  // Create a vEvent/vCard-style pass that mobile devices can handle
+  var now = new Date();
+  var ciDate = "20260321T150000";
+  var coDate = "20260328T110000";
+
+  if(type==="apple"){
+    // Generate .ics calendar event as a pass proxy (universally supported on iOS)
+    var ics = [
+      "BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//GoCrew//SmartCheckIn//EN","METHOD:PUBLISH",
+      "BEGIN:VEVENT",
+      "DTSTART:"+ciDate,"DTEND:"+coDate,
+      "SUMMARY:GoCrew Check-In: "+C.prop,
+      "DESCRIPTION:Crew: "+C.name+"\\nID: "+C.id+"\\nAssignment: "+C.asg+"\\nRoom: "+C.room+"\\nConfirmation: "+C.conf+"\\nFRS: "+frs+"/100 CLEARED\\n\\nPresent QR code at front desk or use Self Check-In.",
+      "LOCATION:"+C.prop+", "+C.addr,
+      "STATUS:CONFIRMED",
+      "BEGIN:VALARM","TRIGGER:-PT2H","ACTION:DISPLAY","DESCRIPTION:GoCrew Check-In in 2 hours","END:VALARM",
+      "END:VEVENT","END:VCALENDAR"
+    ].join("\r\n");
+    var blob = new Blob([ics],{type:"text/calendar;charset=utf-8"});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "GoCrew-CheckIn-"+C.asg+".ics";
+    document.body.appendChild(a);a.click();document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    toast("Check-in pass saved! Opens in Calendar with all details + 2hr reminder.");
+  } else {
+    // Google Calendar deep link (opens Google Calendar on Android)
+    var gcalUrl = "https://calendar.google.com/calendar/render?action=TEMPLATE"
+      +"&text="+encodeURIComponent("GoCrew Check-In: "+C.prop)
+      +"&dates="+ciDate+"/"+coDate
+      +"&details="+encodeURIComponent("Crew: "+C.name+"\nID: "+C.id+"\nAssignment: "+C.asg+"\nRoom: "+C.room+"\nConfirmation: "+C.conf+"\nFRS: "+frs+"/100 CLEARED\n\nPresent QR code at front desk or use Self Check-In.")
+      +"&location="+encodeURIComponent(C.prop+", "+C.addr);
+    window.open(gcalUrl,"_blank");
+    toast("Opening Google Calendar with your check-in pass...");
   }
+}
+
+// ── Geo ──
+function initGeo(){
+  setTimeout(function(){geoSt="Verified - Within 50m";render()},1500);
+  if(navigator.geolocation){navigator.geolocation.getCurrentPosition(
+    function(p){geoSt="Verified - "+p.coords.latitude.toFixed(4)+", "+p.coords.longitude.toFixed(4);render()},
+    function(){geoSt="Verified - GPS simulated";render()},{enableHighAccuracy:true,timeout:5000})}
 }
 
 // ── Timer ──
 setInterval(function(){
-  qrTimer--;
-  if(qrTimer<=0){ qrTimer=30; if(state==="READY"&&activeTab==="checkin") drawQR("qr-main",400,true); }
-  var el=document.getElementById("timer-val");
-  if(el) el.textContent=qrTimer;
-  var tel=document.getElementById("clock");
-  if(tel) tel.textContent=new Date().toLocaleString("en-US",{dateStyle:"medium",timeStyle:"short"});
+  qrTimer--;if(qrTimer<=0){qrTimer=30;if(state==="READY"&&tab==="checkin")drawQR("qr-main",400,true)}
+  var e=$("tv");if(e)e.textContent=qrTimer;
+  var t=$("ck");if(t)t.textContent=new Date().toLocaleString("en-US",{dateStyle:"medium",timeStyle:"short"})
 },1000);
 
-// ── Actions ──
-function switchTab(t){
-  scanActive=false; scanResult=null;
-  if(qrAnimId){ cancelAnimationFrame(qrAnimId); qrAnimId=null; }
-  activeTab=t;
-  render();
+function switchTab(t){scanActive=false;scanResult=null;if(qrAnim){cancelAnimationFrame(qrAnim);qrAnim=null}
+  if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}tab=t;render()}
+function doCheckIn(){state="CHECKING_IN";render();setTimeout(function(){state="CHECKED_IN";overlay="in";render()},1200)}
+function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";overlay="out";render()},800)}
+function doSelfCheckIn(){scanResult="validating";scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}
+  render();setTimeout(function(){scanResult="success";render();setTimeout(function(){state="CHECKED_IN";overlay="in";scanResult=null;render()},1500)},1500)}
+function dismiss(){overlay=null;render()}
+
+function submitRequest(type){
+  overlay="req_sent";render();
+  setTimeout(function(){overlay=null;toast("Request submitted! Operations will confirm within 2 hours.");render()},2000);
 }
 
-function doCheckIn(){
-  state="CHECKING_IN"; render();
-  setTimeout(function(){ state="CHECKED_IN"; showSuccess="in"; render(); },1200);
-}
-function doCheckOut(){
-  state="CHECKING_OUT"; render();
-  setTimeout(function(){ state="CHECKED_OUT"; showSuccess="out"; render(); },800);
-}
-function doSelfCheckIn(){
-  scanResult="validating"; scanActive=false; render();
-  setTimeout(function(){
-    scanResult="success"; render();
-    setTimeout(function(){ state="CHECKED_IN"; showSuccess="in"; scanResult=null; render(); },1500);
-  },1500);
-}
-function dismiss(){ showSuccess=null; render(); }
-function wallet(t){ showToast("Pass saved to "+(t==="apple"?"Apple":"Google")+" Wallet"); }
-
-function startScan(){
-  scanActive=true; render();
-  // Try native camera via input on mobile
+function startScan(){scanActive=true;render()}
+function stopScan(){scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render()}
+function initCam(){
+  var v=$("cam-v");if(!v)return;
+  if(navigator.mediaDevices&&navigator.mediaDevices.getUserMedia){
+    navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false})
+      .then(function(s){camStream=s;v.srcObject=s;v.play()}).catch(function(){})
+  }
 }
 
-// ── Render ──
+// ═══ RENDER ═══
 function render(){
-  var now = new Date();
-  var time = now.toLocaleString("en-US",{dateStyle:"medium",timeStyle:"short"});
-  var token = "TKN-"+Math.random().toString(36).substr(2,8).toUpperCase();
-  var h = '';
+  var now=new Date();
+  var time=now.toLocaleString("en-US",{dateStyle:"medium",timeStyle:"short"});
+  var token="TKN-"+Math.random().toString(36).substr(2,8).toUpperCase();
+  var h='';
+
+  // Apple/Google SVG icons (reused)
+  var appleIcon='<svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>';
+  var googleIcon='<svg viewBox="0 0 24 24" width="18" height="18"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>';
 
   // Header
-  h+='<div class="header"><div class="header-inner">';
-  h+='<div class="header-top"><div class="logo"><div class="logo-icon">G</div><span class="logo-text">GoCrew</span></div>';
-  h+='<div class="secure-badge"><div class="secure-dot"></div><span class="mono" style="color:rgba(255,255,255,.7);font-size:11px">SECURE</span></div></div>';
-  h+='<h1>Smart Check-In</h1>';
-  h+='<p class="header-time mono" id="clock">'+time+'</p>';
-  h+='</div></div>';
+  h+='<div class="header"><div class="header-inner"><div class="header-top"><div class="logo"><div class="logo-icon">G</div><span class="logo-text">GoCrew</span></div><div class="secure-badge"><div class="secure-dot"></div><span class="mono" style="color:rgba(255,255,255,.7);font-size:11px">SECURE</span></div></div><h1>Smart Check-In</h1><p class="header-time mono" id="ck">'+time+'</p></div></div>';
 
   // Tabs
-  if(state==="READY"){
+  if(state==="READY"||state==="CHECKED_IN"){
     h+='<div class="tabs">';
-    h+='<button class="tab'+(activeTab==="checkin"?' active':'')+'" onclick="switchTab(\'checkin\')">QR Check-In</button>';
-    h+='<button class="tab'+(activeTab==="wallet"?' active':'')+'" onclick="switchTab(\'wallet\')">Wallet Pass</button>';
-    h+='<button class="tab'+(activeTab==="selfservice"?' active':'')+'" onclick="switchTab(\'selfservice\')">Self Check-In</button>';
+    h+='<button class="tab'+(tab==="checkin"?' active':'')+'" onclick="switchTab(\'checkin\')">QR Check-In</button>';
+    h+='<button class="tab'+(tab==="wallet"?' active':'')+'" onclick="switchTab(\'wallet\')">Wallet Pass</button>';
+    h+='<button class="tab'+(tab==="selfservice"?' active':'')+'" onclick="switchTab(\'selfservice\')">Self Check-In</button>';
+    if(state==="CHECKED_IN") h+='<button class="tab'+(tab==="manage"?' active':'')+'" onclick="switchTab(\'manage\')">Manage Stay</button>';
     h+='</div>';
   }
 
   h+='<div class="main">';
 
   // Status
-  var sc = state==="READY"||state==="CHECKING_IN"?"ready":state==="CHECKED_IN"||state==="CHECKING_OUT"?"checked-in":"checked-out";
-  var sl = state==="READY"?"READY FOR CHECK-IN":state==="CHECKING_IN"?"VALIDATING...":state==="CHECKED_IN"?"CHECKED IN":state==="CHECKING_OUT"?"PROCESSING...":"CHECKED OUT";
-  h+='<div class="status-wrap"><div class="status-badge '+sc+'"><div class="status-dot"></div><span class="status-label mono">'+sl+'</span></div></div>';
+  var bc=state==="READY"||state==="CHECKING_IN"?"ready":state==="CHECKED_IN"||state==="CHECKING_OUT"?"in":"out";
+  var bl=state==="READY"?"READY FOR CHECK-IN":state==="CHECKING_IN"?"VALIDATING...":state==="CHECKED_IN"?"CHECKED IN":state==="CHECKING_OUT"?"PROCESSING...":"CHECKED OUT";
+  h+='<div class="status-wrap"><div class="badge '+bc+'"><div class="badge-dot"></div><span class="badge-text mono">'+bl+'</span></div></div>';
 
-  // ═══ QR CHECK-IN TAB ═══
-  if(activeTab==="checkin" && state==="READY"){
-    h+='<div class="card qr-wrapper">';
-    h+='<p class="mono qr-label">PRESENT TO FRONT DESK</p>';
-    h+='<div class="qr-canvas-wrap"><canvas id="qr-main" width="400" height="400" style="width:200px;height:200px"></canvas></div>';
+  // ═══ QR TAB ═══
+  if(tab==="checkin"&&state==="READY"){
+    h+='<div class="card qr-wrap"><p class="mono" style="font-size:12px;color:#8896A6;margin-bottom:16px;letter-spacing:1px">PRESENT TO FRONT DESK</p>';
+    h+='<canvas id="qr-main" width="400" height="400" style="width:200px;height:200px"></canvas>';
     h+='<p class="mono" style="font-size:11px;color:#A0AEC0;margin-top:12px">Token refreshes every 30s</p>';
-    h+='<div class="qr-timer mono"><span id="timer-val">'+qrTimer+'</span>s until refresh</div>';
-    h+='<div class="geo-bar"><div class="pulse-ring"></div><span class="geo-text mono">'+geoStatus+'</span></div>';
-    h+='</div>';
+    h+='<div style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;background:rgba(13,115,119,.08);color:var(--teal);font-size:10px;font-weight:600;margin-top:8px" class="mono"><span id="tv">'+qrTimer+'</span>s</div>';
+    h+='<div class="geo"><div class="geo-ring"></div><span class="mono" style="font-size:11px;color:var(--emerald);font-weight:600">'+geoSt+'</span></div></div>';
   }
 
-  // ═══ WALLET PASS TAB ═══
-  if(activeTab==="wallet" && state==="READY"){
-    h+='<div class="wallet-pass"><div class="wp-strip"></div>';
-    h+='<div class="wp-header"><div class="wp-logo"><div class="wp-logo-icon">G</div><span class="wp-logo-text">GoCrew</span></div><span class="wp-type mono">CREW CHECK-IN</span></div>';
-    h+='<div class="wp-body">';
-    h+='<div class="wp-name">'+CREW.name+'</div>';
-    h+='<div class="wp-program mono">'+CREW.program+'</div>';
+  // ═══ WALLET TAB ═══
+  if(tab==="wallet"&&(state==="READY"||state==="CHECKED_IN")){
+    h+='<div class="wp"><div class="wp-strip"></div>';
+    h+='<div class="wp-hdr"><div class="wp-logo"><div class="wp-li">G</div><span class="wp-lt">GoCrew</span></div><span class="wp-type mono">CREW CHECK-IN</span></div>';
+    h+='<div class="wp-body"><div class="wp-name">'+C.name+'</div><div class="wp-pgm mono">'+C.pgm+'</div>';
     h+='<div class="wp-grid">';
-    h+='<div class="wp-field"><label class="mono">CHECK IN</label><span>'+CREW.checkIn+'</span></div>';
-    h+='<div class="wp-field"><label class="mono">CHECK OUT</label><span>'+CREW.checkOut+'</span></div>';
-    h+='<div class="wp-field"><label class="mono">ROOM</label><span>'+CREW.room+'</span></div>';
-    h+='<div class="wp-field"><label class="mono">PROPERTY</label><span style="font-size:11px">'+CREW.property+'</span></div>';
-    h+='<div class="wp-field"><label class="mono">CREW ID</label><span style="font-size:11px">'+CREW.id+'</span></div>';
-    h+='<div class="wp-field"><label class="mono">CONFIRM</label><span style="font-size:11px">'+CREW.confirmation+'</span></div>';
+    h+='<div class="wp-f"><label class="mono">CHECK IN</label><span>'+C.ci+'</span></div>';
+    h+='<div class="wp-f"><label class="mono">CHECK OUT</label><span>'+C.co+'</span></div>';
+    h+='<div class="wp-f"><label class="mono">ROOM</label><span>'+C.room+'</span></div>';
+    h+='<div class="wp-f"><label class="mono">PROPERTY</label><span style="font-size:11px">'+C.prop+'</span></div>';
+    h+='<div class="wp-f"><label class="mono">CREW ID</label><span style="font-size:11px">'+C.id+'</span></div>';
+    h+='<div class="wp-f"><label class="mono">CONFIRM</label><span style="font-size:11px">'+C.conf+'</span></div>';
     h+='</div></div>';
     h+='<div class="wp-qr"><canvas id="wallet-qr" width="300" height="300" style="width:150px;height:150px"></canvas>';
-    h+='<p class="mono" style="font-size:9px;color:#8896A6;margin-top:6px">Scan at front desk or self-service kiosk</p></div>';
-    h+='<div class="wp-footer"><span class="wp-id mono">'+CREW.assignment+'</span><span class="wp-badge mono">FRS '+FRS.composite+'/100 CLEARED</span></div>';
+    h+='<p class="mono" style="font-size:9px;color:#8896A6;margin-top:6px">Scan at front desk or kiosk</p></div>';
+    h+='<div class="wp-ft"><span class="mono" style="font-size:11px;color:rgba(255,255,255,.4)">'+C.asg+'</span><span class="mono" style="font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(5,150,105,.2);color:var(--emerald);font-weight:600">FRS '+frs+'/100 CLEARED</span></div></div>';
+
+    h+='<div class="wbtns">';
+    h+='<button class="wbtn wbtn-a" onclick="generatePassFile(\'apple\')">'+appleIcon+' Save to iPhone</button>';
+    h+='<button class="wbtn wbtn-g" onclick="generatePassFile(\'google\')">'+googleIcon+' Save to Android</button>';
     h+='</div>';
 
-    h+='<div class="wallet-buttons">';
-    h+='<button class="wallet-btn wallet-btn-apple" onclick="wallet(\'apple\')"><svg viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>Add to Apple Wallet</button>';
-    h+='<button class="wallet-btn wallet-btn-google" onclick="wallet(\'google\')"><svg viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Add to Google Wallet</button>';
-    h+='</div>';
-
-    h+='<div class="card" style="padding:16px"><p style="font-size:11px;color:var(--navy);font-weight:600;margin-bottom:6px">How Wallet Passes Work</p>';
-    h+='<p style="font-size:10px;color:#8896A6;line-height:1.6">Save your check-in pass to Apple Wallet or Google Wallet. The pass updates automatically with your QR code and assignment details. At the property, open your wallet and present the pass. The pass includes your geofence-validated, cryptographically signed QR token.</p></div>';
+    h+='<div class="card" style="padding:16px"><p style="font-size:11px;color:var(--navy);font-weight:600;margin-bottom:6px">How It Works</p>';
+    h+='<p style="font-size:10px;color:#8896A6;line-height:1.6"><strong>iPhone:</strong> Saves a calendar event with all check-in details, property address, and a 2-hour reminder. Open it from your Calendar or Lock Screen notification.<br><br><strong>Android:</strong> Opens Google Calendar to save your check-in event with all details and location. Get reminded before your check-in time.</p></div>';
   }
 
   // ═══ SELF CHECK-IN TAB ═══
-  if(activeTab==="selfservice" && state==="READY"){
-    h+='<div class="card" style="padding:16px;text-align:center;margin-bottom:12px">';
-    h+='<p style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">Self-Service Check-In</p>';
-    h+='<p style="font-size:11px;color:#8896A6;line-height:1.5">Scan the GoCrew QR code posted at the hotel lobby or kiosk. No waiting in line.</p></div>';
-
-    if(!scanResult && !scanActive){
-      h+='<button class="btn btn-scan" onclick="startScan()">';
-      h+='<span style="display:inline-flex;align-items:center;gap:8px">';
-      h+='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>';
-      h+='Open Camera &amp; Scan Property QR</span></button>';
-
-      h+='<div class="card" style="text-align:center;margin-top:4px"><p style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px">Demo: Property QR Code</p>';
-      h+='<p style="font-size:10px;color:#8896A6;margin-bottom:12px">Display on another screen and scan, or tap Simulate below</p>';
-      h+='<canvas id="prop-qr" width="240" height="240" style="width:120px;height:120px;display:block;margin:0 auto;border-radius:8px"></canvas>';
-      h+='<p class="mono" style="font-size:9px;color:#A0AEC0;margin-top:8px">'+CREW.property+'</p>';
-      h+='<button class="btn btn-secondary" onclick="doSelfCheckIn()" style="margin-top:12px;margin-bottom:0;font-size:13px">Simulate: Scan Property QR</button></div>';
+  if(tab==="selfservice"&&state==="READY"){
+    h+='<div class="card" style="padding:16px;text-align:center"><p style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">Self-Service Check-In</p><p style="font-size:11px;color:#8896A6;line-height:1.5">Scan the GoCrew QR code posted at the hotel lobby or kiosk. No waiting in line.</p></div>';
+    if(!scanResult&&!scanActive){
+      h+='<button class="btn btn-g" onclick="startScan()"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>Open Camera</span></button>';
+      h+='<div class="card" style="text-align:center"><p style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px">Demo: Property QR</p>';
+      h+='<canvas id="prop-qr" width="240" height="240" style="width:120px;height:120px;display:block;margin:8px auto;border-radius:8px"></canvas>';
+      h+='<button class="btn btn-o btn-sm" onclick="doSelfCheckIn()">Simulate Scan</button></div>';
     } else if(scanActive){
-      h+='<div class="scanner-box"><div class="scanner-box-hdr"><h3>Scanning for Property QR</h3><p>Point camera at the GoCrew code in the lobby</p></div>';
-      h+='<div id="scanner-view" style="position:relative"><video id="cam-video" autoplay playsinline muted style="width:100%;display:block;background:#111"></video>';
-      h+='<div class="scanner-crosshair"><div></div></div></div>';
-      h+='<div style="padding:16px;text-align:center">';
-      h+='<button class="btn btn-secondary" onclick="stopScan()" style="margin-bottom:4px;font-size:13px">Cancel</button>';
-      h+='<button class="btn btn-scan" onclick="doSelfCheckIn()" style="margin-bottom:0;font-size:13px">Simulate Successful Scan</button>';
-      h+='</div></div>';
+      h+='<div class="scanner-box" style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.06);margin-bottom:16px">';
+      h+='<div style="padding:16px 20px;background:var(--navy);color:#fff;text-align:center"><p style="font-size:14px;font-weight:700;margin-bottom:4px">Scanning...</p><p style="font-size:11px;color:rgba(255,255,255,.6)">Point camera at property QR code</p></div>';
+      h+='<div style="position:relative;aspect-ratio:1;background:#111;overflow:hidden"><video id="cam-v" autoplay playsinline muted style="width:100%;height:100%;object-fit:cover;display:block"></video>';
+      h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:200px;height:200px;border:3px solid var(--gold);border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.4)"></div></div></div>';
+      h+='<div style="padding:12px 16px"><button class="btn btn-o btn-sm" onclick="stopScan()">Cancel</button>';
+      h+='<button class="btn btn-g btn-sm" onclick="doSelfCheckIn()" style="margin-bottom:0">Simulate Scan</button></div></div>';
     } else if(scanResult==="validating"){
-      h+='<div class="card" style="text-align:center;padding:40px 20px">';
-      h+='<div style="width:48px;height:48px;border:3px solid var(--teal);border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div>';
-      h+='<p style="font-size:14px;font-weight:700;color:var(--navy)">Validating Check-In</p>';
-      h+='<p style="font-size:11px;color:#8896A6;margin-top:8px">Verifying property + assignment + geofence + 7-layer FRS...</p></div>';
+      h+='<div class="card" style="text-align:center;padding:40px 20px"><div style="width:48px;height:48px;border:3px solid var(--teal);border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p style="font-size:14px;font-weight:700;color:var(--navy)">Validating...</p><p style="font-size:11px;color:#8896A6;margin-top:8px">Property + Assignment + Geofence + 7-Layer FRS</p></div>';
     } else if(scanResult==="success"){
-      h+='<div class="card" style="text-align:center;padding:32px 20px;border:2px solid rgba(5,150,105,.3)">';
-      h+='<div style="font-size:40px;margin-bottom:8px">&#10003;</div>';
-      h+='<p style="font-size:16px;font-weight:700;color:var(--emerald)">Property Verified</p>';
-      h+='<p style="font-size:12px;color:#8896A6;margin-top:4px">'+CREW.property+'</p>';
-      h+='<p style="font-size:11px;color:var(--emerald);margin-top:8px" class="mono">FRS: '+FRS.composite+'/100 - ALL 7 LAYERS PASSED</p></div>';
+      h+='<div class="card" style="text-align:center;padding:32px 20px;border:2px solid rgba(5,150,105,.3)"><div style="font-size:40px;margin-bottom:8px">&#10003;</div><p style="font-size:16px;font-weight:700;color:var(--emerald)">Property Verified</p><p style="font-size:12px;color:#8896A6;margin-top:4px">'+C.prop+'</p></div>';
+    }
+  }
+
+  // ═══ MANAGE STAY TAB ═══
+  if(tab==="manage"&&state==="CHECKED_IN"){
+    h+='<div class="card" style="padding:16px;text-align:center"><p style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">Manage Your Stay</p><p style="font-size:11px;color:#8896A6">Request changes to your assignment directly from your phone.</p></div>';
+
+    h+='<div class="manage-btns">';
+    h+='<button class="manage-btn ext" onclick="showForm(\'extend\')">';
+    h+='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+    h+='Extend Stay</button>';
+    h+='<button class="manage-btn early" onclick="showForm(\'early\')">';
+    h+='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
+    h+='Early Departure</button>';
+    h+='</div>';
+
+    // Extension form
+    if(overlay==="form_extend"){
+      h+='<div class="card form-card">';
+      h+='<div class="form-title">Request Stay Extension</div>';
+      h+='<div class="form-sub">Your current check-out: <strong>'+C.co+'</strong></div>';
+      h+='<div class="form-group"><label class="form-label">NEW CHECK-OUT DATE</label><input type="date" class="form-input" id="ext-date" value="2026-04-04"></div>';
+      h+='<div class="form-group"><label class="form-label">REASON FOR EXTENSION</label>';
+      h+='<select class="form-select" id="ext-reason"><option>Project timeline extended</option><option>Awaiting replacement crew</option><option>Weather delay</option><option>Client request</option><option>Other</option></select></div>';
+      h+='<div class="form-group"><label class="form-label">ADDITIONAL NOTES</label><textarea class="form-input" id="ext-notes" placeholder="Any details for operations..."></textarea></div>';
+      h+='<button class="btn btn-t" onclick="submitRequest(\'extend\')">Submit Extension Request</button>';
+      h+='<button class="btn btn-o btn-sm" onclick="overlay=null;render()">Cancel</button>';
+      h+='</div>';
+    }
+
+    // Early departure form
+    if(overlay==="form_early"){
+      h+='<div class="card form-card" style="border-color:rgba(196,151,42,.3);background:rgba(196,151,42,.02)">';
+      h+='<div class="form-title">Request Early Departure</div>';
+      h+='<div class="form-sub">Your current check-out: <strong>'+C.co+'</strong></div>';
+      h+='<div class="form-group"><label class="form-label">REQUESTED DEPARTURE DATE</label><input type="date" class="form-input" id="early-date" value="2026-03-25"></div>';
+      h+='<div class="form-group"><label class="form-label">REASON FOR EARLY DEPARTURE</label>';
+      h+='<select class="form-select" id="early-reason"><option>Assignment completed early</option><option>Reassigned to different location</option><option>Personal/family emergency</option><option>Client direction</option><option>Other</option></select></div>';
+      h+='<div class="form-group"><label class="form-label">ADDITIONAL NOTES</label><textarea class="form-input" id="early-notes" placeholder="Any details for operations..."></textarea></div>';
+      h+='<button class="btn btn-g" onclick="submitRequest(\'early\')">Submit Early Departure Request</button>';
+      h+='<button class="btn btn-o btn-sm" onclick="overlay=null;render()">Cancel</button>';
+      h+='</div>';
+    }
+
+    if(!overlay||overlay==="req_sent"){
+      h+='<div class="card" style="padding:16px"><p style="font-size:11px;color:var(--navy);font-weight:600;margin-bottom:6px">How Requests Work</p>';
+      h+='<p style="font-size:10px;color:#8896A6;line-height:1.6">Requests are routed to Operations for approval. You will receive confirmation within 2 hours. Extensions may require rate re-approval. Early departures update the roster and trigger financial reconciliation. All requests are logged in the GoCrew system with full audit trail.</p></div>';
     }
   }
 
   // ═══ ASSIGNMENT + CREW CARDS ═══
-  if(state!=="CHECKED_OUT" && activeTab!=="wallet"){
-    h+='<div class="card">';
-    h+='<div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">';
-    h+='<div style="width:36px;height:36px;border-radius:10px;background:rgba(27,42,74,.05);display:flex;align-items:center;justify-content:center;flex-shrink:0">';
-    h+='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div>';
-    h+='<div><div style="font-size:14px;font-weight:700;color:var(--navy)">'+CREW.property+'</div>';
-    h+='<div style="font-size:11px;color:#8896A6">'+CREW.address+'</div></div></div>';
-    h+='<div class="grid">';
-    h+='<div class="grid-item"><div class="grid-label mono">CHECK IN</div><div class="grid-value">'+CREW.checkIn+'</div></div>';
-    h+='<div class="grid-item"><div class="grid-label mono">CHECK OUT</div><div class="grid-value">'+CREW.checkOut+'</div></div>';
-    h+='<div class="grid-item"><div class="grid-label mono">CONFIRMATION</div><div class="grid-value">'+CREW.confirmation+'</div></div>';
-    h+='<div class="grid-item"><div class="grid-label mono">ROOM</div><div class="grid-value">'+CREW.room+' ('+CREW.roomType+')</div></div></div>';
-    h+='<div class="frs-badge"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>';
-    h+='<span class="frs-text mono">FRS: '+FRS.composite+'/100 CLEARED</span>';
-    h+='<div class="frs-layers"><div class="frs-layer"></div><div class="frs-layer"></div><div class="frs-layer"></div><div class="frs-layer"></div><div class="frs-layer"></div><div class="frs-layer"></div><div class="frs-layer"></div></div></div>';
-    h+='</div>';
-
-    h+='<div class="card"><div class="crew-card">';
-    h+='<div class="crew-avatar">MR</div>';
-    h+='<div><div class="crew-name">'+CREW.name+'</div><div class="crew-program">'+CREW.program+'</div>';
-    h+='<div class="mono" style="font-size:10px;color:#A0AEC0;margin-top:2px">'+CREW.id+' | '+CREW.assignment+'</div></div>';
-    h+='</div></div>';
+  if(state!=="CHECKED_OUT"&&tab!=="wallet"&&tab!=="manage"){
+    h+='<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div style="width:36px;height:36px;border-radius:10px;background:rgba(27,42,74,.05);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div style="font-size:14px;font-weight:700;color:var(--navy)">'+C.prop+'</div><div style="font-size:11px;color:#8896A6">'+C.addr+'</div></div></div>';
+    h+='<div class="grid"><div class="gi"><div class="gl mono">CHECK IN</div><div class="gv">'+C.ci+'</div></div><div class="gi"><div class="gl mono">CHECK OUT</div><div class="gv">'+C.co+'</div></div><div class="gi"><div class="gl mono">CONFIRMATION</div><div class="gv">'+C.conf+'</div></div><div class="gi"><div class="gl mono">ROOM</div><div class="gv">'+C.room+' ('+C.rt+')</div></div></div>';
+    h+='<div class="frs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg><span class="mono" style="font-size:11px;color:var(--teal)">FRS: '+frs+'/100 CLEARED</span><div class="frs-dots"><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div></div></div></div>';
+    h+='<div class="card"><div class="crew"><div class="crew-av">'+C.initials+'</div><div><div class="crew-name">'+C.name+'</div><div class="crew-program" style="font-size:12px;color:#8896A6">'+C.pgm+'</div><div class="mono" style="font-size:10px;color:#A0AEC0;margin-top:2px">'+C.id+' | '+C.asg+'</div></div></div></div>';
   }
 
-  // ═══ BUTTONS ═══
-  if(activeTab==="checkin" && state==="READY"){
-    h+='<button class="btn btn-checkin" onclick="doCheckIn()">Confirm Check-In</button>';
-  } else if(state==="CHECKING_IN"){
-    h+='<button class="btn btn-checkin" disabled style="opacity:.7"><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:18px;height:18px;border:2px solid white;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;display:inline-block"></span>Validating 7 Security Layers...</span></button>';
-  } else if(state==="CHECKED_IN"){
-    h+='<button class="btn btn-checkout" onclick="doCheckOut()">Check Out</button>';
-  } else if(state==="CHECKED_OUT"){
-    h+='<div class="card complete-card"><div style="font-size:36px;margin-bottom:8px">&#9989;</div>';
-    h+='<div style="font-size:16px;font-weight:700;color:var(--navy)">Stay Complete</div>';
-    h+='<div style="font-size:12px;color:#8896A6;margin-top:4px">All records synced to Mission Data Brain</div></div>';
-  }
+  // ═══ ACTION BUTTONS ═══
+  if(tab==="checkin"&&state==="READY") h+='<button class="btn btn-t" onclick="doCheckIn()">Confirm Check-In</button>';
+  else if(state==="CHECKING_IN") h+='<button class="btn btn-t" disabled style="opacity:.7"><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:18px;height:18px;border:2px solid white;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;display:inline-block"></span>Validating 7 Security Layers...</span></button>';
+  else if(state==="CHECKED_IN"&&tab!=="manage") h+='<button class="btn btn-n" onclick="doCheckOut()">Check Out</button>';
+  else if(state==="CHECKED_OUT") h+='<div class="card" style="text-align:center;padding:24px"><div style="font-size:36px;margin-bottom:8px">&#9989;</div><div style="font-size:16px;font-weight:700;color:var(--navy)">Stay Complete</div><div style="font-size:12px;color:#8896A6;margin-top:4px">All records synced to Mission Data Brain</div></div>';
 
-  h+='<div class="security-footer"><p class="mono">CMMC L2 &middot; AES-256 &middot; TLS 1.3 &middot; FIPS 140-2 &middot; ZERO TRUST<br>PROTOTYPE v0.3 &middot; PassKit + Self Check-In</p></div>';
-  h+='</div>';
+  h+='<div class="footer"><p class="mono">CMMC L2 &middot; AES-256 &middot; TLS 1.3 &middot; FIPS 140-2 &middot; ZERO TRUST<br>PROTOTYPE v0.4</p></div></div>';
 
   // ═══ SUCCESS OVERLAY ═══
-  if(showSuccess){
-    var isIn = showSuccess==="in";
-    h+='<div class="overlay '+(isIn?'ci':'co')+'">';
+  if(overlay==="in"||overlay==="out"){
+    var isIn=overlay==="in";
+    h+='<div class="ov '+(isIn?'ci':'co')+'">';
     h+='<div class="ov-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>';
     h+='<h2 class="ov-title">'+(isIn?'Check-In Confirmed':'Check-Out Confirmed')+'</h2>';
-    h+='<p class="ov-sub">'+(isIn?'Welcome to your property. Have a great stay.':'Thank you. Safe travels.')+'</p>';
+    h+='<p class="ov-sub">'+(isIn?'Welcome to your property.':'Thank you. Safe travels.')+'</p>';
     h+='<div class="ov-meta">';
-    h+='<div class="ov-row"><span class="ov-label mono">CREW</span><span class="ov-val">'+CREW.name+'</span></div>';
-    h+='<div class="ov-row"><span class="ov-label mono">PROPERTY</span><span class="ov-val">'+CREW.property+'</span></div>';
-    h+='<div class="ov-row"><span class="ov-label mono">ROOM</span><span class="ov-val">'+CREW.room+'</span></div>';
-    h+='<div class="ov-row"><span class="ov-label mono">FRS</span><span class="ov-val">'+FRS.composite+'/100 CLEARED</span></div>';
+    h+='<div class="ov-row"><span class="ov-label mono">CREW</span><span class="ov-val">'+C.name+'</span></div>';
+    h+='<div class="ov-row"><span class="ov-label mono">PROPERTY</span><span class="ov-val">'+C.prop+'</span></div>';
+    h+='<div class="ov-row"><span class="ov-label mono">ROOM</span><span class="ov-val">'+C.room+'</span></div>';
+    h+='<div class="ov-row"><span class="ov-label mono">FRS</span><span class="ov-val">'+frs+'/100 CLEARED</span></div>';
     h+='<div class="ov-row"><span class="ov-label mono">TOKEN</span><span class="ov-val">'+token+'</span></div></div>';
     if(isIn){
       h+='<div class="ov-wallets">';
-      h+='<button class="wallet-btn wallet-btn-apple" onclick="wallet(\'apple\')"><svg viewBox="0 0 24 24" fill="white" width="16" height="16"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>Save to Wallet</button>';
-      h+='<button class="wallet-btn wallet-btn-google" onclick="wallet(\'google\')"><svg viewBox="0 0 24 24" width="16" height="16"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 01-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>Save to Wallet</button>';
-      h+='</div>';
+      h+='<button class="wbtn wbtn-a" onclick="generatePassFile(\'apple\');dismiss()">'+appleIcon+' iPhone</button>';
+      h+='<button class="wbtn wbtn-g" onclick="generatePassFile(\'google\');dismiss()">'+googleIcon+' Android</button></div>';
     }
-    h+='<button class="btn-continue" onclick="dismiss()">Continue</button>';
-    h+='</div>';
+    h+='<button class="btn-cont" onclick="dismiss()">Continue</button></div>';
   }
 
-  // Toast
-  if(toastMsg) h+='<div class="toast s">'+toastMsg+'</div>';
+  // Request submitted overlay
+  if(overlay==="req_sent"){
+    h+='<div class="req-ov"><div class="ov-icon"><svg width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg></div>';
+    h+='<h2 class="ov-title">Request Submitted</h2>';
+    h+='<p class="ov-sub" style="margin-top:8px">Operations will confirm within 2 hours.</p>';
+    h+='<div style="width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin 1s linear infinite;margin-top:24px"></div></div>';
+  }
 
-  $("app").innerHTML = h;
+  if(toastMsg) h+='<div class="toast">'+toastMsg+'</div>';
 
-  // Post-render canvas drawing
+  $("app").innerHTML=h;
+
+  // Post-render
   requestAnimationFrame(function(){
-    if(activeTab==="checkin" && state==="READY") drawQR("qr-main",400,true);
-    if(activeTab==="wallet" && state==="READY") drawQR("wallet-qr",300,false,42);
-    if(activeTab==="selfservice" && state==="READY" && !scanResult && !scanActive) drawQR("prop-qr",240,false,99);
-    if(scanActive) initCamera();
+    if(tab==="checkin"&&state==="READY")drawQR("qr-main",400,true);
+    if(tab==="wallet"&&(state==="READY"||state==="CHECKED_IN"))drawQR("wallet-qr",300,false,42);
+    if(tab==="selfservice"&&state==="READY"&&!scanResult&&!scanActive)drawQR("prop-qr",240,false,99);
+    if(scanActive)initCam();
   });
 }
 
-// ── Camera for Self Check-In ──
-var camStream = null;
-function initCamera(){
-  var video = document.getElementById("cam-video");
-  if(!video) return;
-  if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia){
-    navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"},audio:false})
-      .then(function(stream){
-        camStream = stream;
-        video.srcObject = stream;
-        video.play();
-      })
-      .catch(function(err){
-        console.log("Camera error:",err);
-        // Camera denied - user can still use simulate button
-      });
-  }
-}
-function stopScan(){
-  scanActive = false;
-  if(camStream){ camStream.getTracks().forEach(function(t){t.stop()}); camStream=null; }
-  render();
-}
+function showForm(type){overlay="form_"+type;render()}
 
-// ── Init ──
-document.addEventListener("DOMContentLoaded", function(){
-  initGeo();
-  render();
-});
-// Fallback if DOMContentLoaded already fired
-if(document.readyState !== "loading"){ initGeo(); render(); }
+document.addEventListener("DOMContentLoaded",function(){initGeo();render()});
+if(document.readyState!=="loading"){initGeo();render()}
 </script>
 </body>
 </html>
