@@ -385,61 +385,70 @@ function submitRequest(type){
   setTimeout(function(){overlay=null;toast("Request submitted! Operations will confirm within 2 hours.");render()},2000);
 }
 
-function startScan(){scanActive=true;render();setTimeout(initCam,500)}
+function startScan(){scanActive=true;camRetries=0;render();setTimeout(initCam,500)}
 function stopScan(){scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render()}
+var camRetries = 0;
 function initCam(){
+  camRetries++;
   var v=$("cam-v");
   if(!v){
-    // Video element not ready yet - retry
-    setTimeout(initCam, 300);
+    if(camRetries < 30) setTimeout(initCam, 200);
     return;
   }
-  // Already streaming
   if(camStream){
     try{ v.srcObject=camStream; v.play(); }catch(e){}
     return;
   }
+  // Show loading state
+  showCamMsg("Requesting camera access...", false);
+  
   if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    console.log("getUserMedia not supported");
-    showCamError("Camera not supported in this browser. Use Safari (iPhone) or Chrome (Android).");
+    showCamMsg("Camera not available. Use the Simulate button below, or open this page in Safari.", true);
     return;
   }
-  // Try rear camera first
-  navigator.mediaDevices.getUserMedia({
-    video:{facingMode:{ideal:"environment"}, width:{ideal:640}, height:{ideal:640}},
-    audio:false
-  }).then(function(stream){
+  
+  // Request camera - try multiple approaches
+  var constraints = [
+    {video: {facingMode: {ideal: "environment"}}, audio: false},
+    {video: {facingMode: "environment"}, audio: false},
+    {video: true, audio: false}
+  ];
+  
+  tryCamera(constraints, 0, v);
+}
+
+function tryCamera(list, idx, videoEl){
+  if(idx >= list.length){
+    showCamMsg("Camera access denied. Check your browser settings, or use the Simulate button below.", true);
+    return;
+  }
+  navigator.mediaDevices.getUserMedia(list[idx]).then(function(stream){
     camStream = stream;
-    var v2 = $("cam-v");
-    if(v2){
-      v2.srcObject = stream;
-      v2.setAttribute("playsinline","");
-      v2.setAttribute("autoplay","");
-      v2.play().catch(function(e){ console.log("Play error:",e); });
+    var v = $("cam-v");
+    if(v){
+      v.srcObject = stream;
+      v.play().then(function(){
+        showCamMsg("", false); // Clear message on success
+      }).catch(function(){
+        showCamMsg("", false);
+      });
     }
   }).catch(function(err){
-    console.log("Rear camera failed:", err.name, err.message);
-    // Try any camera
-    navigator.mediaDevices.getUserMedia({video:true, audio:false}).then(function(stream){
-      camStream = stream;
-      var v3 = $("cam-v");
-      if(v3){
-        v3.srcObject = stream;
-        v3.setAttribute("playsinline","");
-        v3.play().catch(function(){});
-      }
-    }).catch(function(err2){
-      console.log("All cameras failed:", err2.name, err2.message);
-      showCamError(err2.name === "NotAllowedError" 
-        ? "Camera permission denied. Go to Settings > Safari > Camera and allow access."
-        : "Could not access camera. Please use the Simulate button below.");
-    });
+    console.log("Camera attempt " + (idx+1) + " failed:", err.name);
+    if(err.name === "NotAllowedError" || err.name === "PermissionDeniedError"){
+      showCamMsg("Camera permission denied. Tap Allow when prompted, or go to Settings > Safari > Camera.", true);
+    } else {
+      tryCamera(list, idx + 1, videoEl);
+    }
   });
 }
 
-function showCamError(msg){
-  var region = $("cam-error");
-  if(region) region.innerHTML = "<div style=\"padding:20px;text-align:center\"><p style=\"font-size:13px;color:#DC2626;font-weight:600;margin-bottom:8px\">Camera Unavailable</p><p style=\"font-size:11px;color:#8896A6;line-height:1.5\">"+msg+"</p></div>";
+function showCamMsg(msg, isError){
+  var el = $("cam-error");
+  if(!el) return;
+  if(!msg){ el.innerHTML = ""; return; }
+  var color = isError ? "#DC2626" : "#0D7377";
+  el.innerHTML = "<div style=\"position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:3;padding:20px\"><div style=\"text-align:center\"><p style=\"font-size:13px;color:"+color+";font-weight:600;margin-bottom:8px\">"+(isError?"Camera Issue":"")+"</p><p style=\"font-size:12px;color:#ccc;line-height:1.5\">"+msg+"</p></div></div>";
 }
 
 // ═══ RENDER ═══
@@ -517,13 +526,17 @@ function render(){
       h+='<canvas id="prop-qr" width="240" height="240" style="width:120px;height:120px;display:block;margin:8px auto;border-radius:8px"></canvas>';
       h+='<button class="btn btn-o btn-sm" onclick="doSelfCheckIn()">Simulate Scan</button></div>';
     } else if(scanActive){
-      h+='<div class="scanner-box" style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.06);margin-bottom:16px">';
-      h+='<div style="padding:16px 20px;background:var(--navy);color:#fff;text-align:center"><p style="font-size:14px;font-weight:700;margin-bottom:4px">Scanning...</p><p style="font-size:11px;color:rgba(255,255,255,.6)">Point camera at property QR code</p></div>';
-      h+='<div style="position:relative;width:100%;padding-bottom:100%;background:#111;overflow:hidden"><video id="cam-v" autoplay playsinline muted webkit-playsinline style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block"></video>';
-    h+='<div id="cam-error" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center"></div>';
-      h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5"><div style="width:200px;height:200px;border:3px solid #C4972A;border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.4)"></div></div></div>';
-      h+='<div style="padding:12px 16px"><button class="btn btn-o btn-sm" onclick="stopScan()">Cancel</button>';
-      h+='<button class="btn btn-g btn-sm" onclick="doSelfCheckIn()" style="margin-bottom:0">Simulate Scan</button></div></div>';
+      h+='<div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.06);margin-bottom:16px">';
+      h+='<div style="padding:16px 20px;background:#1B2A4A;color:#fff;text-align:center"><p style="font-size:14px;font-weight:700;margin-bottom:4px">Scanning...</p><p style="font-size:11px;color:rgba(255,255,255,.6)">Point camera at property QR code</p></div>';
+      h+='<div id="cam-container" style="width:100%;height:300px;background:#000;position:relative;overflow:hidden">';
+      h+='<video id="cam-v" autoplay playsinline muted webkit-playsinline style="width:100%;height:100%;object-fit:cover"></video>';
+      h+='<div id="cam-error"></div>';
+      h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5"><div style="width:180px;height:180px;border:3px solid #C4972A;border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.35)"></div></div>';
+      h+='</div>';
+      h+='<div style="padding:12px 16px">';
+      h+='<button class="btn btn-o btn-sm" onclick="stopScan()">Cancel</button>';
+      h+='<button class="btn btn-g btn-sm" onclick="doSelfCheckIn()" style="margin-bottom:0">Simulate Successful Scan</button>';
+      h+='</div></div>';
     } else if(scanResult==="validating"){
       h+='<div class="card" style="text-align:center;padding:40px 20px"><div style="width:48px;height:48px;border:3px solid var(--teal);border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p style="font-size:14px;font-weight:700;color:var(--navy)">Validating...</p><p style="font-size:11px;color:#8896A6;margin-top:8px">Property + Assignment + Geofence + 7-Layer FRS</p></div>';
     } else if(scanResult==="success"){
@@ -773,7 +786,7 @@ function render(){
     if(tab==="checkin"&&state==="READY")drawQR("qr-main",400,true);
     if(tab==="wallet"&&(state==="READY"||state==="CHECKED_IN"))drawQR("wallet-qr",300,false,42);
     if(tab==="selfservice"&&state==="READY"&&!scanResult&&!scanActive)drawQR("prop-qr",240,false,99);
-    if(scanActive)setTimeout(initCam,100);
+    if(scanActive){camRetries=0;setTimeout(initCam,300);}
   });
 }
 
