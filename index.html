@@ -172,7 +172,10 @@ var overlay = null; // null, "in", "out", "req_ext", "req_early"
 var scanActive = false;
 var showRoomConfirm = false;
 var roomInput = "";
+var roomInput2 = "";
+var roomStep = 1;
 var roomError = false;
+var roomErrorMsg = "";
 var scanResult = null;
 var toastMsg = null;
 var toastTmr = null;
@@ -281,26 +284,35 @@ setInterval(function(){
 
 function switchTab(t){scanActive=false;scanResult=null;if(qrAnim){cancelAnimationFrame(qrAnim);qrAnim=null}
   if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}tab=t;render()}
-function doCheckIn(){showRoomConfirm=true;roomInput="";roomError=false;render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
+function doCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
 function confirmRoom(){
-  var el=$("room-input");
-  roomInput=el?el.value.trim():"";
-  // Must be non-empty and digits only
-  if(roomInput===""){ roomError=true;render();return; }
-  if(!/^[0-9]+$/.test(roomInput)){ roomError=true;render();return; }
-  // Valid room number entered - update assignment and proceed
-  C.room=roomInput;
-  showRoomConfirm=false;roomError=false;
-  if(tab==="selfservice"){
-    doSelfCheckInConfirmed();
+  if(roomStep===1){
+    var el=$("room-input");
+    roomInput=el?el.value.trim():"";
+    if(roomInput===""){ roomError=true;roomErrorMsg="Please enter your room number.";render();return; }
+    if(!/^[0-9]+$/.test(roomInput)){ roomError=true;roomErrorMsg="Room number must be digits only.";render();return; }
+    // Move to step 2 - confirm
+    roomStep=2;roomError=false;roomErrorMsg="";render();
+    setTimeout(function(){var el2=$("room-input-2");if(el2){el2.value="";el2.focus();}},400);
   } else {
-    state="CHECKING_IN";render();
-    setTimeout(function(){state="CHECKED_IN";overlay="in";render()},1200);
+    var el2=$("room-input-2");
+    roomInput2=el2?el2.value.trim():"";
+    if(roomInput2===""){ roomError=true;roomErrorMsg="Please re-enter your room number.";render();return; }
+    if(roomInput2!==roomInput){ roomError=true;roomErrorMsg="Room numbers do not match. Please try again.";roomStep=1;roomInput="";roomInput2="";render();setTimeout(function(){var e=$("room-input");if(e){e.value="";e.focus();}},400);return; }
+    // Both match - proceed
+    C.room=roomInput;
+    showRoomConfirm=false;roomError=false;roomStep=1;roomErrorMsg="";
+    if(tab==="selfservice"){
+      doSelfCheckInConfirmed();
+    } else {
+      state="CHECKING_IN";render();
+      setTimeout(function(){state="CHECKED_IN";overlay="in";render()},1200);
+    }
   }
 }
-function cancelRoomConfirm(){showRoomConfirm=false;roomError=false;render()}
+function cancelRoomConfirm(){showRoomConfirm=false;roomError=false;roomStep=1;roomInput="";roomInput2="";roomErrorMsg="";render()}
 function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";overlay="out";render()},800)}
-function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomError=false;scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
+function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
 function doSelfCheckInConfirmed(){scanResult="validating";if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}
   render();setTimeout(function(){scanResult="success";render();setTimeout(function(){state="CHECKED_IN";overlay="in";scanResult=null;render()},1500)},1500)}
 function dismiss(){overlay=null;render()}
@@ -487,16 +499,23 @@ function render(){
     h+='<div style="position:fixed;inset:0;z-index:90;background:rgba(27,42,74,.6);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .3s">';
     h+='<div style="background:white;border-radius:24px;padding:28px;max-width:360px;width:100%;text-align:center;box-shadow:0 24px 48px rgba(0,0,0,.2)">';
     h+='<div style="width:56px;height:56px;border-radius:50%;background:rgba(13,115,119,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0D7377" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>';
-    h+='<p style="font-size:18px;font-weight:700;color:#1B2A4A;margin-bottom:6px">Confirm Your Room</p>';
-    h+='<p style="font-size:12px;color:#8896A6;margin-bottom:20px;line-height:1.5">Enter your room number to confirm your check-in. This is logged for verification.</p>';
-    h+='<input type="text" id="room-input" inputmode="numeric" autocomplete="off" placeholder="Room #" maxlength="6" ';
-    h+='style="width:100%;padding:18px;border-radius:14px;border:2.5px solid '+(roomError?"#DC2626":"#E2E8F0")+';font-size:28px;text-align:center;font-weight:700;color:#1B2A4A;background:'+(roomError?"rgba(220,38,38,.04)":"#F2F4F7")+';outline:none;font-family:DM Mono,monospace;letter-spacing:10px;transition:border-color .2s" ';
-    h+='onfocus="this.style.borderColor=\'#0D7377\'" onblur="this.style.borderColor=\'#E2E8F0\'" ';
-    h+='onkeyup="if(event.keyCode===13)confirmRoom()">';
-    if(roomError){
-      h+='<p style="font-size:12px;color:#DC2626;margin-top:10px;font-weight:600">'+(roomInput===""?"Please enter your room number":"Room number must be digits only. No letters.")+'</p>';
+    h+='<p style="font-size:9px;color:#0D7377;font-weight:600;letter-spacing:1px;margin-bottom:8px" class="mono">STEP '+ roomStep +' OF 2</p>';
+    h+='<p style="font-size:18px;font-weight:700;color:#1B2A4A;margin-bottom:6px">'+(roomStep===1?"Enter Room Number":"Confirm Room Number")+'</p>';
+    h+='<p style="font-size:12px;color:#8896A6;margin-bottom:20px;line-height:1.5">'+(roomStep===1?"Enter the room number you have been assigned.":"Re-enter your room number to confirm.")+'</p>';
+    if(roomStep===1){
+      h+='<input type="tel" id="room-input" inputmode="numeric" autocomplete="off" placeholder="Room #" maxlength="6" ';
+      h+='style="width:100%;padding:18px;border-radius:14px;border:2.5px solid '+(roomError?"#DC2626":"#E2E8F0")+';font-size:28px;text-align:center;font-weight:700;color:#1B2A4A;background:'+(roomError?"rgba(220,38,38,.04)":"#F2F4F7")+';outline:none;font-family:DM Mono,monospace;letter-spacing:10px" ';
+      h+='onkeyup="if(event.keyCode===13)confirmRoom()">';
+    } else {
+      h+='<div style="background:#F2F4F7;border-radius:10px;padding:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:10px;color:#8896A6">You entered:</span><span style="font-size:20px;font-weight:700;color:#1B2A4A;font-family:DM Mono,monospace;letter-spacing:6px">'+roomInput+'</span></div>';
+      h+='<input type="tel" id="room-input-2" inputmode="numeric" autocomplete="off" placeholder="Re-enter room #" maxlength="6" ';
+      h+='style="width:100%;padding:18px;border-radius:14px;border:2.5px solid '+(roomError?"#DC2626":"#E2E8F0")+';font-size:28px;text-align:center;font-weight:700;color:#1B2A4A;background:'+(roomError?"rgba(220,38,38,.04)":"#F2F4F7")+';outline:none;font-family:DM Mono,monospace;letter-spacing:10px" ';
+      h+='onkeyup="if(event.keyCode===13)confirmRoom()">';
     }
-    h+='<button onclick="confirmRoom()" style="width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.85));color:white;font-size:15px;font-weight:700;margin-top:16px;cursor:pointer;font-family:DM Sans,sans-serif">Verify & Check In</button>';
+    if(roomError){
+      h+='<p style="font-size:12px;color:#DC2626;margin-top:10px;font-weight:600">'+roomErrorMsg+'</p>';
+    }
+    h+='<button onclick="confirmRoom()" style="width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.85));color:white;font-size:15px;font-weight:700;margin-top:16px;cursor:pointer;font-family:DM Sans,sans-serif">'+(roomStep===1?"Next":"Verify & Check In")+'</button>';
     h+='<button onclick="cancelRoomConfirm()" style="width:100%;padding:12px;border-radius:14px;border:2px solid #E2E8F0;background:transparent;color:#1B2A4A;font-size:13px;font-weight:600;margin-top:8px;cursor:pointer;font-family:DM Sans,sans-serif">Cancel</button>';
     h+='</div></div>';
   }
