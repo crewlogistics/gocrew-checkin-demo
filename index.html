@@ -181,6 +181,8 @@ var roomError = false;
 var roomErrorMsg = "";
 var scanResult = null;
 var toastMsg = null;
+var checkinTime = null;
+var undoWindow = 900; // 15 minutes in seconds
 var toastTmr = null;
 var qrTimer = 30;
 var qrAnim = null;
@@ -347,10 +349,30 @@ function confirmRoom(){
       doSelfCheckInConfirmed();
     } else {
       state="CHECKING_IN";render();
-      setTimeout(function(){state="CHECKED_IN";overlay="in";render()},1200);
+      setTimeout(function(){state="CHECKED_IN";checkinTime=Date.now();overlay="in";render()},1200);
     }
   }
 }
+function undoCheckIn(){
+  if(!checkinTime) return;
+  var elapsed = (Date.now() - checkinTime) / 1000;
+  if(elapsed > undoWindow){
+    toast("Undo window expired. Contact Operations to reverse your check-in.");
+    return;
+  }
+  overlay = "undo_confirm";
+  render();
+}
+
+function confirmUndo(){
+  state = "READY";
+  checkinTime = null;
+  tab = "checkin";
+  overlay = null;
+  render();
+  toast("Check-in reversed. Please check in again when ready.");
+}
+
 function cancelRoomConfirm(){showRoomConfirm=false;roomError=false;roomStep=1;roomInput="";roomInput2="";roomErrorMsg="";render()}
 function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";overlay="out";render()},800)}
 function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
@@ -564,7 +586,14 @@ function render(){
   // ═══ ACTION BUTTONS ═══
   if(tab==="checkin"&&state==="READY"&&!showRoomConfirm) h+='<button class="btn btn-t" onclick="doCheckIn()">Confirm Check-In</button>';
   else if(state==="CHECKING_IN") h+='<button class="btn btn-t" disabled style="opacity:.7"><span style="display:inline-flex;align-items:center;gap:8px"><span style="width:18px;height:18px;border:2px solid white;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;display:inline-block"></span>Validating 7 Security Layers...</span></button>';
-  else if(state==="CHECKED_IN"&&tab!=="manage") h+='<button class="btn btn-n" onclick="doCheckOut()">Check Out</button>';
+  else if(state==="CHECKED_IN"&&tab!=="manage"){
+    h+='<button class="btn btn-n" onclick="doCheckOut()">Check Out</button>';
+    if(checkinTime && (Date.now()-checkinTime)/1000 < undoWindow){
+      var secsLeft = Math.max(0, undoWindow - Math.floor((Date.now()-checkinTime)/1000));
+      var mLeft = Math.floor(secsLeft/60);
+      h+='<button class="btn btn-o btn-sm" onclick="undoCheckIn()" style="color:#DC2626;border-color:rgba(220,38,38,.3);font-size:12px">Undo Check-In ('+mLeft+' min remaining)</button>';
+    }
+  }
   else if(state==="CHECKED_OUT") h+='<div class="card" style="text-align:center;padding:24px"><div style="font-size:36px;margin-bottom:8px">&#9989;</div><div style="font-size:16px;font-weight:700;color:var(--navy)">Stay Complete</div><div style="font-size:12px;color:#8896A6;margin-top:4px">All records synced to Mission Data Brain</div></div>';
 
   h+='<div class="footer"><p class="mono">CMMC L2 &middot; AES-256 &middot; TLS 1.3 &middot; FIPS 140-2 &middot; ZERO TRUST<br>PROTOTYPE v0.4</p></div></div>';
@@ -661,6 +690,29 @@ function render(){
     h+='<button onclick="overlay=null;render()" style="width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.85));color:white;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:12px">Got It</button>';
     h+='<p style="font-size:10px;color:rgba(255,255,255,.4)">Your check-in pass will be available anytime from your home screen</p>';
     
+    h+='</div></div>';
+  }
+
+
+  // Undo check-in confirmation
+  if(overlay==="undo_confirm"){
+    var elapsed = checkinTime ? Math.floor((Date.now() - checkinTime) / 1000) : 0;
+    var remaining = Math.max(0, undoWindow - elapsed);
+    var mins = Math.floor(remaining / 60);
+    var secs = remaining % 60;
+    
+    h+='<div style="position:fixed;inset:0;z-index:95;background:rgba(220,38,38,.92);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .3s">';
+    h+='<div style="max-width:360px;width:100%;text-align:center">';
+    h+='<div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px">&#9888;</div>';
+    h+='<p style="font-size:20px;font-weight:700;color:white;margin-bottom:8px">Reverse Check-In?</p>';
+    h+='<p style="font-size:13px;color:rgba(255,255,255,.8);margin-bottom:4px;line-height:1.5">This will void your current check-in record. You will need to check in again.</p>';
+    h+='<p style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:20px">This action is logged and reported to Operations.</p>';
+    h+='<div style="background:rgba(255,255,255,.1);border-radius:12px;padding:14px;margin-bottom:20px;backdrop-filter:blur(10px)">';
+    h+='<p style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px">Undo window remaining:</p>';
+    h+='<p style="font-size:24px;font-weight:700;color:white;font-family:DM Mono,monospace">'+mins+':'+String(secs).padStart(2,"0")+'</p>';
+    h+='</div>';
+    h+='<button onclick="confirmUndo()" style="width:100%;padding:16px;border-radius:14px;border:2px solid white;background:transparent;color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:10px">Yes, Reverse My Check-In</button>';
+    h+='<button onclick="overlay=null;render()" style="width:100%;padding:16px;border-radius:14px;border:none;background:white;color:#DC2626;font-size:15px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif">No, Keep My Check-In</button>';
     h+='</div></div>';
   }
 
