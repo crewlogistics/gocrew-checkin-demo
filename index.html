@@ -318,7 +318,7 @@ setInterval(function(){
 
 function switchTab(t){scanActive=false;scanResult=null;if(qrAnim){cancelAnimationFrame(qrAnim);qrAnim=null}
   if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}tab=t;render()}
-function doCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
+function doCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";render();setTimeout(function(){var el=$("room-input");if(el&&el.value===""){el.focus();}},400)}
 function confirmRoom(){
   if(roomStep===1){
     var el=$("room-input");
@@ -333,7 +333,7 @@ function confirmRoom(){
     var focusTries = 0;
     var focusInterval = setInterval(function(){
       var el2=$("room-input-2");
-      if(el2){ el2.value=""; el2.focus(); clearInterval(focusInterval); }
+      if(el2){ el2.focus(); clearInterval(focusInterval); }
       focusTries++;
       if(focusTries > 20) clearInterval(focusInterval);
     }, 100);
@@ -375,7 +375,7 @@ function confirmUndo(){
 
 function cancelRoomConfirm(){showRoomConfirm=false;roomError=false;roomStep=1;roomInput="";roomInput2="";roomErrorMsg="";render()}
 function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";overlay="out";render()},800)}
-function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
+function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el&&el.value===""){el.focus();}},400)}
 function doSelfCheckInConfirmed(){scanResult="validating";if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}
   render();setTimeout(function(){scanResult="success";render();setTimeout(function(){state="CHECKED_IN";overlay="in";scanResult=null;render()},1500)},1500)}
 function dismiss(){overlay=null;render()}
@@ -591,7 +591,7 @@ function render(){
     if(checkinTime && (Date.now()-checkinTime)/1000 < undoWindow){
       var secsLeft = Math.max(0, undoWindow - Math.floor((Date.now()-checkinTime)/1000));
       var mLeft = Math.floor(secsLeft/60);
-      h+='<button class="btn btn-o btn-sm" onclick="undoCheckIn()" style="color:#DC2626;border-color:rgba(220,38,38,.3);font-size:12px">Undo Check-In ('+mLeft+' min remaining)</button>';
+      h+='<button class="btn btn-o btn-sm" data-undo-timer="1" onclick="undoCheckIn()" style="color:#DC2626;border-color:rgba(220,38,38,.3);font-size:12px">Undo Check-In ('+mLeft+' min remaining)</button>';
     }
   }
   else if(state==="CHECKED_OUT") h+='<div class="card" style="text-align:center;padding:24px"><div style="font-size:36px;margin-bottom:8px">&#9989;</div><div style="font-size:16px;font-weight:700;color:var(--navy)">Stay Complete</div><div style="font-size:12px;color:#8896A6;margin-top:4px">All records synced to Mission Data Brain</div></div>';
