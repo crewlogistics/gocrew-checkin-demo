@@ -281,7 +281,7 @@ setInterval(function(){
 
 function switchTab(t){scanActive=false;scanResult=null;if(qrAnim){cancelAnimationFrame(qrAnim);qrAnim=null}
   if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}tab=t;render()}
-function doCheckIn(){showRoomConfirm=true;roomInput="";roomError=false;render();setTimeout(function(){var el=$("room-input");if(el)el.focus()},300)}
+function doCheckIn(){showRoomConfirm=true;roomInput="";roomError=false;render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
 function confirmRoom(){
   var el=$("room-input");
   roomInput=el?el.value.trim():"";
@@ -301,7 +301,7 @@ function confirmRoom(){
 }
 function cancelRoomConfirm(){showRoomConfirm=false;roomError=false;render()}
 function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";overlay="out";render()},800)}
-function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomError=false;scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el)el.focus()},300)}
+function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomError=false;scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el){el.value="";el.focus();}},400)}
 function doSelfCheckInConfirmed(){scanResult="validating";if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}
   render();setTimeout(function(){scanResult="success";render();setTimeout(function(){state="CHECKED_IN";overlay="in";scanResult=null;render()},1500)},1500)}
 function dismiss(){overlay=null;render()}
@@ -485,19 +485,21 @@ function render(){
 
   // ═══ ROOM CONFIRMATION ═══
   if(showRoomConfirm){
-    h+='<div class="card" style="border:2px solid var(--teal);padding:24px;text-align:center">';
-    h+='<div style="width:48px;height:48px;border-radius:50%;background:rgba(13,115,119,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>';
-    h+='<p style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px">Confirm Your Room Number</p>';
-    h+='<p style="font-size:12px;color:#8896A6;margin-bottom:20px;line-height:1.5">To verify your check-in, please enter the room number assigned to you by the front desk.</p>';
-    h+='<input type="text" id="room-input" inputmode="numeric" pattern="[0-9]*" placeholder="Enter room number" maxlength="6" ';
-    h+='style="width:100%;padding:16px;border-radius:12px;border:2px solid '+(roomError?'var(--red)':'#E2E8F0')+';font-size:24px;text-align:center;font-weight:700;color:var(--navy);background:'+(roomError?'rgba(220,38,38,.05)':'var(--gray)')+';outline:none;font-family:DM Mono,monospace;letter-spacing:8px" ';
-    h+=' onkeydown="if(event.keyCode===13)confirmRoom()">';
+    h+='<div style="position:fixed;inset:0;z-index:90;background:rgba(27,42,74,.6);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .3s">';
+    h+='<div style="background:white;border-radius:24px;padding:28px;max-width:360px;width:100%;text-align:center;box-shadow:0 24px 48px rgba(0,0,0,.2)">';
+    h+='<div style="width:56px;height:56px;border-radius:50%;background:rgba(13,115,119,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0D7377" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>';
+    h+='<p style="font-size:18px;font-weight:700;color:#1B2A4A;margin-bottom:6px">Confirm Your Room</p>';
+    h+='<p style="font-size:12px;color:#8896A6;margin-bottom:20px;line-height:1.5">Enter the room number assigned to you at the front desk to verify your check-in.</p>';
+    h+='<input type="text" id="room-input" inputmode="numeric" autocomplete="off" placeholder="Room #" maxlength="6" ';
+    h+='style="width:100%;padding:18px;border-radius:14px;border:2.5px solid '+(roomError?"#DC2626":"#E2E8F0")+';font-size:28px;text-align:center;font-weight:700;color:#1B2A4A;background:'+(roomError?"rgba(220,38,38,.04)":"#F2F4F7")+';outline:none;font-family:DM Mono,monospace;letter-spacing:10px;transition:border-color .2s" ';
+    h+='onfocus="this.style.borderColor=\'#0D7377\'" onblur="this.style.borderColor=\'#E2E8F0\'" ';
+    h+='onkeyup="if(event.keyCode===13)confirmRoom()">';
     if(roomError){
-      h+='<p style="font-size:12px;color:var(--red);margin-top:8px;font-weight:600">'+(roomInput===""?"Please enter your room number":"Room number does not match your assignment. Please try again.")+'</p>';
+      h+='<p style="font-size:12px;color:#DC2626;margin-top:10px;font-weight:600">'+(roomInput===""?"Please enter your room number":"Incorrect room number. Please check with the front desk and try again.")+'</p>';
     }
-    h+='<button class="btn btn-t" onclick="confirmRoom()" style="margin-top:16px">Verify & Check In</button>';
-    h+='<button class="btn btn-o btn-sm" onclick="cancelRoomConfirm()">Cancel</button>';
-    h+='</div>';
+    h+='<button onclick="confirmRoom()" style="width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.85));color:white;font-size:15px;font-weight:700;margin-top:16px;cursor:pointer;font-family:DM Sans,sans-serif">Verify & Check In</button>';
+    h+='<button onclick="cancelRoomConfirm()" style="width:100%;padding:12px;border-radius:14px;border:2px solid #E2E8F0;background:transparent;color:#1B2A4A;font-size:13px;font-weight:600;margin-top:8px;cursor:pointer;font-family:DM Sans,sans-serif">Cancel</button>';
+    h+='</div></div>';
   }
 
   // ═══ ACTION BUTTONS ═══
