@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GoCrew - Save to Google Wallet</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,sans-serif;background:#f5f5f5;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:linear-gradient(145deg,#1B2A4A,#1e3a5f,#0F172A);border-radius:20px;color:white;max-width:380px;width:100%;overflow:hidden;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.strip{height:4px;background:linear-gradient(90deg,#0D7377,#C4972A,#0D7377)}
+.header{padding:20px 24px 16px;display:flex;justify-content:space-between;align-items:center}
+.logo{display:flex;align-items:center;gap:8px}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:#0D7377;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px}
+.body{padding:0 24px 20px}
+.name{font-size:24px;font-weight:700;margin-bottom:4px}
+.pgm{font-size:11px;color:rgba(255,255,255,.6);margin-bottom:20px}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-bottom:20px}
+.field label{display:block;font-size:8px;color:rgba(255,255,255,.4);letter-spacing:1px;margin-bottom:2px;font-weight:600}
+.field span{font-size:14px;font-weight:600}
+.qr{background:white;border-radius:12px;padding:16px;text-align:center;margin-bottom:20px}
+.qr p{font-size:10px;color:#888;margin-top:8px}
+.footer{padding:16px 24px;border-top:1px dashed rgba(255,255,255,.15);display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.4)}
+.badge{font-size:9px;padding:4px 10px;border-radius:4px;background:rgba(5,150,105,.2);color:#059669;font-weight:600}
+.save-btn{display:block;width:100%;padding:16px;margin-top:20px;border-radius:14px;border:none;background:#059669;color:white;font-size:16px;font-weight:700;cursor:pointer;font-family:system-ui,sans-serif}
+.info{text-align:center;margin-top:16px;font-size:11px;color:#888}
+</style></head><body>
+<div>
+<div class="card">
+<div class="strip"></div>
+<div class="header"><div class="logo"><div class="logo-icon">G</div><span style="font-size:15px;font-weight:700">GoCrew</span></div><span style="font-size:10px;color:rgba(255,255,255,.5);letter-spacing:1.5px;font-weight:600">CHECK-IN PASS</span></div>
+<div class="body">
+<div class="name">Andrea Tsakanikas</div>
+<div class="pgm">Federal Infrastructure Deployment</div>
+<div class="grid">
+<div class="field"><label>CHECK IN</label><span>Mar 21</span></div>
+<div class="field"><label>CHECK OUT</label><span>Mar 28</span></div>
+<div class="field"><label>ROOM</label><span>412</span></div>
+<div class="field"><label>PROPERTY</label><span style="font-size:12px">Marriott Courtyard</span></div>
+<div class="field"><label>CREW ID</label><span style="font-size:12px">GC-2026-04892</span></div>
+<div class="field"><label>CONFIRM</label><span style="font-size:12px">MCR-8847291</span></div>
+</div>
+</div>
+<div class="footer"><span>ASG-TX-0312</span><span class="badge">FRS 7/100 CLEARED</span></div>
+</div>
+<button class="save-btn" onclick="addToCalendar()">Save Check-In to Calendar</button>
+<p class="info">This saves your check-in details with a reminder notification.<br>In production, this saves directly to Google Wallet.</p>
+</div>
+<script>
+function addToCalendar(){
+var url="https://calendar.google.com/calendar/render?action=TEMPLATE"
++"&text="+encodeURIComponent("GoCrew Check-In: Marriott Courtyard Downtown")
++"&dates=20260321T150000/20260328T110000"
++"&details="+encodeURIComponent("Crew: Andrea Tsakanikas\nID: GC-2026-04892\nAssignment: ASG-TX-0312\nRoom: 412\nConfirmation: MCR-8847291\nFRS: 7/100 CLEARED")
++"&location="+encodeURIComponent("Marriott Courtyard Downtown, 300 E 4th St, Austin, TX 78701");
+window.open(url,"_blank");
+}
+</script></body></html>
