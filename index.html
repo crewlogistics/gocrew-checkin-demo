@@ -7,6 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="mobile-web-app-capable" content="yes">
 <title>GoCrew Smart Check-In</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#0D7377">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
 :root{--navy:#1B2A4A;--teal:#0D7377;--gold:#C4972A;--emerald:#059669;--red:#DC2626;--gray:#F2F4F7;--dark:#0F172A}
@@ -217,54 +220,83 @@ function drawQR(id,sz,anim,sd){
   draw()
 }
 
-// ── Wallet Pass ──
+// ── Wallet Pass / Save ──
+var deferredPrompt = null;
+window.addEventListener("beforeinstallprompt", function(e){
+  e.preventDefault();
+  deferredPrompt = e;
+});
+
 function generatePassFile(type){
   if(type==="apple"){
-    // Create a .mobileconfig-style pass OR use Add to Home Screen
-    // .pkpass requires Apple Developer cert signing (server-side in production)
-    // For prototype: save as contact card with all details (works on ALL iPhones)
+    // iOS: Prompt to add PWA to home screen (acts as a permanent pass)
+    // Also save a contact card as backup with all details
     var vcard = "BEGIN:VCARD\r\nVERSION:3.0\r\n"
       + "FN:GoCrew - " + C.prop + "\r\n"
-      + "ORG:GoCrew Check-In\r\n"
+      + "ORG:GoCrew Check-In Pass\r\n"
       + "TITLE:Room " + C.room + " | " + C.ci + " - " + C.co + "\r\n"
       + "TEL;TYPE=WORK:" + C.conf + "\r\n"
-      + "ADR;TYPE=WORK:;;" + C.addr + "\r\n"
-      + "NOTE:CREW: " + C.name + "\\nID: " + C.id + "\\nASSIGNMENT: " + C.asg + "\\nROOM: " + C.room + " (" + C.rt + ")\\nCONFIRMATION: " + C.conf + "\\nCHECK-IN: " + C.ci + "\\nCHECK-OUT: " + C.co + "\\nFRS: " + frs + "/100 CLEARED\\nPROGRAM: " + C.pgm + "\r\n"
+      + "ADR;TYPE=WORK:;;" + C.addr.replace(/,/g,";") + "\r\n"
+      + "NOTE:CREW: " + C.name + "\nID: " + C.id + "\nASSIGNMENT: " + C.asg + "\nROOM: " + C.room + "\nCONFIRMATION: " + C.conf + "\nCHECK-IN: " + C.ci + "\nCHECK-OUT: " + C.co + "\nFRS: " + frs + "/100 CLEARED\nPROGRAM: " + C.pgm + "\r\n"
       + "END:VCARD\r\n";
-    var blob = new Blob([vcard], {type:"text/vcard"});
-    var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url; a.download = "GoCrew-CheckIn.vcf";
-    a.click();
-    setTimeout(function(){URL.revokeObjectURL(url)},3000);
-    toast("Check-in pass saved! Find it in Contacts under 'GoCrew'.");
     
-    // Also prompt to add to home screen
-    setTimeout(function(){
-      if(confirm("TIP: For quick access, you can also add this page to your Home Screen.\n\nTap the Share button (box with arrow) then 'Add to Home Screen'.\n\nThis creates a GoCrew icon on your phone that opens directly to your check-in.")){
-        toast("Tap the Share button below, then 'Add to Home Screen'");
-      }
-    }, 1500);
-  } else {
-    // Google: Create downloadable calendar event (.ics works on all Android)
-    var ics = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//GoCrew//CheckIn//EN\r\n"
-      + "BEGIN:VEVENT\r\n"
-      + "DTSTART:20260321T150000\r\n"
-      + "DTEND:20260328T110000\r\n"
-      + "SUMMARY:GoCrew: " + C.prop + " (Room " + C.room + ")\r\n"
-      + "DESCRIPTION:Crew: " + C.name + "\\nID: " + C.id + "\\nAssignment: " + C.asg + "\\nRoom: " + C.room + "\\nConfirmation: " + C.conf + "\\nFRS: " + frs + "/100\\n\\nOpen GoCrew app to check in.\r\n"
-      + "LOCATION:" + C.prop + ", " + C.addr + "\r\n"
-      + "STATUS:CONFIRMED\r\n"
-      + "BEGIN:VALARM\r\nTRIGGER:-PT2H\r\nACTION:DISPLAY\r\nDESCRIPTION:GoCrew Check-In in 2 hours\r\nEND:VALARM\r\n"
-      + "END:VEVENT\r\nEND:VCALENDAR\r\n";
-    var blob = new Blob([ics], {type:"text/calendar"});
+    // Create and click download link
+    var blob = new Blob([vcard], {type:"text/x-vcard"});
     var url = URL.createObjectURL(blob);
-    var a = document.createElement("a");
-    a.href = url; a.download = "GoCrew-CheckIn.ics";
-    document.body.appendChild(a); a.click(); document.body.removeChild(a);
-    setTimeout(function(){URL.revokeObjectURL(url)},3000);
-    toast("Check-in pass saved to calendar with 2-hour reminder!");
+    
+    // Use a temporary iframe to trigger download (works in Safari)
+    var iframe = document.createElement("iframe");
+    iframe.style.display = "none";
+    document.body.appendChild(iframe);
+    iframe.src = url;
+    
+    setTimeout(function(){
+      document.body.removeChild(iframe);
+      URL.revokeObjectURL(url);
+    }, 5000);
+    
+    toast("Check-in pass opening! Save the contact card with all your details.");
+    
+    // Also show add-to-home-screen tip
+    setTimeout(function(){
+      showInstallTip();
+    }, 2000);
+  } else {
+    // Android: Try PWA install prompt first, fall back to calendar
+    if(deferredPrompt){
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(function(result){
+        if(result.outcome==="accepted") toast("GoCrew installed on your home screen!");
+        else saveCalendarEvent();
+        deferredPrompt=null;
+      });
+    } else {
+      saveCalendarEvent();
+      showInstallTip();
+    }
   }
+}
+
+function saveCalendarEvent(){
+  var ics = "BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//GoCrew//EN\r\n"
+    + "BEGIN:VEVENT\r\nDTSTART:20260321T150000\r\nDTEND:20260328T110000\r\n"
+    + "SUMMARY:GoCrew: " + C.prop + " (Room " + C.room + ")\r\n"
+    + "DESCRIPTION:Crew: " + C.name + " | ID: " + C.id + " | Assignment: " + C.asg + " | Confirmation: " + C.conf + " | FRS: " + frs + "/100 CLEARED\r\n"
+    + "LOCATION:" + C.prop + " " + C.addr + "\r\n"
+    + "STATUS:CONFIRMED\r\n"
+    + "BEGIN:VALARM\r\nTRIGGER:-PT2H\r\nACTION:DISPLAY\r\nDESCRIPTION:Check-in in 2 hours\r\nEND:VALARM\r\n"
+    + "END:VEVENT\r\nEND:VCALENDAR\r\n";
+  var blob = new Blob([ics], {type:"text/calendar"});
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement("a");
+  a.href = url; a.download = "GoCrew-CheckIn.ics";
+  document.body.appendChild(a); a.click(); document.body.removeChild(a);
+  setTimeout(function(){URL.revokeObjectURL(url)},3000);
+  toast("Calendar event saved with 2-hour reminder!");
+}
+
+function showInstallTip(){
+  overlay="install_tip";render();
 }
 
 // ── Geo ──
@@ -291,9 +323,18 @@ function confirmRoom(){
     roomInput=el?el.value.trim():"";
     if(roomInput===""){ roomError=true;roomErrorMsg="Please enter your room number.";render();return; }
     if(!/^[0-9]+$/.test(roomInput)){ roomError=true;roomErrorMsg="Room number must be digits only.";render();return; }
-    // Move to step 2 - confirm
-    roomStep=2;roomError=false;roomErrorMsg="";render();
-    setTimeout(function(){var el2=$("room-input-2");if(el2){el2.value="";el2.focus();}},400);
+    // Move to step 2 - confirm (update DOM directly to avoid timer clobbering)
+    roomStep=2;roomError=false;roomErrorMsg="";
+    // Rebuild just the modal content without full page render
+    render();
+    // Multiple retries to ensure input exists and gets focus
+    var focusTries = 0;
+    var focusInterval = setInterval(function(){
+      var el2=$("room-input-2");
+      if(el2){ el2.value=""; el2.focus(); clearInterval(focusInterval); }
+      focusTries++;
+      if(focusTries > 20) clearInterval(focusInterval);
+    }, 100);
   } else {
     var el2=$("room-input-2");
     roomInput2=el2?el2.value.trim():"";
@@ -390,8 +431,8 @@ function render(){
     h+='<div class="wp-ft"><span class="mono" style="font-size:11px;color:rgba(255,255,255,.4)">'+C.asg+'</span><span class="mono" style="font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(5,150,105,.2);color:var(--emerald);font-weight:600">FRS '+frs+'/100 CLEARED</span></div></div>';
 
     h+='<div class="wbtns">';
-    h+='<button class="wbtn wbtn-a" onclick="generatePassFile(\'apple\')">'+appleIcon+' Save Pass (iPhone)</button>';
-    h+='<button class="wbtn wbtn-g" onclick="generatePassFile(\'google\')">'+googleIcon+' Save Pass (Android)</button>';
+    h+='<button class="wbtn wbtn-a" onclick="generatePassFile(\'apple\')">'+appleIcon+' Save to Phone (iPhone)</button>';
+    h+='<button class="wbtn wbtn-g" onclick="generatePassFile(\'google\')">'+googleIcon+' Save to Phone (Android)</button>';
     h+='</div>';
 
     h+='<div class="card" style="padding:16px"><p style="font-size:11px;color:var(--navy);font-weight:600;margin-bottom:6px">How It Works</p><p style="font-size:9px;color:var(--teal);margin-bottom:8px;font-style:italic">Production version: saves directly to Apple Wallet / Google Wallet with live-updating QR code and location-based notifications.</p>';
@@ -557,6 +598,23 @@ function render(){
     h+='<div style="width:40px;height:40px;border:3px solid rgba(255,255,255,.3);border-top-color:white;border-radius:50%;animation:spin 1s linear infinite;margin-top:24px"></div></div>';
   }
 
+
+  // Install tip overlay
+  if(overlay==="install_tip"){
+    h+='<div style="position:fixed;inset:0;z-index:95;background:rgba(27,42,74,.85);display:flex;align-items:flex-end;justify-content:center;padding:20px;animation:fadeIn .3s">';
+    h+='<div style="background:white;border-radius:20px;padding:24px;max-width:360px;width:100%;text-align:center;box-shadow:0 -8px 32px rgba(0,0,0,.3);margin-bottom:env(safe-area-inset-bottom)">';
+    h+='<p style="font-size:16px;font-weight:700;color:#1B2A4A;margin-bottom:8px">Add GoCrew to Home Screen</p>';
+    h+='<p style="font-size:12px;color:#8896A6;line-height:1.6;margin-bottom:16px">For instant access to your check-in pass, add GoCrew to your home screen. It works like an app - no download needed.</p>';
+    h+='<div style="background:#F2F4F7;border-radius:12px;padding:16px;margin-bottom:16px;text-align:left">';
+    h+='<p style="font-size:12px;color:#1B2A4A;font-weight:600;margin-bottom:8px">iPhone (Safari):</p>';
+    h+='<p style="font-size:11px;color:#8896A6;line-height:1.6">1. Tap the Share button <span style="display:inline-block;width:18px;height:18px;border:1.5px solid #8896A6;border-radius:4px;text-align:center;line-height:16px;font-size:10px;vertical-align:middle">&#8593;</span> at the bottom<br>2. Scroll down and tap <strong>Add to Home Screen</strong><br>3. Tap <strong>Add</strong></p>';
+    h+='<p style="font-size:12px;color:#1B2A4A;font-weight:600;margin:12px 0 8px">Android (Chrome):</p>';
+    h+='<p style="font-size:11px;color:#8896A6;line-height:1.6">1. Tap the three-dot menu <strong>&#8942;</strong> at the top right<br>2. Tap <strong>Add to Home Screen</strong> or <strong>Install App</strong></p>';
+    h+='</div>';
+    h+='<button onclick="overlay=null;render()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.85));color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif">Got It</button>';
+    h+='</div></div>';
+  }
+
   if(toastMsg) h+='<div class="toast">'+toastMsg+'</div>';
 
   $("app").innerHTML=h;
@@ -573,14 +631,16 @@ function render(){
 function submitRoomChange(){
   var newRoom = $("newroom-input") ? $("newroom-input").value.trim() : "";
   if(newRoom === ""){ toast("Please enter the new room number"); return; }
+  if(!/^[0-9]+$/.test(newRoom)){ toast("Room number must be digits only"); return; }
   C.room = newRoom;
   overlay="req_sent";render();
-  setTimeout(function(){overlay=null;toast("Room updated to " + newRoom + "! Records synced.");render()},2000);
+  setTimeout(function(){overlay=null;toast("Room changed to " + newRoom + ". All records updated.");render()},2000);
 }
 function showForm(type){overlay="form_"+type;render()}
 
 document.addEventListener("DOMContentLoaded",function(){initGeo();render()});
 if(document.readyState!=="loading"){initGeo();render()}
+if("serviceWorker" in navigator){navigator.serviceWorker.register("sw.js").catch(function(){})}
 </script>
 </body>
 </html>

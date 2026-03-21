@@ -1,0 +1,14 @@
+{
+  "name": "GoCrew Smart Check-In",
+  "short_name": "GoCrew",
+  "description": "Crew check-in with QR verification",
+  "start_url": "/gocrew-checkin-demo/",
+  "display": "standalone",
+  "background_color": "#1B2A4A",
+  "theme_color": "#0D7377",
+  "orientation": "portrait",
+  "icons": [
+    {"src": "icon-192.png", "sizes": "192x192", "type": "image/png"},
+    {"src": "icon-512.png", "sizes": "512x512", "type": "image/png"}
+  ]
+}
