@@ -551,7 +551,7 @@ function notifySupervisor(eventType, room) {
   // Send to ntfy.sh for real-time sync
   fetch("https://ntfy.sh/gocrew-test-mar2026", {
     method: "POST",
-    headers: {"Content-Type": "application/json", "Title": eventType + ": " + "Andrea Tsakanikas", "Tags": eventType === "CHECKED_IN" ? "white_check_mark" : "wave"},
+    headers: {"Content-Type": "application/json", "X-API-Key": "gocrew-test-key-2026", "Title": eventType + ": " + "Andrea Tsakanikas", "Tags": eventType === "CHECKED_IN" ? "white_check_mark" : "wave"},
     body: payload
   }).catch(function(){});
 }
@@ -565,7 +565,7 @@ function apiCheckIn(room) {
   if(!C) return;
   fetch(API_BASE + "/api/v1/checkin", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: {"Content-Type": "application/json", "X-API-Key": "gocrew-test-key-2026"},
     body: JSON.stringify({
       assignment_id: C.asg,
       crew_id: C.id,
@@ -605,7 +605,7 @@ function apiCheckOut() {
   if(!C) return;
   fetch(API_BASE + "/api/v1/checkout", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: {"Content-Type": "application/json", "X-API-Key": "gocrew-test-key-2026"},
     body: JSON.stringify({
       assignment_id: C.asg,
       crew_id: C.id
@@ -626,7 +626,7 @@ function apiUndo() {
   if(!C) return;
   fetch(API_BASE + "/api/v1/checkin/undo", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: {"Content-Type": "application/json", "X-API-Key": "gocrew-test-key-2026"},
     body: JSON.stringify({
       assignment_id: C.asg,
       crew_id: C.id
@@ -649,7 +649,7 @@ function apiStayRequest(type, data) {
     : "/api/v1/stay/room-change";
   fetch(API_BASE + endpoint, {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: {"Content-Type": "application/json", "X-API-Key": "gocrew-test-key-2026"},
     body: JSON.stringify(data)
   })
   .then(function(r) { return r.json(); })
@@ -662,7 +662,7 @@ function apiFeedback(rating, tags, comments) {
   if(!C) return;
   fetch(API_BASE + "/api/v1/feedback", {
     method: "POST",
-    headers: {"Content-Type": "application/json"},
+    headers: {"Content-Type": "application/json", "X-API-Key": "gocrew-test-key-2026"},
     body: JSON.stringify({
       assignment_id: C.asg,
       crew_id: C.id,

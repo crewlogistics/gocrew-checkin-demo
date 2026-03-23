@@ -344,7 +344,7 @@ var API_BASE = "https://excluded-edge-prisoner-anywhere.trycloudflare.com";
 var pollInterval = null;
 
 function pollRoster() {
-  fetch(API_BASE + "/api/v1/supervisor/roster/PROP-TX-004")
+  fetch(API_BASE + "/api/v1/supervisor/roster/PROP-TX-004", {headers: {"X-API-Key": "gocrew-test-key-2026"}})
     .then(function(r){ return r.json(); })
     .then(function(roster){
       var changed = false;
