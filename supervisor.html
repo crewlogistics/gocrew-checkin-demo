@@ -73,6 +73,8 @@ button{font-family:'DM Sans',system-ui,sans-serif;cursor:pointer}
 <div class="kpi"><div class="kpi-val" style="color:var(--gold)" id="k-pend">9</div><div class="kpi-label mono">PENDING</div></div>
 </div>
 
+<div id="room-alerts" style="display:none;margin-bottom:16px"></div>
+
 <p class="section-title">Crew Status <span class="mono" style="font-size:10px;color:#8896A6;font-weight:400">Tap to update status</span></p>
 <div id="roster"></div>
 
@@ -216,6 +218,38 @@ function render(){
   document.getElementById("k-in").textContent = inCount;
   document.getElementById("k-pend").textContent = crew.length - inCount - outCount;
   
+  // ── ROOM CONFLICT DETECTION ──
+  var roomMap = {};
+  for(var r = 0; r < crew.length; r++){
+    if(crew[r].status === "checked_in" && crew[r].room && crew[r].room !== "TBD"){
+      var rm = crew[r].room;
+      if(!roomMap[rm]) roomMap[rm] = [];
+      roomMap[rm].push(crew[r].name);
+    }
+  }
+  
+  var alertEl = document.getElementById("room-alerts");
+  var alertHtml = "";
+  var conflicts = 0;
+  for(var rm2 in roomMap){
+    if(roomMap[rm2].length > 1){
+      conflicts++;
+      alertHtml += "<div style=\"display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:12px;background:rgba(220,38,38,.06);border:1.5px solid rgba(220,38,38,.2);margin-bottom:8px\">";
+      alertHtml += "<div style=\"width:32px;height:32px;border-radius:8px;background:rgba(220,38,38,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px\">!</div>";
+      alertHtml += "<div><div style=\"font-size:12px;font-weight:700;color:#DC2626\">Room " + rm2 + " - " + roomMap[rm2].length + " crew members</div>";
+      alertHtml += "<div style=\"font-size:11px;color:#4A5568;margin-top:2px\">" + roomMap[rm2].join(", ") + "</div>";
+      alertHtml += "<div style=\"font-size:10px;color:#8896A6;margin-top:4px\">Verify: shared room or potential check-in error?</div>";
+      alertHtml += "</div></div>";
+    }
+  }
+  
+  if(conflicts > 0){
+    alertEl.innerHTML = "<div style=\"margin-bottom:4px;display:flex;align-items:center;gap:6px\"><span style=\"font-size:13px;font-weight:700;color:#DC2626\">Room Conflicts (" + conflicts + ")</span></div>" + alertHtml;
+    alertEl.style.display = "block";
+  } else {
+    alertEl.style.display = "none";
+  }
+  
   // Color the KPI based on progress
   var totalKpi = document.getElementById("k-total");
   if(inCount === crew.length) totalKpi.style.color = "var(--emerald)";
@@ -255,7 +289,22 @@ function startSync(){
             crew[i].status = "checked_in";
             crew[i].room = data.room || "TBD";
             crew[i].time = data.time || new Date().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
-            toast(data.name + " just checked in! Room " + crew[i].room);
+            
+            // Check for room conflict
+            var roomConflict = false;
+            var conflictWith = "";
+            for(var j = 0; j < crew.length; j++){
+              if(j !== i && crew[j].status === "checked_in" && crew[j].room === crew[i].room && crew[i].room && crew[i].room !== "TBD"){
+                roomConflict = true;
+                conflictWith = crew[j].name;
+              }
+            }
+            
+            if(roomConflict){
+              toast("ALERT: " + data.name + " checked into Room " + crew[i].room + " - SAME ROOM as " + conflictWith + "!");
+            } else {
+              toast(data.name + " just checked in! Room " + crew[i].room);
+            }
           } else if(data.type === "CHECKED_OUT"){
             crew[i].status = "checked_out";
             crew[i].time = data.time + " (out)";
