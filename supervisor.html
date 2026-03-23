@@ -58,7 +58,7 @@ button{font-family:'DM Sans',system-ui,sans-serif;cursor:pointer}
 <span style="color:white;font-size:17px;font-weight:700">GoCrew</span>
 </div>
 <div style="padding:4px 12px;border-radius:6px;background:rgba(255,255,255,.1)">
-<span class="mono" style="color:rgba(255,255,255,.8);font-size:11px">SUPERVISOR</span>
+<span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:6px"></span><span class="mono" style="color:rgba(255,255,255,.8);font-size:11px">LIVE</span>
 </div>
 </div>
 <h1 style="color:white;font-size:18px;font-weight:700">Crew Roster Dashboard</h1>
@@ -235,8 +235,61 @@ function resetAll(){
   }
 }
 
+
+// ── REAL-TIME SYNC: Subscribe to crew check-in events ──
+var evtSource = null;
+function startSync(){
+  if(evtSource) evtSource.close();
+  evtSource = new EventSource("https://ntfy.sh/gocrew-test-mar2026/sse");
+  evtSource.onmessage = function(e){
+    try {
+      var outer = JSON.parse(e.data);
+      if(!outer.message) return;
+      var data = JSON.parse(outer.message);
+      if(!data.id) return;
+      
+      // Find this crew member and update their status
+      for(var i = 0; i < crew.length; i++){
+        if(crew[i].id === data.id){
+          if(data.type === "CHECKED_IN"){
+            crew[i].status = "checked_in";
+            crew[i].room = data.room || "TBD";
+            crew[i].time = data.time || new Date().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
+            toast(data.name + " just checked in! Room " + crew[i].room);
+          } else if(data.type === "CHECKED_OUT"){
+            crew[i].status = "checked_out";
+            crew[i].time = data.time + " (out)";
+            toast(data.name + " checked out");
+          } else if(data.type === "UNDO"){
+            crew[i].status = "pending";
+            crew[i].room = "";
+            crew[i].time = "";
+            toast(data.name + " reversed their check-in");
+          }
+          saveState();
+          render();
+          break;
+        }
+      }
+    } catch(err){}
+  };
+  evtSource.onerror = function(){
+    // Reconnect after 5 seconds
+    setTimeout(startSync, 5000);
+  };
+}
+
+// Connection status indicator
+var syncStatus = "connecting";
+function updateSyncDot(){
+  var dot = document.getElementById("sync-dot");
+  if(dot) dot.style.background = evtSource && evtSource.readyState === 1 ? "var(--emerald)" : "var(--gold)";
+}
+setInterval(updateSyncDot, 2000);
+
 loadState();
 render();
+startSync();
 </script>
 </body>
 </html>

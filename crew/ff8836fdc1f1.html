@@ -392,7 +392,7 @@ function confirmRoom(){
       doSelfCheckInConfirmed();
     } else {
       state="CHECKING_IN";render();
-      setTimeout(function(){state="CHECKED_IN";checkinTime=Date.now();overlay="in";render()},1200);
+      setTimeout(function(){state="CHECKED_IN";checkinTime=Date.now();overlay="in";notifySupervisor("CHECKED_IN",C.room);render()},1200);
     }
   }
 }
@@ -423,14 +423,15 @@ function confirmUndo(){
   C.room = "412";
   overlay = null;
   render();
+  notifySupervisor("UNDO","");
   toast("Check-in reversed. Please check in again when ready.");
 }
 
 function cancelRoomConfirm(){showRoomConfirm=false;roomError=false;roomStep=1;roomInput="";roomInput2="";roomErrorMsg="";render()}
-function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";tab="checkin";overlay="out";render()},800)}
+function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";tab="checkin";overlay="out";notifySupervisor("CHECKED_OUT",C.room);render()},800)}
 function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el&&el.value===""){el.focus();}},400)}
 function doSelfCheckInConfirmed(){scanResult="validating";if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}
-  render();setTimeout(function(){scanResult="success";render();setTimeout(function(){state="CHECKED_IN";checkinTime=Date.now();tab="checkin";overlay="in";scanResult=null;render()},1500)},1500)}
+  render();setTimeout(function(){scanResult="success";render();setTimeout(function(){state="CHECKED_IN";checkinTime=Date.now();tab="checkin";overlay="in";scanResult=null;notifySupervisor("CHECKED_IN",C.room);render()},1500)},1500)}
 function dismiss(){
   overlay=null;
   // If just checked in via self-service, make sure we're on checkin tab
@@ -531,6 +532,27 @@ function showCamMsg(msg, isError){
   d.appendChild(inner);
   el.innerHTML = "";
   el.appendChild(d);
+}
+
+
+// ── SYNC: Notify supervisor on check-in ──
+function notifySupervisor(eventType, room) {
+  var payload = JSON.stringify({
+    type: eventType,
+    name: "Darlene Templeton",
+    initials: "DT",
+    id: "GC-2026-04895",
+    rank: "Manager",
+    room: room || "",
+    time: new Date().toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"}),
+    ts: Date.now()
+  });
+  // Send to ntfy.sh for real-time sync
+  fetch("https://ntfy.sh/gocrew-test-mar2026", {
+    method: "POST",
+    headers: {"Content-Type": "application/json", "Title": eventType + ": " + "Darlene Templeton", "Tags": eventType === "CHECKED_IN" ? "white_check_mark" : "wave"},
+    body: payload
+  }).catch(function(){});
 }
 
 // ═══ RENDER ═══
