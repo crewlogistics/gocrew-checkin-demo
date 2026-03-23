@@ -11,40 +11,54 @@
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 body{font-family:'DM Sans',system-ui,sans-serif;background:linear-gradient(170deg,var(--gray),#E8ECF1,#DFE7EF);min-height:100vh}
 .mono{font-family:'DM Mono',monospace}
+button{font-family:'DM Sans',system-ui,sans-serif;cursor:pointer}
 .header{background:linear-gradient(135deg,var(--navy),#243656);padding:max(env(safe-area-inset-top),20px) 24px 24px;position:relative}
 .header::before{content:'';position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle at 2px 2px,white 1px,transparent 0);background-size:24px 24px}
 .header-inner{position:relative;z-index:1}
 .main{padding:16px 20px 80px;max-width:520px;margin:0 auto}
-.card{background:white;border-radius:16px;padding:16px;box-shadow:0 2px 16px rgba(0,0,0,.06);margin-bottom:12px}
 .kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
-.kpi{background:white;border-radius:12px;padding:12px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.04)}
-.kpi-val{font-size:24px;font-weight:700;color:var(--navy)}
-.kpi-label{font-size:9px;color:#8896A6;letter-spacing:1px;margin-top:2px;font-weight:600}
-.crew-row{display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;margin-bottom:6px;border:1.5px solid #E2E8F0;transition:all .2s}
+.kpi{background:white;border-radius:14px;padding:14px 12px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.05)}
+.kpi-val{font-size:28px;font-weight:700;color:var(--navy)}
+.kpi-label{font-size:9px;color:#8896A6;letter-spacing:1px;margin-top:4px;font-weight:600}
+.section-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+.crew-row{display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;margin-bottom:8px;border:2px solid #E2E8F0;transition:all .2s;cursor:pointer;background:white}
+.crew-row:active{transform:scale(.98)}
 .crew-row.checked-in{background:rgba(5,150,105,.04);border-color:rgba(5,150,105,.3)}
-.crew-row.pending{background:rgba(196,151,42,.04);border-color:rgba(196,151,42,.3)}
-.crew-av{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;flex-shrink:0}
-.crew-name{font-size:13px;font-weight:700;color:var(--navy)}
-.crew-meta{font-size:10px;color:#8896A6}
-.crew-status{margin-left:auto;padding:4px 10px;border-radius:8px;font-size:10px;font-weight:700;letter-spacing:.5px;flex-shrink:0}
-.crew-status.in{background:rgba(5,150,105,.1);color:var(--emerald)}
-.crew-status.pending{background:rgba(196,151,42,.1);color:var(--gold)}
-.crew-status.out{background:rgba(27,42,74,.1);color:var(--navy)}
-.send-btn{display:block;width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,var(--teal),rgba(13,115,119,.85));color:white;font-size:14px;font-weight:700;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:16px;text-align:center;text-decoration:none}
-.link-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:var(--gray);margin-top:8px;font-size:10px;color:#4A5568;word-break:break-all}
-.link-row a{color:var(--teal);text-decoration:none;font-weight:600}
-.copy-btn{padding:6px 12px;border-radius:6px;border:1px solid #E2E8F0;background:white;font-size:10px;font-weight:600;color:var(--navy);cursor:pointer;flex-shrink:0;font-family:'DM Sans',sans-serif}
+.crew-row.checked-out{background:rgba(27,42,74,.04);border-color:rgba(27,42,74,.2)}
+.crew-row.pending{border-color:rgba(196,151,42,.3);background:rgba(196,151,42,.03)}
+.crew-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:white;flex-shrink:0}
+.crew-av.pending-av{background:linear-gradient(135deg,var(--gold),#d4a235)}
+.crew-av.in-av{background:linear-gradient(135deg,var(--emerald),#34d399)}
+.crew-av.out-av{background:linear-gradient(135deg,var(--navy),#334155)}
+.crew-info{flex:1;min-width:0}
+.crew-name{font-size:14px;font-weight:700;color:var(--navy)}
+.crew-meta{font-size:10px;color:#8896A6;margin-top:2px}
+.crew-time{font-size:9px;color:var(--emerald);font-weight:600;margin-top:2px}
+.status-pill{padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;flex-shrink:0;text-align:center}
+.status-pill.pending{background:rgba(196,151,42,.12);color:var(--gold)}
+.status-pill.in{background:rgba(5,150,105,.12);color:var(--emerald)}
+.status-pill.out{background:rgba(27,42,74,.1);color:var(--navy)}
+.card{background:white;border-radius:16px;padding:16px;box-shadow:0 2px 16px rgba(0,0,0,.06);margin-bottom:16px}
+.link-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:var(--gray);margin-bottom:6px}
+.link-row .name{font-size:11px;font-weight:700;color:var(--navy);min-width:100px}
+.link-row .url{font-size:9px;color:#8896A6;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.copy-btn{padding:6px 14px;border-radius:8px;border:none;background:var(--navy);color:white;font-size:10px;font-weight:600;flex-shrink:0}
+.action-bar{display:flex;gap:8px;margin-top:12px}
+.action-bar button{flex:1;padding:10px;border-radius:10px;border:none;font-size:11px;font-weight:600}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;color:white;z-index:200;animation:slideUp .3s ease;background:var(--emerald);max-width:90vw;text-align:center}
+@keyframes slideUp{from{transform:translateX(-50%) translateY(20px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
 </style>
 </head>
 <body>
+
 <div class="header"><div class="header-inner">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
 <div style="display:flex;align-items:center;gap:10px">
 <div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),rgba(13,115,119,.8));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white">G</div>
 <span style="color:white;font-size:17px;font-weight:700">GoCrew</span>
 </div>
-<div style="padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.08)">
-<span class="mono" style="color:rgba(255,255,255,.7);font-size:11px">SUPERVISOR</span>
+<div style="padding:4px 12px;border-radius:6px;background:rgba(255,255,255,.1)">
+<span class="mono" style="color:rgba(255,255,255,.8);font-size:11px">SUPERVISOR</span>
 </div>
 </div>
 <h1 style="color:white;font-size:18px;font-weight:700">Crew Roster Dashboard</h1>
@@ -54,97 +68,104 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:linear-gradient(170de
 <div class="main">
 
 <div class="kpi-row">
-<div class="kpi"><div class="kpi-val" id="kpi-total">9</div><div class="kpi-label mono">TOTAL CREW</div></div>
-<div class="kpi"><div class="kpi-val" style="color:var(--emerald)" id="kpi-in">0</div><div class="kpi-label mono">CHECKED IN</div></div>
-<div class="kpi"><div class="kpi-val" style="color:var(--gold)" id="kpi-pending">9</div><div class="kpi-label mono">PENDING</div></div>
+<div class="kpi"><div class="kpi-val" id="k-total">9</div><div class="kpi-label mono">TOTAL CREW</div></div>
+<div class="kpi"><div class="kpi-val" style="color:var(--emerald)" id="k-in">0</div><div class="kpi-label mono">CHECKED IN</div></div>
+<div class="kpi"><div class="kpi-val" style="color:var(--gold)" id="k-pend">9</div><div class="kpi-label mono">PENDING</div></div>
 </div>
 
-<div class="card">
-<p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px">Crew Check-In Status</p>
-<div id="crew-list"></div>
+<p class="section-title">Crew Status <span class="mono" style="font-size:10px;color:#8896A6;font-weight:400">Tap to update status</span></p>
+<div id="roster"></div>
+
+<div class="card" style="margin-top:16px">
+<p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px">Individual Check-In Links</p>
+<p style="font-size:10px;color:#8896A6;margin-bottom:12px">Each crew member gets a unique, unguessable URL. Send via text or WhatsApp.</p>
+<div id="links"></div>
 </div>
 
-<div class="card">
-<p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px">Individual Check-In Links</p>
-<p style="font-size:11px;color:#8896A6;margin-bottom:12px">Send each crew member their personal link. They can only check in as themselves.</p>
-<div id="link-list"></div>
+<div style="display:flex;gap:8px;margin-top:12px">
+<a href="tel:5122368439" style="flex:1;padding:12px;border-radius:12px;background:white;text-decoration:none;color:var(--navy);font-size:11px;font-weight:600;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">Call Front Desk</a>
+<a href="https://maps.google.com/?q=Marriott+Courtyard+Downtown+Austin+TX" target="_blank" style="flex:1;padding:12px;border-radius:12px;background:white;text-decoration:none;color:var(--navy);font-size:11px;font-weight:600;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">Get Directions</a>
 </div>
 
-<div class="card" style="text-align:center;padding:20px">
-<p style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px">Property Contact</p>
-<div style="display:flex;gap:8px;margin-top:8px">
-<a href="tel:5122368439" style="flex:1;padding:10px;border-radius:10px;background:var(--gray);text-decoration:none;color:var(--navy);font-size:11px;font-weight:600;text-align:center">Call Front Desk</a>
-<a href="mailto:frontdesk@marriottaustin.com" style="flex:1;padding:10px;border-radius:10px;background:var(--gray);text-decoration:none;color:var(--navy);font-size:11px;font-weight:600;text-align:center">Email</a>
+<div style="text-align:center;padding:16px 0;margin-top:12px">
+<p class="mono" style="font-size:9px;color:#A0AEC0;letter-spacing:1px">CMMC L2 | AES-256 | TLS 1.3 | ZERO TRUST</p>
+<p class="mono" style="font-size:8px;color:#CBD5E0;margin-top:4px">GoCrew v1.9 - Supervisor Dashboard</p>
 </div>
 </div>
 
-<div style="text-align:center;padding:12px 0">
-<p class="mono" style="font-size:9px;color:#A0AEC0;letter-spacing:1px">CMMC L2 &middot; AES-256 &middot; TLS 1.3 &middot; ZERO TRUST<br>GoCrew v1.7 - Supervisor Dashboard</p>
-</div>
-</div>
+<div id="toast-el" style="display:none" class="toast"></div>
 
 <script>
 var BASE = "https://crewlogistics.github.io/gocrew-checkin-demo";
 var crew = [
-  {name:"Andrea Tsakanikas", id:"GC-2026-04892", asg:"ASG-TX-0312", rank:"PM", initials:"AT", conf:"MCR-8847291", token:"92fac2b16264", status:"pending", room:"", checkinTime:null},
-  {name:"Angie Rodriguez", id:"GC-2026-04893", asg:"ASG-TX-0313", rank:"Coordinator", initials:"AR", conf:"MCR-8847292", token:"1d84fc0e3f1d", status:"pending", room:"", checkinTime:null},
-  {name:"Brett Hogan", id:"GC-2026-00001", asg:"ASG-TX-0314", rank:"CEO", initials:"BH", conf:"MCR-8847293", token:"eedbbfc5fb6d", status:"pending", room:"", checkinTime:null},
-  {name:"Matthew Hogan", id:"GC-2026-00002", asg:"ASG-TX-0315", rank:"CTO", initials:"MH", conf:"MCR-8847294", token:"18b99e757e9a", status:"pending", room:"", checkinTime:null},
-  {name:"Mark Choy", id:"GC-2026-04894", asg:"ASG-TX-0316", rank:"Director", initials:"MC", conf:"MCR-8847295", token:"23692d01f8d8", status:"pending", room:"", checkinTime:null},
-  {name:"Darlene Templeton", id:"GC-2026-04895", asg:"ASG-TX-0317", rank:"Manager", initials:"DT", conf:"MCR-8847296", token:"ff8836fdc1f1", status:"pending", room:"", checkinTime:null},
-  {name:"Jason Kohut", id:"GC-2026-04896", asg:"ASG-TX-0318", rank:"Specialist", initials:"JK", conf:"MCR-8847297", token:"d748cbf388dc", status:"pending", room:"", checkinTime:null},
-  {name:"Kara Land", id:"GC-2026-04897", asg:"ASG-TX-0319", rank:"Legal Counsel", initials:"KL", conf:"MCR-8847298", token:"4e9cc7e15f4f", status:"pending", room:"", checkinTime:null},
-  {name:"Rachel Calabrese", id:"GC-2026-04898", asg:"ASG-TX-0320", rank:"Analyst", initials:"RC", conf:"MCR-8847299", token:"7c9777e6a464", status:"pending", room:"", checkinTime:null}
+  {name:"Andrea Tsakanikas", id:"GC-2026-04892", rank:"PM", initials:"AT", token:"92fac2b16264", status:"pending", room:"", time:""},
+  {name:"Angie Rodriguez", id:"GC-2026-04893", rank:"Coordinator", initials:"AR", token:"1d84fc0e3f1d", status:"pending", room:"", time:""},
+  {name:"Brett Hogan", id:"GC-2026-00001", rank:"CEO", initials:"BH", token:"eedbbfc5fb6d", status:"pending", room:"", time:""},
+  {name:"Matthew Hogan", id:"GC-2026-00002", rank:"CTO", initials:"MH", token:"18b99e757e9a", status:"pending", room:"", time:""},
+  {name:"Mark Choy", id:"GC-2026-04894", rank:"Director", initials:"MC", token:"23692d01f8d8", status:"pending", room:"", time:""},
+  {name:"Darlene Templeton", id:"GC-2026-04895", rank:"Manager", initials:"DT", token:"ff8836fdc1f1", status:"pending", room:"", time:""},
+  {name:"Jason Kohut", id:"GC-2026-04896", rank:"Specialist", initials:"JK", token:"d748cbf388dc", status:"pending", room:"", time:""},
+  {name:"Kara Land", id:"GC-2026-04897", rank:"Legal Counsel", initials:"KL", token:"4e9cc7e15f4f", status:"pending", room:"", time:""},
+  {name:"Rachel Calabrese", id:"GC-2026-04898", rank:"Analyst", initials:"RC", token:"7c9777e6a464", status:"pending", room:"", time:""}
 ];
 
-function renderRoster(){
-  var listEl = document.getElementById("crew-list");
-  var linkEl = document.getElementById("link-list");
-  var html = "";
-  var linkHtml = "";
-  var checkedIn = 0;
-  
-  for(var i = 0; i < crew.length; i++){
-    var c = crew[i];
-    var statusClass = c.status === "checked_in" ? "checked-in" : "pending";
-    var statusLabel = c.status === "checked_in" ? "CHECKED IN" : "PENDING";
-    var statusBadge = c.status === "checked_in" ? "in" : "pending";
-    var roomInfo = c.room ? " | Room " + c.room : "";
-    var timeInfo = c.checkinTime ? " | " + c.checkinTime : "";
-    
-    if(c.status === "checked_in") checkedIn++;
-    
-    html += '<div class="crew-row ' + statusClass + '">';
-    html += '<div class="crew-av">' + c.initials + '</div>';
-    html += '<div><div class="crew-name">' + c.name + '</div>';
-    html += '<div class="crew-meta">' + c.rank + ' | ' + c.id + roomInfo + timeInfo + '</div></div>';
-    html += '<div class="crew-status ' + statusBadge + '">' + statusLabel + '</div>';
-    html += '</div>';
-    
-    var crewUrl = BASE + "/crew/" + c.token + ".html";
-    linkHtml += '<div class="link-row">';
-    linkHtml += '<div style="flex:1"><strong>' + c.name + '</strong><br><a href="' + crewUrl + '" target="_blank">' + crewUrl + '</a></div>';
-    linkHtml += '<button class="copy-btn" onclick="copyLink('' + crewUrl + '',this)">Copy</button>';
-    linkHtml += '</div>';
+// Persist state in localStorage
+var STORE_KEY = "gocrew_supervisor_state";
+function saveState(){ localStorage.setItem(STORE_KEY, JSON.stringify(crew)); }
+function loadState(){
+  var saved = localStorage.getItem(STORE_KEY);
+  if(saved){
+    try {
+      var parsed = JSON.parse(saved);
+      if(parsed.length === crew.length){
+        for(var i = 0; i < crew.length; i++){
+          crew[i].status = parsed[i].status || "pending";
+          crew[i].room = parsed[i].room || "";
+          crew[i].time = parsed[i].time || "";
+        }
+      }
+    } catch(e){}
   }
-  
-  listEl.innerHTML = html;
-  linkEl.innerHTML = linkHtml;
-  document.getElementById("kpi-in").textContent = checkedIn;
-  document.getElementById("kpi-pending").textContent = crew.length - checkedIn;
 }
 
-function copyLink(url, btn){
+function toast(msg){
+  var el = document.getElementById("toast-el");
+  el.textContent = msg;
+  el.style.display = "block";
+  setTimeout(function(){ el.style.display = "none"; }, 2500);
+}
+
+function cycleStatus(idx){
+  var c = crew[idx];
+  if(c.status === "pending"){
+    var rm = prompt("Room number for " + c.name + ":");
+    if(rm === null) return;
+    c.status = "checked_in";
+    c.room = rm || "TBD";
+    c.time = new Date().toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"});
+    toast(c.name + " checked in - Room " + c.room);
+  } else if(c.status === "checked_in"){
+    c.status = "checked_out";
+    c.time = new Date().toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"}) + " (out)";
+    toast(c.name + " checked out");
+  } else {
+    c.status = "pending";
+    c.room = "";
+    c.time = "";
+    toast(c.name + " reset to pending");
+  }
+  saveState();
+  render();
+}
+
+function copyUrl(url, btn){
   if(navigator.clipboard){
     navigator.clipboard.writeText(url).then(function(){
       btn.textContent = "Copied!";
       btn.style.background = "var(--emerald)";
-      btn.style.color = "white";
-      btn.style.borderColor = "var(--emerald)";
-      setTimeout(function(){ btn.textContent = "Copy"; btn.style.background = "white"; btn.style.color = "var(--navy)"; btn.style.borderColor = "#E2E8F0"; }, 2000);
+      setTimeout(function(){ btn.textContent = "Copy"; btn.style.background = "var(--navy)"; }, 2000);
     });
   } else {
-    // Fallback
     var ta = document.createElement("textarea");
     ta.value = url; document.body.appendChild(ta); ta.select(); document.execCommand("copy"); document.body.removeChild(ta);
     btn.textContent = "Copied!";
@@ -152,31 +173,70 @@ function copyLink(url, btn){
   }
 }
 
-// Simulate check-in updates (in production, this would poll the server)
-// For the test, supervisor manually marks check-ins
-function toggleCheckIn(idx){
-  if(crew[idx].status === "pending"){
-    crew[idx].status = "checked_in";
-    crew[idx].checkinTime = new Date().toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"});
-    crew[idx].room = prompt("Room number for " + crew[idx].name + "?") || "TBD";
-  } else {
-    crew[idx].status = "pending";
-    crew[idx].checkinTime = null;
-    crew[idx].room = "";
+function render(){
+  var rosterEl = document.getElementById("roster");
+  var linksEl = document.getElementById("links");
+  var rHtml = "";
+  var lHtml = "";
+  var inCount = 0, outCount = 0;
+
+  for(var i = 0; i < crew.length; i++){
+    var c = crew[i];
+    var isIn = c.status === "checked_in";
+    var isOut = c.status === "checked_out";
+    var isPend = c.status === "pending";
+    
+    if(isIn) inCount++;
+    if(isOut) outCount++;
+
+    var rowClass = isIn ? "checked-in" : isOut ? "checked-out" : "pending";
+    var avClass = isIn ? "in-av" : isOut ? "out-av" : "pending-av";
+    var pillClass = isIn ? "in" : isOut ? "out" : "pending";
+    var pillText = isIn ? "CHECKED IN" : isOut ? "CHECKED OUT" : "PENDING";
+
+    rHtml += '<div class="crew-row ' + rowClass + '" onclick="cycleStatus(' + i + ')">';
+    rHtml += '<div class="crew-av ' + avClass + '">' + c.initials + '</div>';
+    rHtml += '<div class="crew-info"><div class="crew-name">' + c.name + '</div>';
+    rHtml += '<div class="crew-meta">' + c.rank + ' | ' + c.id + '</div>';
+    if(c.room) rHtml += '<div class="crew-time">Room ' + c.room + (c.time ? ' | ' + c.time : '') + '</div>';
+    rHtml += '</div>';
+    rHtml += '<div class="status-pill ' + pillClass + '">' + pillText + '</div>';
+    rHtml += '</div>';
+
+    var url = BASE + "/crew/" + c.token + ".html";
+    lHtml += '<div class="link-row">';
+    lHtml += '<span class="name">' + c.name + '</span>';
+    lHtml += '<span class="url">' + url + '</span>';
+    lHtml += '<button class="copy-btn" onclick="event.stopPropagation();copyUrl(\'' + url + '\',this)">Copy</button>';
+    lHtml += '</div>';
   }
-  renderRoster();
+
+  rosterEl.innerHTML = rHtml;
+  linksEl.innerHTML = lHtml;
+  document.getElementById("k-in").textContent = inCount;
+  document.getElementById("k-pend").textContent = crew.length - inCount - outCount;
+  
+  // Color the KPI based on progress
+  var totalKpi = document.getElementById("k-total");
+  if(inCount === crew.length) totalKpi.style.color = "var(--emerald)";
+  else if(inCount > 0) totalKpi.style.color = "var(--teal)";
 }
 
-// Make crew rows clickable for supervisor to manually update
-document.addEventListener("click", function(e){
-  var row = e.target.closest(".crew-row");
-  if(row){
-    var idx = Array.from(row.parentNode.children).indexOf(row);
-    if(idx >= 0) toggleCheckIn(idx);
+function resetAll(){
+  if(confirm("Reset all crew to PENDING status?")){
+    for(var i = 0; i < crew.length; i++){
+      crew[i].status = "pending";
+      crew[i].room = "";
+      crew[i].time = "";
+    }
+    saveState();
+    render();
+    toast("All crew reset to pending");
   }
-});
+}
 
-renderRoster();
+loadState();
+render();
 </script>
 </body>
 </html>
