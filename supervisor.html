@@ -86,15 +86,15 @@ body{font-family:'DM Sans',system-ui,sans-serif;background:linear-gradient(170de
 <script>
 var BASE = "https://crewlogistics.github.io/gocrew-checkin-demo";
 var crew = [
-  {name:"Andrea Tsakanikas", id:"GC-2026-04892", asg:"ASG-TX-0312", rank:"PM", initials:"AT", conf:"MCR-8847291", slug:"andrea", status:"pending", room:"", checkinTime:null},
-  {name:"Angie Rodriguez", id:"GC-2026-04893", asg:"ASG-TX-0313", rank:"Coordinator", initials:"AR", conf:"MCR-8847292", slug:"angie", status:"pending", room:"", checkinTime:null},
-  {name:"Brett Hogan", id:"GC-2026-00001", asg:"ASG-TX-0314", rank:"CEO", initials:"BH", conf:"MCR-8847293", slug:"brett", status:"pending", room:"", checkinTime:null},
-  {name:"Matthew Hogan", id:"GC-2026-00002", asg:"ASG-TX-0315", rank:"CTO", initials:"MH", conf:"MCR-8847294", slug:"matthew", status:"pending", room:"", checkinTime:null},
-  {name:"Mark Choy", id:"GC-2026-04894", asg:"ASG-TX-0316", rank:"Director", initials:"MC", conf:"MCR-8847295", slug:"mark", status:"pending", room:"", checkinTime:null},
-  {name:"Darlene Templeton", id:"GC-2026-04895", asg:"ASG-TX-0317", rank:"Manager", initials:"DT", conf:"MCR-8847296", slug:"darlene", status:"pending", room:"", checkinTime:null},
-  {name:"Jason Kohut", id:"GC-2026-04896", asg:"ASG-TX-0318", rank:"Specialist", initials:"JK", conf:"MCR-8847297", slug:"jason", status:"pending", room:"", checkinTime:null},
-  {name:"Kara Land", id:"GC-2026-04897", asg:"ASG-TX-0319", rank:"Legal Counsel", initials:"KL", conf:"MCR-8847298", slug:"kara", status:"pending", room:"", checkinTime:null},
-  {name:"Rachel Calabrese", id:"GC-2026-04898", asg:"ASG-TX-0320", rank:"Analyst", initials:"RC", conf:"MCR-8847299", slug:"rachel", status:"pending", room:"", checkinTime:null}
+  {name:"Andrea Tsakanikas", id:"GC-2026-04892", asg:"ASG-TX-0312", rank:"PM", initials:"AT", conf:"MCR-8847291", token:"92fac2b16264", status:"pending", room:"", checkinTime:null},
+  {name:"Angie Rodriguez", id:"GC-2026-04893", asg:"ASG-TX-0313", rank:"Coordinator", initials:"AR", conf:"MCR-8847292", token:"1d84fc0e3f1d", status:"pending", room:"", checkinTime:null},
+  {name:"Brett Hogan", id:"GC-2026-00001", asg:"ASG-TX-0314", rank:"CEO", initials:"BH", conf:"MCR-8847293", token:"eedbbfc5fb6d", status:"pending", room:"", checkinTime:null},
+  {name:"Matthew Hogan", id:"GC-2026-00002", asg:"ASG-TX-0315", rank:"CTO", initials:"MH", conf:"MCR-8847294", token:"18b99e757e9a", status:"pending", room:"", checkinTime:null},
+  {name:"Mark Choy", id:"GC-2026-04894", asg:"ASG-TX-0316", rank:"Director", initials:"MC", conf:"MCR-8847295", token:"23692d01f8d8", status:"pending", room:"", checkinTime:null},
+  {name:"Darlene Templeton", id:"GC-2026-04895", asg:"ASG-TX-0317", rank:"Manager", initials:"DT", conf:"MCR-8847296", token:"ff8836fdc1f1", status:"pending", room:"", checkinTime:null},
+  {name:"Jason Kohut", id:"GC-2026-04896", asg:"ASG-TX-0318", rank:"Specialist", initials:"JK", conf:"MCR-8847297", token:"d748cbf388dc", status:"pending", room:"", checkinTime:null},
+  {name:"Kara Land", id:"GC-2026-04897", asg:"ASG-TX-0319", rank:"Legal Counsel", initials:"KL", conf:"MCR-8847298", token:"4e9cc7e15f4f", status:"pending", room:"", checkinTime:null},
+  {name:"Rachel Calabrese", id:"GC-2026-04898", asg:"ASG-TX-0320", rank:"Analyst", initials:"RC", conf:"MCR-8847299", token:"7c9777e6a464", status:"pending", room:"", checkinTime:null}
 ];
 
 function renderRoster(){
@@ -121,7 +121,7 @@ function renderRoster(){
     html += '<div class="crew-status ' + statusBadge + '">' + statusLabel + '</div>';
     html += '</div>';
     
-    var crewUrl = BASE + "/crew/" + c.slug + ".html";
+    var crewUrl = BASE + "/crew/" + c.token + ".html";
     linkHtml += '<div class="link-row">';
     linkHtml += '<div style="flex:1"><strong>' + c.name + '</strong><br><a href="' + crewUrl + '" target="_blank">' + crewUrl + '</a></div>';
     linkHtml += '<button class="copy-btn" onclick="copyLink('' + crewUrl + '',this)">Copy</button>';
