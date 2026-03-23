@@ -570,19 +570,31 @@ function apiCheckIn(room) {
       assignment_id: C.asg,
       crew_id: C.id,
       room_number: room,
-      latitude: null,
-      longitude: null,
+      latitude: crewLat,
+      longitude: crewLng,
       scan_method: "QR_SCAN"
     })
   })
-  .then(function(r) { return r.json(); })
+  .then(function(r) {
+    if(!r.ok) {
+      return r.json().then(function(err) {
+        toast("Check-in issue: " + (err.message || "Please try again"));
+        console.log("API check-in error:", err);
+        return null;
+      });
+    }
+    return r.json();
+  })
   .then(function(data) {
-    console.log("API check-in response:", data);
-    if(data.frs_score !== undefined) {
+    if(data && data.frs_score !== undefined) {
       frs = data.frs_score;
+      console.log("API check-in OK:", data);
     }
   })
-  .catch(function(err) { console.log("API check-in error:", err); });
+  .catch(function(err) {
+    console.log("API unreachable:", err);
+    toast("Offline mode - check-in saved locally");
+  });
   
   // Also notify supervisor via ntfy (fallback)
   notifySupervisor("CHECKED_IN", room);
@@ -601,7 +613,10 @@ function apiCheckOut() {
   })
   .then(function(r) { return r.json(); })
   .then(function(data) { console.log("API checkout response:", data); })
-  .catch(function(err) { console.log("API checkout error:", err); });
+  .catch(function(err) { 
+    console.log("API checkout unreachable:", err);
+    toast("Offline mode - checkout saved locally");
+  });
   
   notifySupervisor("CHECKED_OUT", C.room);
 }
@@ -619,7 +634,9 @@ function apiUndo() {
   })
   .then(function(r) { return r.json(); })
   .then(function(data) { console.log("API undo response:", data); })
-  .catch(function(err) { console.log("API undo error:", err); });
+  .catch(function(err) {
+    console.log("API undo unreachable:", err);
+  });
   
   notifySupervisor("UNDO", "");
 }
