@@ -391,7 +391,7 @@ function confirmRoom(){
     if(tab==="selfservice"){
       doSelfCheckInConfirmed();
     } else {
-      state="CHECKING_IN";render();
+      state="CHECKING_IN";apiCheckIn(C.room);render();
       setTimeout(function(){state="CHECKED_IN";checkinTime=Date.now();overlay="in";notifySupervisor("CHECKED_IN",C.room);render()},1200);
     }
   }
@@ -424,11 +424,12 @@ function confirmUndo(){
   overlay = null;
   render();
   notifySupervisor("UNDO","");
+  apiUndo();
   toast("Check-in reversed. Please check in again when ready.");
 }
 
 function cancelRoomConfirm(){showRoomConfirm=false;roomError=false;roomStep=1;roomInput="";roomInput2="";roomErrorMsg="";render()}
-function doCheckOut(){state="CHECKING_OUT";render();setTimeout(function(){state="CHECKED_OUT";tab="checkin";overlay="out";notifySupervisor("CHECKED_OUT",C.room);render()},800)}
+function doCheckOut(){state="CHECKING_OUT";apiCheckOut();render();setTimeout(function(){state="CHECKED_OUT";tab="checkin";overlay="out";notifySupervisor("CHECKED_OUT",C.room);render()},800)}
 function doSelfCheckIn(){showRoomConfirm=true;roomInput="";roomInput2="";roomStep=1;roomError=false;roomErrorMsg="";scanActive=false;if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}render();setTimeout(function(){var el=$("room-input");if(el&&el.value===""){el.focus();}},400)}
 function doSelfCheckInConfirmed(){scanResult="validating";if(camStream){camStream.getTracks().forEach(function(tk){tk.stop()});camStream=null}
   render();setTimeout(function(){scanResult="success";render();setTimeout(function(){state="CHECKED_IN";checkinTime=Date.now();tab="checkin";overlay="in";scanResult=null;notifySupervisor("CHECKED_IN",C.room);render()},1500)},1500)}
@@ -553,6 +554,118 @@ function notifySupervisor(eventType, room) {
     headers: {"Content-Type": "application/json", "Title": eventType + ": " + "Andrea Tsakanikas", "Tags": eventType === "CHECKED_IN" ? "white_check_mark" : "wave"},
     body: payload
   }).catch(function(){});
+}
+
+
+// ── RUST API INTEGRATION ──
+var API_BASE = "https://excluded-edge-prisoner-anywhere.trycloudflare.com";
+
+// Call the real API when checking in
+function apiCheckIn(room) {
+  if(!C) return;
+  fetch(API_BASE + "/api/v1/checkin", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      assignment_id: C.asg,
+      crew_id: C.id,
+      room_number: room,
+      latitude: null,
+      longitude: null,
+      scan_method: "QR_SCAN"
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    console.log("API check-in response:", data);
+    if(data.frs_score !== undefined) {
+      frs = data.frs_score;
+    }
+  })
+  .catch(function(err) { console.log("API check-in error:", err); });
+  
+  // Also notify supervisor via ntfy (fallback)
+  notifySupervisor("CHECKED_IN", room);
+}
+
+// Call the real API when checking out
+function apiCheckOut() {
+  if(!C) return;
+  fetch(API_BASE + "/api/v1/checkout", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      assignment_id: C.asg,
+      crew_id: C.id
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) { console.log("API checkout response:", data); })
+  .catch(function(err) { console.log("API checkout error:", err); });
+  
+  notifySupervisor("CHECKED_OUT", C.room);
+}
+
+// Call the real API for undo
+function apiUndo() {
+  if(!C) return;
+  fetch(API_BASE + "/api/v1/checkin/undo", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      assignment_id: C.asg,
+      crew_id: C.id
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(data) { console.log("API undo response:", data); })
+  .catch(function(err) { console.log("API undo error:", err); });
+  
+  notifySupervisor("UNDO", "");
+}
+
+// Call the real API for stay management
+function apiStayRequest(type, data) {
+  if(!C) return;
+  var endpoint = type === "extend" ? "/api/v1/stay/extend" 
+    : type === "early" ? "/api/v1/stay/early-departure" 
+    : "/api/v1/stay/room-change";
+  fetch(API_BASE + endpoint, {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify(data)
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(resp) { console.log("API stay request:", resp); })
+  .catch(function(err) { console.log("API stay error:", err); });
+}
+
+// Call the real API for feedback
+function apiFeedback(rating, tags, comments) {
+  if(!C) return;
+  fetch(API_BASE + "/api/v1/feedback", {
+    method: "POST",
+    headers: {"Content-Type": "application/json"},
+    body: JSON.stringify({
+      assignment_id: C.asg,
+      crew_id: C.id,
+      rating: rating,
+      tags: tags,
+      comments: comments
+    })
+  })
+  .then(function(r) { return r.json(); })
+  .then(function(resp) { console.log("API feedback:", resp); })
+  .catch(function(err) { console.log("API feedback error:", err); });
+}
+
+// Load real GPS if available
+var crewLat = null, crewLng = null;
+if(navigator.geolocation) {
+  navigator.geolocation.getCurrentPosition(function(p) {
+    crewLat = p.coords.latitude;
+    crewLng = p.coords.longitude;
+  }, function() {}, {enableHighAccuracy: true});
 }
 
 // ═══ RENDER ═══
@@ -1045,6 +1158,7 @@ function toggleTag(tag){
 }
 function submitFeedback(){
   var text = $("feedback-text") ? $("feedback-text").value : "";
+  apiFeedback(feedbackRating, feedbackTags, text);
   feedbackDone = true;
   render();
   toast("Feedback submitted. Thank you!");

@@ -338,6 +338,58 @@ setInterval(updateSyncDot, 2000);
 
 loadState();
 render();
+
+// ── RUST API INTEGRATION: Poll real roster every 5 seconds ──
+var API_BASE = "https://excluded-edge-prisoner-anywhere.trycloudflare.com";
+var pollInterval = null;
+
+function pollRoster() {
+  fetch(API_BASE + "/api/v1/supervisor/roster/PROP-TX-004")
+    .then(function(r){ return r.json(); })
+    .then(function(roster){
+      var changed = false;
+      for(var i = 0; i < roster.length; i++){
+        var apiCrew = roster[i];
+        // Find matching crew in local state
+        for(var j = 0; j < crew.length; j++){
+          if(crew[j].id === apiCrew.crew_id){
+            var newStatus = "pending";
+            if(apiCrew.assignment_status === "CHECKED_IN") newStatus = "checked_in";
+            else if(apiCrew.assignment_status === "CHECKED_OUT") newStatus = "checked_out";
+            
+            if(crew[j].status !== newStatus || crew[j].room !== (apiCrew.room_number || "")){
+              crew[j].status = newStatus;
+              crew[j].room = apiCrew.room_number || "";
+              if(apiCrew.check_in_time){
+                var t = new Date(apiCrew.check_in_time);
+                crew[j].time = t.toLocaleTimeString("en-US", {hour:"2-digit", minute:"2-digit"});
+              }
+              changed = true;
+            }
+            break;
+          }
+        }
+      }
+      if(changed){
+        saveState();
+        render();
+      }
+      // Update sync indicator
+      var dot = document.getElementById("sync-dot");
+      if(dot) dot.style.background = "var(--emerald)";
+    })
+    .catch(function(err){
+      console.log("API poll error:", err);
+      var dot = document.getElementById("sync-dot");
+      if(dot) dot.style.background = "var(--gold)";
+    });
+}
+
+// Start polling
+pollInterval = setInterval(pollRoster, 5000);
+// Also poll immediately
+setTimeout(pollRoster, 1000);
+
 startSync();
 </script>
 </body>
