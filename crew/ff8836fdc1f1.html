@@ -101,7 +101,7 @@ input,textarea,select{font-family:'Inter',system-ui,sans-serif}
 .btn:active{transform:scale(.98)}
 .btn-t{background:var(--brand-green);color:var(--brand-dark);box-shadow:0 4px 20px rgba(156,200,82,.25)}
 .btn-n{background:var(--brand-dark);color:var(--brand-green);box-shadow:0 4px 20px rgba(32,51,25,.2)}
-.btn-g{background:var(--state-yellow);color:var(--brand-dark);box-shadow:0 4px 20px rgba(234,179,8,.25)}
+.btn-g{background:var(--brand-green);color:var(--brand-dark);box-shadow:0 4px 20px rgba(156,200,82,.25)}
 .btn-o{background:transparent;color:var(--on-surface);border:1px solid var(--border);box-shadow:none}
 .btn-sm{padding:12px;font-size:13px;margin-bottom:8px}
 
@@ -785,7 +785,7 @@ function render(){
   if(tab==="selfservice"&&state==="READY"){
     h+='<div class="card" style="padding:16px;text-align:center"><p style="font-size:13px;font-weight:700;color:var(--brand-dark);margin-bottom:4px">Self-Service Check-In</p><p style="font-size:11px;color:#8A9483;line-height:1.5">Scan the GoCrew QR code posted at the hotel lobby or kiosk. No waiting in line.</p></div>';
     if(!scanResult&&!scanActive){
-      h+='<button class="btn btn-g" onclick="startScan()"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>Open Camera</span></button>';
+      h+='<button class="btn btn-g" onclick="startScan()"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#203319" stroke-width="2.5" stroke-linecap="round"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>Open Camera</span></button>';
       h+='<div class="card" style="text-align:center"><p style="font-size:12px;font-weight:600;color:var(--brand-dark);margin-bottom:4px">Demo: Property QR</p>';
       h+='<canvas id="prop-qr" width="240" height="240" style="width:120px;height:120px;display:block;margin:8px auto;border-radius:8px"></canvas>';
       h+='<button class="btn btn-o btn-sm" onclick="doSelfCheckIn()">Simulate Scan</button></div>';
