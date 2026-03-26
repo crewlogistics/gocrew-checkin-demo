@@ -4,48 +4,49 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<meta name="theme-color" content="#9cc852">
 <title>GoCrew - Crew Supervisor Dashboard</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-:root{--navy:#1B2A4A;--teal:#0D7377;--gold:#C4972A;--emerald:#059669;--red:#DC2626;--gray:#F2F4F7}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+:root{--brand-dark:#203319;--brand-green:#9cc852;--brand-green-hover:#8ab845;--brand-green-muted:#7da63f;--brand-green-faint:rgba(156,200,82,0.12);--surface:#F5F7F2;--surface-elevated:#FFFFFF;--on-surface:#1A1F16;--on-surface-muted:#5A6354;--on-surface-faint:#8A9483;--border:#DFE5D8;--state-green:#9cc852;--state-yellow:#EAB308;--state-red:#EF4444;--state-green-surface:#F0F7E6;--state-yellow-surface:#FEFCE8;--state-red-surface:#FEF2F2;--radius-card:12px;--radius-input:8px;--radius-pill:9999px;--shadow-card:0 1px 3px rgba(32,51,25,0.06),0 1px 2px rgba(32,51,25,0.04);--shadow-elevated:0 4px 12px rgba(32,51,25,0.08),0 1px 3px rgba(32,51,25,0.04)}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-body{font-family:'DM Sans',system-ui,sans-serif;background:linear-gradient(170deg,var(--gray),#E8ECF1,#DFE7EF);min-height:100vh}
-.mono{font-family:'DM Mono',monospace}
-button{font-family:'DM Sans',system-ui,sans-serif;cursor:pointer}
-.header{background:linear-gradient(135deg,var(--navy),#243656);padding:max(env(safe-area-inset-top),20px) 24px 24px;position:relative}
-.header::before{content:'';position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle at 2px 2px,white 1px,transparent 0);background-size:24px 24px}
+body{font-family:'Inter',-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;background:var(--surface);min-height:100vh;-webkit-font-smoothing:antialiased}
+.mono{font-family:ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Code',monospace}
+button{font-family:'Inter',system-ui,sans-serif;cursor:pointer}
+.header{background:var(--brand-green);padding:max(env(safe-area-inset-top),20px) 24px 24px;position:relative}
 .header-inner{position:relative;z-index:1}
 .main{padding:16px 20px 80px;max-width:520px;margin:0 auto}
 .kpi-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px}
-.kpi{background:white;border-radius:14px;padding:14px 12px;text-align:center;box-shadow:0 2px 12px rgba(0,0,0,.05)}
-.kpi-val{font-size:28px;font-weight:700;color:var(--navy)}
-.kpi-label{font-size:9px;color:#8896A6;letter-spacing:1px;margin-top:4px;font-weight:600}
-.section-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
-.crew-row{display:flex;align-items:center;gap:12px;padding:14px;border-radius:14px;margin-bottom:8px;border:2px solid #E2E8F0;transition:all .2s;cursor:pointer;background:white}
+.kpi{background:var(--surface-elevated);border-radius:var(--radius-card);border:1px solid var(--border);padding:14px 12px;text-align:center;box-shadow:var(--shadow-card)}
+.kpi-val{font-size:28px;font-weight:800;color:var(--on-surface);font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-0.025em}
+.kpi-label{font-size:9px;color:var(--on-surface-faint);letter-spacing:1px;margin-top:4px;font-weight:600}
+.section-title{font-size:14px;font-weight:700;color:var(--on-surface);font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between;letter-spacing:-0.01em}
+.crew-row{display:flex;align-items:center;gap:12px;padding:14px;border-radius:var(--radius-card);margin-bottom:8px;border:1px solid var(--border);transition:all 180ms ease;cursor:pointer;background:var(--surface-elevated);box-shadow:var(--shadow-card)}
 .crew-row:active{transform:scale(.98)}
-.crew-row.checked-in{background:rgba(5,150,105,.04);border-color:rgba(5,150,105,.3)}
-.crew-row.checked-out{background:rgba(27,42,74,.04);border-color:rgba(27,42,74,.2)}
-.crew-row.pending{border-color:rgba(196,151,42,.3);background:rgba(196,151,42,.03)}
-.crew-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:white;flex-shrink:0}
-.crew-av.pending-av{background:linear-gradient(135deg,var(--gold),#d4a235)}
-.crew-av.in-av{background:linear-gradient(135deg,var(--emerald),#34d399)}
-.crew-av.out-av{background:linear-gradient(135deg,var(--navy),#334155)}
+.crew-row.checked-in{background:var(--state-green-surface);border-color:rgba(156,200,82,0.3)}
+.crew-row.checked-out{background:rgba(32,51,25,0.04);border-color:rgba(32,51,25,0.15)}
+.crew-row.pending{border-color:rgba(234,179,8,0.3);background:var(--state-yellow-surface)}
+.crew-av{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white;flex-shrink:0;font-family:'Plus Jakarta Sans',sans-serif}
+.crew-av.pending-av{background:var(--state-yellow)}
+.crew-av.in-av{background:var(--brand-green)}
+.crew-av.out-av{background:var(--brand-dark)}
 .crew-info{flex:1;min-width:0}
-.crew-name{font-size:14px;font-weight:700;color:var(--navy)}
-.crew-meta{font-size:10px;color:#8896A6;margin-top:2px}
-.crew-time{font-size:9px;color:var(--emerald);font-weight:600;margin-top:2px}
-.status-pill{padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700;letter-spacing:.5px;flex-shrink:0;text-align:center}
-.status-pill.pending{background:rgba(196,151,42,.12);color:var(--gold)}
-.status-pill.in{background:rgba(5,150,105,.12);color:var(--emerald)}
-.status-pill.out{background:rgba(27,42,74,.1);color:var(--navy)}
-.card{background:white;border-radius:16px;padding:16px;box-shadow:0 2px 16px rgba(0,0,0,.06);margin-bottom:16px}
-.link-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:10px;background:var(--gray);margin-bottom:6px}
-.link-row .name{font-size:11px;font-weight:700;color:var(--navy);min-width:100px}
-.link-row .url{font-size:9px;color:#8896A6;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.copy-btn{padding:6px 14px;border-radius:8px;border:none;background:var(--navy);color:white;font-size:10px;font-weight:600;flex-shrink:0}
+.crew-name{font-size:14px;font-weight:700;color:var(--on-surface);font-family:'Plus Jakarta Sans',sans-serif}
+.crew-meta{font-size:10px;color:var(--on-surface-faint);margin-top:2px}
+.crew-time{font-size:9px;color:var(--brand-green-muted);font-weight:600;margin-top:2px}
+.status-pill{padding:5px 12px;border-radius:var(--radius-pill);font-size:10px;font-weight:700;letter-spacing:.5px;flex-shrink:0;text-align:center;text-transform:uppercase}
+.status-pill.pending{background:var(--state-yellow-surface);color:var(--state-yellow)}
+.status-pill.in{background:var(--state-green-surface);color:var(--brand-green-muted)}
+.status-pill.out{background:rgba(32,51,25,0.08);color:var(--on-surface-muted)}
+.card{background:var(--surface-elevated);border-radius:var(--radius-card);border:1px solid var(--border);padding:16px;box-shadow:var(--shadow-card);margin-bottom:16px}
+.link-row{display:flex;align-items:center;gap:8px;padding:10px 12px;border-radius:var(--radius-input);background:var(--surface);margin-bottom:6px}
+.link-row .name{font-size:11px;font-weight:700;color:var(--on-surface);min-width:100px;font-family:'Plus Jakarta Sans',sans-serif}
+.link-row .url{font-size:9px;color:var(--on-surface-faint);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.copy-btn{padding:6px 14px;border-radius:var(--radius-input);border:none;background:var(--brand-dark);color:var(--brand-green);font-size:10px;font-weight:600;flex-shrink:0;transition:all 180ms ease}
+.copy-btn:hover{background:var(--brand-green);color:var(--brand-dark)}
 .action-bar{display:flex;gap:8px;margin-top:12px}
-.action-bar button{flex:1;padding:10px;border-radius:10px;border:none;font-size:11px;font-weight:600}
-.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;color:white;z-index:200;animation:slideUp .3s ease;background:var(--emerald);max-width:90vw;text-align:center}
+.action-bar button{flex:1;padding:10px;border-radius:var(--radius-input);border:none;font-size:11px;font-weight:600}
+.toast{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:var(--radius-card);font-size:13px;font-weight:700;color:var(--brand-green);z-index:200;animation:slideUp .3s ease;background:var(--brand-dark);max-width:90vw;text-align:center;box-shadow:var(--shadow-elevated);font-family:'Plus Jakarta Sans',sans-serif}
 @keyframes slideUp{from{transform:translateX(-50%) translateY(20px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
 </style>
 </head>
@@ -54,44 +55,44 @@ button{font-family:'DM Sans',system-ui,sans-serif;cursor:pointer}
 <div class="header"><div class="header-inner">
 <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
 <div style="display:flex;align-items:center;gap:10px">
-<div style="width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),rgba(13,115,119,.8));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:white">G</div>
-<span style="color:white;font-size:17px;font-weight:700">GoCrew</span>
+<div style="width:32px;height:32px;border-radius:8px;background:var(--brand-dark);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--brand-green);font-family:'Plus Jakarta Sans',sans-serif">G</div>
+<span style="color:var(--brand-dark);font-size:17px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-0.02em">GoCrew</span>
 </div>
-<div style="padding:4px 12px;border-radius:6px;background:rgba(255,255,255,.1)">
-<span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:var(--gold);display:inline-block;margin-right:6px"></span><span class="mono" style="color:rgba(255,255,255,.8);font-size:11px">LIVE</span>
+<div style="padding:4px 12px;border-radius:6px;background:rgba(32,51,25,0.15)">
+<span id="sync-dot" style="width:8px;height:8px;border-radius:50%;background:var(--state-yellow);display:inline-block;margin-right:6px"></span><span class="mono" style="color:var(--brand-dark);font-size:11px;opacity:0.8">LIVE</span>
 </div>
 </div>
-<h1 style="color:white;font-size:18px;font-weight:700">Crew Roster Dashboard</h1>
-<p class="mono" style="color:rgba(255,255,255,.5);font-size:11px;margin-top:4px">Marriott Courtyard Downtown | Mar 24-28, 2026</p>
+<h1 style="color:var(--brand-dark);font-size:18px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-0.02em">Crew Roster Dashboard</h1>
+<p class="mono" style="color:rgba(32,51,25,0.6);font-size:11px;margin-top:4px">Marriott Courtyard Downtown | Mar 24-28, 2026</p>
 </div></div>
 
 <div class="main">
 
 <div class="kpi-row">
 <div class="kpi"><div class="kpi-val" id="k-total">9</div><div class="kpi-label mono">TOTAL CREW</div></div>
-<div class="kpi"><div class="kpi-val" style="color:var(--emerald)" id="k-in">0</div><div class="kpi-label mono">CHECKED IN</div></div>
-<div class="kpi"><div class="kpi-val" style="color:var(--gold)" id="k-pend">9</div><div class="kpi-label mono">PENDING</div></div>
+<div class="kpi"><div class="kpi-val" style="color:var(--brand-green-muted)" id="k-in">0</div><div class="kpi-label mono">CHECKED IN</div></div>
+<div class="kpi"><div class="kpi-val" style="color:var(--state-yellow)" id="k-pend">9</div><div class="kpi-label mono">PENDING</div></div>
 </div>
 
 <div id="room-alerts" style="display:none;margin-bottom:16px"></div>
 
-<p class="section-title">Crew Status <span class="mono" style="font-size:10px;color:#8896A6;font-weight:400">Tap to update status</span></p>
+<p class="section-title">Crew Status <span class="mono" style="font-size:10px;color:var(--on-surface-faint);font-weight:400">Tap to update status</span></p>
 <div id="roster"></div>
 
 <div class="card" style="margin-top:16px">
-<p style="font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px">Individual Check-In Links</p>
-<p style="font-size:10px;color:#8896A6;margin-bottom:12px">Each crew member gets a unique, unguessable URL. Send via text or WhatsApp.</p>
+<p style="font-size:14px;font-weight:700;color:var(--on-surface);font-family:'Plus Jakarta Sans',sans-serif;margin-bottom:4px">Individual Check-In Links</p>
+<p style="font-size:10px;color:var(--on-surface-faint);margin-bottom:12px">Each crew member gets a unique, unguessable URL. Send via text or WhatsApp.</p>
 <div id="links"></div>
 </div>
 
 <div style="display:flex;gap:8px;margin-top:12px">
-<a href="tel:5122368439" style="flex:1;padding:12px;border-radius:12px;background:white;text-decoration:none;color:var(--navy);font-size:11px;font-weight:600;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">Call Front Desk</a>
-<a href="https://maps.google.com/?q=Marriott+Courtyard+Downtown+Austin+TX" target="_blank" style="flex:1;padding:12px;border-radius:12px;background:white;text-decoration:none;color:var(--navy);font-size:11px;font-weight:600;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.05)">Get Directions</a>
+<a href="tel:5122368439" style="flex:1;padding:12px;border-radius:var(--radius-card);background:var(--surface-elevated);border:1px solid var(--border);text-decoration:none;color:var(--on-surface);font-size:11px;font-weight:600;text-align:center;box-shadow:var(--shadow-card);font-family:'Plus Jakarta Sans',sans-serif">Call Front Desk</a>
+<a href="https://maps.google.com/?q=Marriott+Courtyard+Downtown+Austin+TX" target="_blank" style="flex:1;padding:12px;border-radius:var(--radius-card);background:var(--surface-elevated);border:1px solid var(--border);text-decoration:none;color:var(--on-surface);font-size:11px;font-weight:600;text-align:center;box-shadow:var(--shadow-card);font-family:'Plus Jakarta Sans',sans-serif">Get Directions</a>
 </div>
 
 <div style="text-align:center;padding:16px 0;margin-top:12px">
-<p class="mono" style="font-size:9px;color:#A0AEC0;letter-spacing:1px">CMMC L2 | AES-256 | TLS 1.3 | ZERO TRUST</p>
-<p class="mono" style="font-size:8px;color:#CBD5E0;margin-top:4px">GoCrew v1.9 - Supervisor Dashboard</p>
+<p class="mono" style="font-size:9px;color:var(--on-surface-faint);letter-spacing:1px">CMMC L2 | AES-256 | TLS 1.3 | ZERO TRUST</p>
+<p class="mono" style="font-size:8px;color:var(--border);margin-top:4px">GoCrew v1.9 - Supervisor Dashboard</p>
 </div>
 </div>
 
@@ -111,7 +112,6 @@ var crew = [
   {name:"Rachel Calabrese", id:"GC-2026-04898", rank:"Analyst", initials:"RC", token:"7c9777e6a464", status:"pending", room:"", time:""}
 ];
 
-// Persist state in localStorage
 var STORE_KEY = "gocrew_supervisor_state";
 function saveState(){ localStorage.setItem(STORE_KEY, JSON.stringify(crew)); }
 function loadState(){
@@ -164,8 +164,9 @@ function copyUrl(url, btn){
   if(navigator.clipboard){
     navigator.clipboard.writeText(url).then(function(){
       btn.textContent = "Copied!";
-      btn.style.background = "var(--emerald)";
-      setTimeout(function(){ btn.textContent = "Copy"; btn.style.background = "var(--navy)"; }, 2000);
+      btn.style.background = "var(--brand-green)";
+      btn.style.color = "var(--brand-dark)";
+      setTimeout(function(){ btn.textContent = "Copy"; btn.style.background = "var(--brand-dark)"; btn.style.color = "var(--brand-green)"; }, 2000);
     });
   } else {
     var ta = document.createElement("textarea");
@@ -187,7 +188,7 @@ function render(){
     var isIn = c.status === "checked_in";
     var isOut = c.status === "checked_out";
     var isPend = c.status === "pending";
-    
+
     if(isIn) inCount++;
     if(isOut) outCount++;
 
@@ -217,8 +218,7 @@ function render(){
   linksEl.innerHTML = lHtml;
   document.getElementById("k-in").textContent = inCount;
   document.getElementById("k-pend").textContent = crew.length - inCount - outCount;
-  
-  // ── ROOM CONFLICT DETECTION ──
+
   var roomMap = {};
   for(var r = 0; r < crew.length; r++){
     if(crew[r].status === "checked_in" && crew[r].room && crew[r].room !== "TBD"){
@@ -227,33 +227,32 @@ function render(){
       roomMap[rm].push(crew[r].name);
     }
   }
-  
+
   var alertEl = document.getElementById("room-alerts");
   var alertHtml = "";
   var conflicts = 0;
   for(var rm2 in roomMap){
     if(roomMap[rm2].length > 1){
       conflicts++;
-      alertHtml += "<div style=\"display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:12px;background:rgba(220,38,38,.06);border:1.5px solid rgba(220,38,38,.2);margin-bottom:8px\">";
-      alertHtml += "<div style=\"width:32px;height:32px;border-radius:8px;background:rgba(220,38,38,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px\">!</div>";
-      alertHtml += "<div><div style=\"font-size:12px;font-weight:700;color:#DC2626\">Room " + rm2 + " - " + roomMap[rm2].length + " crew members</div>";
-      alertHtml += "<div style=\"font-size:11px;color:#4A5568;margin-top:2px\">" + roomMap[rm2].join(", ") + "</div>";
-      alertHtml += "<div style=\"font-size:10px;color:#8896A6;margin-top:4px\">Verify: shared room or potential check-in error?</div>";
+      alertHtml += "<div style=\"display:flex;align-items:flex-start;gap:10px;padding:12px;border-radius:12px;background:var(--state-red-surface);border:1.5px solid rgba(239,68,68,0.2);margin-bottom:8px\">";
+      alertHtml += "<div style=\"width:32px;height:32px;border-radius:8px;background:rgba(239,68,68,0.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:14px\">!</div>";
+      alertHtml += "<div><div style=\"font-size:12px;font-weight:700;color:var(--state-red);font-family:'Plus Jakarta Sans',sans-serif\">Room " + rm2 + " - " + roomMap[rm2].length + " crew members</div>";
+      alertHtml += "<div style=\"font-size:11px;color:var(--on-surface-muted);margin-top:2px\">" + roomMap[rm2].join(", ") + "</div>";
+      alertHtml += "<div style=\"font-size:10px;color:var(--on-surface-faint);margin-top:4px\">Verify: shared room or potential check-in error?</div>";
       alertHtml += "</div></div>";
     }
   }
-  
+
   if(conflicts > 0){
-    alertEl.innerHTML = "<div style=\"margin-bottom:4px;display:flex;align-items:center;gap:6px\"><span style=\"font-size:13px;font-weight:700;color:#DC2626\">Room Conflicts (" + conflicts + ")</span></div>" + alertHtml;
+    alertEl.innerHTML = "<div style=\"margin-bottom:4px;display:flex;align-items:center;gap:6px\"><span style=\"font-size:13px;font-weight:700;color:var(--state-red);font-family:'Plus Jakarta Sans',sans-serif\">Room Conflicts (" + conflicts + ")</span></div>" + alertHtml;
     alertEl.style.display = "block";
   } else {
     alertEl.style.display = "none";
   }
-  
-  // Color the KPI based on progress
+
   var totalKpi = document.getElementById("k-total");
-  if(inCount === crew.length) totalKpi.style.color = "var(--emerald)";
-  else if(inCount > 0) totalKpi.style.color = "var(--teal)";
+  if(inCount === crew.length) totalKpi.style.color = "var(--brand-green)";
+  else if(inCount > 0) totalKpi.style.color = "var(--brand-green-muted)";
 }
 
 function resetAll(){
@@ -269,8 +268,6 @@ function resetAll(){
   }
 }
 
-
-// ── REAL-TIME SYNC: Subscribe to crew check-in events ──
 var evtSource = null;
 function startSync(){
   if(evtSource) evtSource.close();
@@ -281,16 +278,14 @@ function startSync(){
       if(!outer.message) return;
       var data = JSON.parse(outer.message);
       if(!data.id) return;
-      
-      // Find this crew member and update their status
+
       for(var i = 0; i < crew.length; i++){
         if(crew[i].id === data.id){
           if(data.type === "CHECKED_IN"){
             crew[i].status = "checked_in";
             crew[i].room = data.room || "TBD";
             crew[i].time = data.time || new Date().toLocaleTimeString("en-US",{hour:"2-digit",minute:"2-digit"});
-            
-            // Check for room conflict
+
             var roomConflict = false;
             var conflictWith = "";
             for(var j = 0; j < crew.length; j++){
@@ -299,7 +294,7 @@ function startSync(){
                 conflictWith = crew[j].name;
               }
             }
-            
+
             if(roomConflict){
               toast("ALERT: " + data.name + " checked into Room " + crew[i].room + " - SAME ROOM as " + conflictWith + "!");
             } else {
@@ -323,23 +318,20 @@ function startSync(){
     } catch(err){}
   };
   evtSource.onerror = function(){
-    // Reconnect after 5 seconds
     setTimeout(startSync, 5000);
   };
 }
 
-// Connection status indicator
 var syncStatus = "connecting";
 function updateSyncDot(){
   var dot = document.getElementById("sync-dot");
-  if(dot) dot.style.background = evtSource && evtSource.readyState === 1 ? "var(--emerald)" : "var(--gold)";
+  if(dot) dot.style.background = evtSource && evtSource.readyState === 1 ? "var(--brand-green)" : "var(--state-yellow)";
 }
 setInterval(updateSyncDot, 2000);
 
 loadState();
 render();
 
-// ── RUST API INTEGRATION: Poll real roster every 5 seconds ──
 var API_BASE = "https://excluded-edge-prisoner-anywhere.trycloudflare.com";
 var pollInterval = null;
 
@@ -350,13 +342,12 @@ function pollRoster() {
       var changed = false;
       for(var i = 0; i < roster.length; i++){
         var apiCrew = roster[i];
-        // Find matching crew in local state
         for(var j = 0; j < crew.length; j++){
           if(crew[j].id === apiCrew.crew_id){
             var newStatus = "pending";
             if(apiCrew.assignment_status === "CHECKED_IN") newStatus = "checked_in";
             else if(apiCrew.assignment_status === "CHECKED_OUT") newStatus = "checked_out";
-            
+
             if(crew[j].status !== newStatus || crew[j].room !== (apiCrew.room_number || "")){
               crew[j].status = newStatus;
               crew[j].room = apiCrew.room_number || "";
@@ -374,20 +365,17 @@ function pollRoster() {
         saveState();
         render();
       }
-      // Update sync indicator
       var dot = document.getElementById("sync-dot");
-      if(dot) dot.style.background = "var(--emerald)";
+      if(dot) dot.style.background = "var(--brand-green)";
     })
     .catch(function(err){
       console.log("API poll error:", err);
       var dot = document.getElementById("sync-dot");
-      if(dot) dot.style.background = "var(--gold)";
+      if(dot) dot.style.background = "var(--state-yellow)";
     });
 }
 
-// Start polling
 pollInterval = setInterval(pollRoster, 5000);
-// Also poll immediately
 setTimeout(pollRoster, 1000);
 
 startSync();

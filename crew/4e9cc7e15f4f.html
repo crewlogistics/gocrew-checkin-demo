@@ -12,60 +12,60 @@
 <title>GoCrew - Kara Land</title>
 <link rel="manifest" href="manifest.json">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="theme-color" content="#0D7377">
+<meta name="theme-color" content="#9cc852">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
-:root{--navy:#1B2A4A;--teal:#0D7377;--gold:#C4972A;--emerald:#059669;--red:#DC2626;--gray:#F2F4F7;--dark:#0F172A}
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap');
+:root{--brand-dark:#203319;--brand-green:#9cc852;--brand-green-hover:#8ab845;--brand-green-muted:#7da63f;--brand-green-faint:rgba(156,200,82,0.12);--surface:#F5F7F2;--surface-elevated:#FFFFFF;--on-surface:#1A1F16;--on-surface-muted:#5A6354;--on-surface-faint:#8A9483;--border:#DFE5D8;--state-yellow:#EAB308;--state-red:#EF4444;--radius-card:12px;--radius-input:8px}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{width:100%;overflow-x:hidden}
-body{font-family:'DM Sans',system-ui,-apple-system,sans-serif;background:linear-gradient(170deg,var(--gray) 0%,#E8ECF1 40%,#DFE7EF 100%);min-height:100vh;min-height:100dvh}
-.mono{font-family:'DM Mono',monospace}
-button{-webkit-appearance:none;appearance:none;font-family:'DM Sans',system-ui,sans-serif;cursor:pointer}
-input,textarea,select{font-family:'DM Sans',system-ui,sans-serif}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--surface);min-height:100vh;min-height:100dvh}
+.mono{font-family:ui-monospace,'SF Mono',SFMono-Regular,'Cascadia Code',monospace}
+button{-webkit-appearance:none;appearance:none;font-family:'Inter',system-ui,sans-serif;cursor:pointer}
+input,textarea,select{font-family:'Inter',system-ui,sans-serif}
 
-.header{background:linear-gradient(135deg,var(--navy),#243656);padding:max(env(safe-area-inset-top),20px) 24px 24px;position:relative;overflow:hidden}
-.header::before{content:'';position:absolute;inset:0;opacity:.04;background-image:radial-gradient(circle at 2px 2px,white 1px,transparent 0);background-size:24px 24px}
+.header{background:var(--brand-green);padding:max(env(safe-area-inset-top),20px) 24px 24px;position:relative;overflow:hidden}
+.header::before{display:none}
 .header-inner{position:relative;z-index:1}
 .header-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
 .logo{display:flex;align-items:center;gap:10px}
-.logo-icon{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--teal),rgba(13,115,119,.8));display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:#fff}
-.logo-text{color:#fff;font-size:17px;font-weight:700;letter-spacing:.5px}
-.secure-badge{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;background:rgba(255,255,255,.08)}
-.secure-dot{width:6px;height:6px;border-radius:50%;background:var(--emerald);animation:pulse 2s infinite}
-.header h1{color:#fff;font-size:20px;font-weight:700}
-.header-time{color:rgba(255,255,255,.5);font-size:11px;margin-top:4px;letter-spacing:.5px}
+.logo-icon{width:32px;height:32px;border-radius:8px;background:var(--brand-dark);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;color:var(--brand-green);font-family:'Plus Jakarta Sans',sans-serif}
+.logo-text{color:var(--brand-dark);font-size:17px;font-weight:700;letter-spacing:-0.02em;font-family:'Plus Jakarta Sans',sans-serif}
+.secure-badge{display:flex;align-items:center;gap:6px;padding:4px 10px;border-radius:6px;background:rgba(32,51,25,0.15)}
+.secure-dot{width:6px;height:6px;border-radius:50%;background:var(--brand-dark);animation:pulse 2s infinite}
+.header h1{color:var(--brand-dark);font-size:20px;font-weight:700;font-family:'Plus Jakarta Sans',sans-serif;letter-spacing:-0.02em}
+.header-time{color:rgba(32,51,25,0.6);font-size:11px;margin-top:4px;letter-spacing:.5px}
 
-.tabs{display:flex;background:#fff;border-radius:14px;margin:16px 20px 0;padding:4px;box-shadow:0 2px 12px rgba(0,0,0,.06);gap:2px}
-.tab{flex:1;padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;color:#8896A6;border:none;background:transparent;transition:all .2s;letter-spacing:.2px}
-.tab.active{background:var(--navy);color:#fff;box-shadow:0 2px 8px rgba(27,42,74,.3)}
+.tabs{display:flex;background:var(--surface-elevated);border-radius:var(--radius-card);margin:16px 20px 0;padding:4px;box-shadow:0 2px 12px rgba(0,0,0,.06);gap:2px}
+.tab{flex:1;padding:10px 4px;border-radius:10px;text-align:center;font-size:10px;font-weight:600;color:var(--on-surface-faint);border:none;background:transparent;transition:all .2s;letter-spacing:.2px}
+.tab.active{background:var(--brand-dark);color:var(--brand-green);box-shadow:0 2px 8px rgba(32,51,25,.3)}
 
 .main{padding:16px 20px 120px;max-width:420px;margin:0 auto}
 
 .status-wrap{display:flex;justify-content:center;margin-bottom:16px}
 .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:20px}
-.badge.ready{background:rgba(13,115,119,.1);border:1px solid rgba(13,115,119,.2)}
-.badge.in{background:rgba(5,150,105,.1);border:1px solid rgba(5,150,105,.2)}
-.badge.out{background:rgba(27,42,74,.08);border:1px solid rgba(27,42,74,.15)}
+.badge.ready{background:var(--brand-green-faint);border:1px solid rgba(156,200,82,0.2)}
+.badge.in{background:var(--brand-green-faint);border:1px solid rgba(156,200,82,0.3)}
+.badge.out{background:rgba(32,51,25,0.08);border:1px solid rgba(32,51,25,0.15)}
 .badge-dot{width:8px;height:8px;border-radius:50%}
-.badge.ready .badge-dot{background:var(--teal)}
-.badge.in .badge-dot{background:var(--emerald);animation:pulse 2s infinite}
-.badge.out .badge-dot{background:var(--navy)}
+.badge.ready .badge-dot{background:var(--brand-green)}
+.badge.in .badge-dot{background:var(--brand-green);animation:pulse 2s infinite}
+.badge.out .badge-dot{background:var(--brand-dark)}
 .badge-text{font-size:11px;font-weight:700;letter-spacing:1.5px}
-.badge.ready .badge-text{color:var(--teal)}
-.badge.in .badge-text{color:var(--emerald)}
-.badge.out .badge-text{color:var(--navy)}
+.badge.ready .badge-text{color:var(--brand-green-muted)}
+.badge.in .badge-text{color:var(--brand-green-muted)}
+.badge.out .badge-text{color:var(--brand-dark)}
 
-.card{background:#fff;border-radius:20px;padding:20px;box-shadow:0 2px 24px rgba(0,0,0,.06),0 0 0 1px rgba(0,0,0,.03);margin-bottom:16px}
+.card{background:var(--surface-elevated);border-radius:var(--radius-card);border:1px solid var(--border);padding:20px;box-shadow:0 1px 3px rgba(32,51,25,0.06),0 1px 2px rgba(32,51,25,0.04);margin-bottom:16px}
 
 .qr-wrap{text-align:center;padding:24px 20px}
-.qr-wrap canvas{border-radius:12px;box-shadow:0 0 30px rgba(13,115,119,.15),0 4px 20px rgba(0,0,0,.1);display:block;margin:0 auto}
+.qr-wrap canvas{border-radius:12px;box-shadow:0 0 30px rgba(156,200,82,.15),0 4px 20px rgba(0,0,0,.1);display:block;margin:0 auto}
 
-.wp{background:linear-gradient(145deg,var(--navy),#1e3a5f,var(--dark));border-radius:16px;overflow:hidden;color:#fff;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.2);margin-bottom:16px}
-.wp::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(13,115,119,.2),transparent 70%)}
-.wp-strip{height:4px;background:linear-gradient(90deg,var(--teal),var(--gold),var(--teal))}
+.wp{background:linear-gradient(145deg,var(--brand-dark),#2A4422,#1A2814);border-radius:16px;overflow:hidden;color:#fff;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.2);margin-bottom:16px}
+.wp::before{content:'';position:absolute;top:0;right:0;width:120px;height:120px;background:radial-gradient(circle,rgba(156,200,82,.2),transparent 70%)}
+.wp-strip{height:4px;background:linear-gradient(90deg,var(--brand-green),var(--brand-green-muted),var(--brand-green))}
 .wp-hdr{padding:16px 20px 12px;display:flex;justify-content:space-between;align-items:flex-start;position:relative}
 .wp-logo{display:flex;align-items:center;gap:8px}
-.wp-li{width:28px;height:28px;border-radius:6px;background:var(--teal);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
+.wp-li{width:28px;height:28px;border-radius:6px;background:var(--brand-green);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff}
 .wp-lt{font-size:14px;font-weight:700;letter-spacing:.5px}
 .wp-type{font-size:10px;color:rgba(255,255,255,.5);letter-spacing:1.5px;font-weight:600}
 .wp-body{padding:0 20px 16px}
@@ -86,53 +86,53 @@ input,textarea,select{font-family:'DM Sans',system-ui,sans-serif}
 .wbtn svg{width:18px;height:18px;flex-shrink:0}
 
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.gi{padding:10px 12px;border-radius:10px;background:var(--gray)}
-.gl{font-size:9px;font-weight:600;color:#8896A6;letter-spacing:1px;margin-bottom:3px}
-.gv{font-size:12px;font-weight:600;color:var(--navy)}
+.gi{padding:10px 12px;border-radius:var(--radius-input);background:var(--surface)}
+.gl{font-size:9px;font-weight:600;color:var(--on-surface-faint);letter-spacing:1px;margin-bottom:3px}
+.gv{font-size:12px;font-weight:600;color:var(--on-surface)}
 
-.frs{margin-top:12px;padding:8px 12px;border-radius:8px;background:rgba(13,115,119,.04);border:1px solid rgba(13,115,119,.1);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.frs{margin-top:12px;padding:8px 12px;border-radius:8px;background:var(--brand-green-faint);border:1px solid rgba(156,200,82,0.2);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .frs-dots{display:flex;gap:3px;margin-left:auto}
-.frs-dot{width:14px;height:7px;border-radius:2px;background:var(--emerald)}
+.frs-dot{width:14px;height:7px;border-radius:2px;background:var(--brand-green)}
 
 .crew{display:flex;align-items:center;gap:12px}
-.crew-av{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--navy),var(--teal));display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff;flex-shrink:0}
+.crew-av{width:44px;height:44px;border-radius:50%;background:var(--brand-dark);display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:700;color:#fff;flex-shrink:0}
 
 .btn{width:100%;padding:16px;border-radius:14px;border:none;color:#fff;font-size:15px;font-weight:700;letter-spacing:.3px;transition:transform .15s;margin-bottom:10px;display:block;text-align:center}
 .btn:active{transform:scale(.98)}
-.btn-t{background:linear-gradient(135deg,var(--teal),rgba(13,115,119,.85));box-shadow:0 4px 20px rgba(13,115,119,.25)}
-.btn-n{background:linear-gradient(135deg,var(--navy),rgba(27,42,74,.85));box-shadow:0 4px 20px rgba(27,42,74,.2)}
-.btn-g{background:linear-gradient(135deg,var(--gold),#d4a235);box-shadow:0 4px 20px rgba(196,151,42,.25)}
-.btn-o{background:transparent;color:var(--navy);border:2px solid #E2E8F0;box-shadow:none}
+.btn-t{background:var(--brand-green);color:var(--brand-dark);box-shadow:0 4px 20px rgba(156,200,82,.25)}
+.btn-n{background:var(--brand-dark);color:var(--brand-green);box-shadow:0 4px 20px rgba(32,51,25,.2)}
+.btn-g{background:var(--state-yellow);color:var(--brand-dark);box-shadow:0 4px 20px rgba(234,179,8,.25)}
+.btn-o{background:transparent;color:var(--on-surface);border:1px solid var(--border);box-shadow:none}
 .btn-sm{padding:12px;font-size:13px;margin-bottom:8px}
 
-.geo{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;margin-top:10px;border-radius:8px;background:rgba(5,150,105,.06);border:1px solid rgba(5,150,105,.15)}
-.geo-ring{width:10px;height:10px;border-radius:50%;background:var(--emerald);position:relative;flex-shrink:0}
-.geo-ring::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--emerald);animation:geopulse 2s infinite;opacity:.5}
+.geo{display:flex;align-items:center;justify-content:center;gap:6px;padding:8px;margin-top:10px;border-radius:8px;background:var(--brand-green-faint);border:1px solid rgba(156,200,82,0.2)}
+.geo-ring{width:10px;height:10px;border-radius:50%;background:var(--brand-green);position:relative;flex-shrink:0}
+.geo-ring::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid var(--brand-green);animation:geopulse 2s infinite;opacity:.5}
 
 /* Manage Stay */
 .manage-section{margin-top:8px}
 .manage-btns{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:12px}
-.manage-btn{padding:10px 4px;border-radius:12px;border:2px solid #E2E8F0;background:#fff;text-align:center;font-size:10px;font-weight:600;color:var(--navy);transition:all .2s;min-width:0;overflow:hidden}
+.manage-btn{padding:10px 4px;border-radius:var(--radius-card);border:1px solid var(--border);background:var(--surface-elevated);text-align:center;font-size:10px;font-weight:600;color:var(--on-surface);transition:all .2s;min-width:0;overflow:hidden}
 .manage-btn:active{transform:scale(.97)}
 .manage-btn svg{display:block;margin:0 auto 6px}
-.manage-btn.ext{border-color:rgba(13,115,119,.3)}
-.manage-btn.early{border-color:rgba(196,151,42,.3)}
+.manage-btn.ext{border-color:rgba(156,200,82,.3)}
+.manage-btn.early{border-color:rgba(234,179,8,.3)}
 
 /* Form */
-.form-card{border:2px solid rgba(13,115,119,.2);background:rgba(13,115,119,.02)}
-.form-title{font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
-.form-sub{font-size:11px;color:#8896A6;margin-bottom:16px}
+.form-card{border:1px solid rgba(156,200,82,.3);background:var(--brand-green-faint)}
+.form-title{font-size:14px;font-weight:700;color:var(--on-surface);margin-bottom:4px;font-family:'Plus Jakarta Sans',sans-serif}
+.form-sub{font-size:11px;color:var(--on-surface-faint);margin-bottom:16px}
 .form-group{margin-bottom:14px}
-.form-label{font-size:10px;font-weight:600;color:var(--navy);letter-spacing:.5px;margin-bottom:6px;display:block}
-.form-input{width:100%;padding:12px;border-radius:10px;border:1.5px solid #E2E8F0;font-size:14px;color:var(--navy);background:var(--gray);outline:none;transition:border-color .2s}
-.form-input:focus{border-color:var(--teal)}
-.form-select{width:100%;padding:12px;border-radius:10px;border:1.5px solid #E2E8F0;font-size:14px;color:var(--navy);background:var(--gray);outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%231B2A4A' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+.form-label{font-size:10px;font-weight:600;color:var(--on-surface);letter-spacing:.5px;margin-bottom:6px;display:block}
+.form-input{width:100%;padding:12px;border-radius:var(--radius-input);border:1.5px solid var(--border);font-size:14px;color:var(--on-surface);background:var(--surface);outline:none;transition:border-color .2s}
+.form-input:focus{border-color:var(--brand-green)}
+.form-select{width:100%;padding:12px;border-radius:10px;border:1.5px solid #DFE5D8;font-size:14px;color:var(--brand-dark);background:var(--surface);outline:none;-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1.5L6 6.5L11 1.5' stroke='%23203319' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
 textarea.form-input{min-height:80px;resize:vertical}
 
 /* Overlay */
 .ov{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;animation:fadeIn .3s ease;padding:24px;overflow-y:auto}
-.ov.ci{background:linear-gradient(135deg,rgba(5,150,105,.96),rgba(13,115,119,.96))}
-.ov.co{background:linear-gradient(135deg,rgba(27,42,74,.96),rgba(13,115,119,.96))}
+.ov.ci{background:linear-gradient(135deg,rgba(156,200,82,.96),rgba(125,166,63,.96))}
+.ov.co{background:linear-gradient(135deg,rgba(32,51,25,.96),rgba(42,68,34,.96))}
 .ov-icon{width:72px;height:72px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;margin-bottom:20px;animation:scaleIn .4s ease;flex-shrink:0}
 .ov-title{color:#fff;font-size:24px;font-weight:700;text-align:center}
 .ov-sub{color:rgba(255,255,255,.85);font-size:14px;margin-top:6px;text-align:center}
@@ -145,12 +145,12 @@ textarea.form-input{min-height:80px;resize:vertical}
 .btn-cont{margin-top:16px;padding:14px 48px;border-radius:12px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);color:#fff;font-size:15px;font-weight:600}
 
 /* Request Submitted Overlay */
-.req-ov{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(27,42,74,.95);animation:fadeIn .3s ease;padding:24px}
+.req-ov{position:fixed;inset:0;z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(32,51,25,.95);animation:fadeIn .3s ease;padding:24px}
 
-.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:12px;font-size:13px;font-weight:600;color:#fff;z-index:200;animation:slideUp .3s ease;max-width:90vw;text-align:center;background:var(--emerald)}
+.toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);padding:12px 24px;border-radius:var(--radius-card);font-size:13px;font-weight:700;color:var(--brand-green);z-index:200;animation:slideUp .3s ease;max-width:90vw;text-align:center;background:var(--brand-dark);box-shadow:0 4px 12px rgba(32,51,25,0.08);font-family:'Plus Jakarta Sans',sans-serif}
 
 .footer{text-align:center;margin-top:20px;padding:12px 0}
-.footer p{font-size:9px;color:#A0AEC0;letter-spacing:1px;line-height:1.6}
+.footer p{font-size:9px;color:var(--on-surface-faint);letter-spacing:1px;line-height:1.6}
 
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 @keyframes geopulse{0%{transform:scale(1);opacity:.5}100%{transform:scale(2);opacity:0}}
@@ -161,7 +161,7 @@ textarea.form-input{min-height:80px;resize:vertical}
 </style>
 </head>
 <body>
-<div id="app"><div style="display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px"><div><div style="width:48px;height:48px;border:3px solid #0D7377;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p style="font-size:14px;font-weight:600;color:#1B2A4A">Loading GoCrew...</p></div></div></div>
+<div id="app"><div style="display:flex;align-items:center;justify-content:center;min-height:100vh;text-align:center;padding:40px"><div><div style="width:48px;height:48px;border:3px solid #9cc852;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p style="font-size:14px;font-weight:600;color:#203319">Loading GoCrew...</p></div></div></div>
 
 <script>
 var CREW_ROSTER = [
@@ -249,15 +249,15 @@ function drawQR(id,sz,anim,sd){
     }else{p[y][x]=r()>.5?1:0}
   }}
   if(!anim){ctx.fillStyle="#FFF";ctx.fillRect(0,0,sz,sz);
-    for(var y2=0;y2<g;y2++)for(var x2=0;x2<g;x2++)if(p[y2][x2]){ctx.fillStyle="#1B2A4A";ctx.fillRect(x2*cs+.5,y2*cs+.5,cs-1,cs-1)}
+    for(var y2=0;y2<g;y2++)for(var x2=0;x2<g;x2++)if(p[y2][x2]){ctx.fillStyle="#203319";ctx.fillRect(x2*cs+.5,y2*cs+.5,cs-1,cs-1)}
     return}
   if(qrAnim)cancelAnimationFrame(qrAnim);
   var fr=0;function draw(){fr++;var t=fr*.02;ctx.clearRect(0,0,sz,sz);ctx.fillStyle="#FFF";ctx.fillRect(0,0,sz,sz);
     for(var y3=0;y3<g;y3++)for(var x3=0;x3<g;x3++)if(p[y3][x3]){var d=Math.sqrt(Math.pow(x3-g/2,2)+Math.pow(y3-g/2,2));
-      ctx.fillStyle="rgba(27,42,74,"+Math.max(.4,Math.min(1,.85+Math.sin(t*2-d*.3)*.15))+")";ctx.fillRect(x3*cs+.5,y3*cs+.5,cs-1,cs-1)}
-    ctx.save();ctx.strokeStyle="#0D7377";ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.lineDashOffset=-t*20;
+      ctx.fillStyle="rgba(32,51,25,"+Math.max(.4,Math.min(1,.85+Math.sin(t*2-d*.3)*.15))+")";ctx.fillRect(x3*cs+.5,y3*cs+.5,cs-1,cs-1)}
+    ctx.save();ctx.strokeStyle="#9cc852";ctx.lineWidth=3;ctx.setLineDash([8,6]);ctx.lineDashOffset=-t*20;
     ctx.beginPath();ctx.arc(sz/2,sz/2,sz*.42,0,Math.PI*2);ctx.stroke();ctx.restore();
-    ctx.strokeStyle="#C4972A";ctx.lineWidth=4;ctx.lineCap="round";
+    ctx.strokeStyle="#EAB308";ctx.lineWidth=4;ctx.lineCap="round";
     [[0,0,1,1],[sz,0,-1,1],[0,sz,1,-1],[sz,sz,-1,-1]].forEach(function(c){
       ctx.beginPath();ctx.moveTo(c[0]+c[2]*4,c[1]+c[3]*4);ctx.lineTo(c[0]+c[2]*4,c[1]+c[3]*20);
       ctx.moveTo(c[0]+c[2]*4,c[1]+c[3]*4);ctx.lineTo(c[0]+c[2]*20,c[1]+c[3]*4);ctx.stroke()});
@@ -714,28 +714,28 @@ function render(){
   // ═══ CREW SELECTION SCREEN ═══
   if(!C){
     h+='<div style="text-align:center;margin-bottom:16px">';
-    h+='<p style="font-size:16px;font-weight:700;color:#1B2A4A;margin-bottom:4px">Select Your Name</p>';
-    h+='<p style="font-size:11px;color:#8896A6">GoCrew System Test - Mar 24, 2026</p>';
-    h+='<p style="font-size:10px;color:#0D7377;margin-top:4px">Marriott Courtyard Downtown, Austin TX</p>';
+    h+='<p style="font-size:16px;font-weight:700;color:#203319;margin-bottom:4px">Select Your Name</p>';
+    h+='<p style="font-size:11px;color:#8A9483">GoCrew System Test - Mar 24, 2026</p>';
+    h+='<p style="font-size:10px;color:#9cc852;margin-top:4px">Marriott Courtyard Downtown, Austin TX</p>';
     h+='</div>';
 
     for(var ci2=0; ci2<CREW_ROSTER.length; ci2++){
       var cr = CREW_ROSTER[ci2];
-      h+='<button onclick="selectCrew('+ci2+')" style="width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1.5px solid #E2E8F0;background:white;margin-bottom:8px;cursor:pointer;font-family:DM Sans,sans-serif;transition:transform .15s;text-align:left">';
-      h+='<div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#1B2A4A,#0D7377);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:white;flex-shrink:0">'+cr.initials+'</div>';
-      h+='<div style="flex:1"><div style="font-size:14px;font-weight:700;color:#1B2A4A">'+cr.name+'</div>';
-      h+='<div style="font-size:11px;color:#8896A6">'+cr.rank+' | '+cr.id+'</div></div>';
-      h+='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#CBD5E0" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>';
+      h+='<button onclick="selectCrew('+ci2+')" style="width:100%;display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:14px;border:1.5px solid #DFE5D8;background:white;margin-bottom:8px;cursor:pointer;font-family:Inter,sans-serif;transition:transform .15s;text-align:left">';
+      h+='<div style="width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,#203319,#9cc852);display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:white;flex-shrink:0">'+cr.initials+'</div>';
+      h+='<div style="flex:1"><div style="font-size:14px;font-weight:700;color:#203319">'+cr.name+'</div>';
+      h+='<div style="font-size:11px;color:#8A9483">'+cr.rank+' | '+cr.id+'</div></div>';
+      h+='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#DFE5D8" stroke-width="2" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>';
       h+='</button>';
     }
 
-    h+='<div style="text-align:center;margin-top:16px;padding:12px;border-radius:10px;background:rgba(13,115,119,.06)">';
-    h+='<p style="font-size:10px;color:#0D7377;font-weight:600">9 Crew Members | Check-In: Mar 24 | Check-Out: Mar 28</p>';
-    h+='<p style="font-size:9px;color:#8896A6;margin-top:4px">Confirmation numbers and assignments pre-loaded from GC_03</p>';
+    h+='<div style="text-align:center;margin-top:16px;padding:12px;border-radius:10px;background:rgba(156,200,82,.06)">';
+    h+='<p style="font-size:10px;color:#9cc852;font-weight:600">9 Crew Members | Check-In: Mar 24 | Check-Out: Mar 28</p>';
+    h+='<p style="font-size:9px;color:#8A9483;margin-top:4px">Confirmation numbers and assignments pre-loaded from GC_03</p>';
     h+='</div>';
 
     h+='<div class="footer"><p class="mono">CMMC L2 &middot; AES-256 &middot; TLS 1.3 &middot; FIPS 140-2 &middot; ZERO TRUST</p>';
-    h+='<p class="mono" style="margin-top:6px;font-size:8px;color:#CBD5E0">GoCrew v1.7 - Live Test</p></div></div>';
+    h+='<p class="mono" style="margin-top:6px;font-size:8px;color:#DFE5D8">GoCrew v1.7 - Live Test</p></div></div>';
     
     $("app").innerHTML = h;
     return;  // Don't render the rest until crew is selected
@@ -748,11 +748,11 @@ function render(){
 
   // ═══ QR TAB ═══
   if(tab==="checkin"&&state==="READY"){
-    h+='<div class="card qr-wrap"><p class="mono" style="font-size:12px;color:#8896A6;margin-bottom:16px;letter-spacing:1px">PRESENT TO FRONT DESK</p>';
+    h+='<div class="card qr-wrap"><p class="mono" style="font-size:12px;color:#8A9483;margin-bottom:16px;letter-spacing:1px">PRESENT TO FRONT DESK</p>';
     h+='<canvas id="qr-main" width="400" height="400" style="width:200px;height:200px"></canvas>';
-    h+='<p class="mono" style="font-size:11px;color:#A0AEC0;margin-top:12px">Token refreshes every 30s</p>';
-    h+='<div style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;background:rgba(13,115,119,.08);color:var(--teal);font-size:10px;font-weight:600;margin-top:8px" class="mono"><span id="tv">'+qrTimer+'</span>s</div>';
-    h+='<div class="geo"><div class="geo-ring"></div><span class="mono" style="font-size:11px;color:var(--emerald);font-weight:600">'+geoSt+'</span></div></div>';
+    h+='<p class="mono" style="font-size:11px;color:#8A9483;margin-top:12px">Token refreshes every 30s</p>';
+    h+='<div style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:12px;background:rgba(156,200,82,.08);color:var(--brand-green);font-size:10px;font-weight:600;margin-top:8px" class="mono"><span id="tv">'+qrTimer+'</span>s</div>';
+    h+='<div class="geo"><div class="geo-ring"></div><span class="mono" style="font-size:11px;color:var(--brand-green);font-weight:600">'+geoSt+'</span></div></div>';
   }
 
   // ═══ WALLET TAB ═══
@@ -769,58 +769,58 @@ function render(){
     h+='<div class="wp-f"><label class="mono">CONFIRM</label><span style="font-size:11px">'+C.conf+'</span></div>';
     h+='</div></div>';
     h+='<div class="wp-qr"><canvas id="wallet-qr" width="300" height="300" style="width:150px;height:150px"></canvas>';
-    h+='<p class="mono" style="font-size:9px;color:#8896A6;margin-top:6px">Scan at front desk or kiosk</p></div>';
-    h+='<div class="wp-ft"><span class="mono" style="font-size:11px;color:rgba(255,255,255,.4)">'+C.asg+'</span><span class="mono" style="font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(5,150,105,.2);color:var(--emerald);font-weight:600">FRS '+frs+'/100 CLEARED</span></div></div>';
+    h+='<p class="mono" style="font-size:9px;color:#8A9483;margin-top:6px">Scan at front desk or kiosk</p></div>';
+    h+='<div class="wp-ft"><span class="mono" style="font-size:11px;color:rgba(255,255,255,.4)">'+C.asg+'</span><span class="mono" style="font-size:9px;padding:3px 8px;border-radius:4px;background:rgba(156,200,82,.2);color:var(--brand-green);font-weight:600">FRS '+frs+'/100 CLEARED</span></div></div>';
 
     h+='<div class="wbtns">';
     h+='<button class="wbtn wbtn-a" onclick="generatePassFile(\'apple\')">'+appleIcon+' Save to Home Screen</button>';
     h+='<button class="wbtn wbtn-g" onclick="generatePassFile(\'google\')">'+googleIcon+' Save to Home Screen</button>';
     h+='</div>';
 
-    h+='<div class="card" style="padding:16px"><p style="font-size:11px;color:var(--navy);font-weight:600;margin-bottom:6px">How It Works</p><p style="font-size:9px;color:var(--teal);margin-bottom:8px;font-style:italic">Production version: saves directly to Apple Wallet / Google Wallet with live-updating QR code and location-based notifications.</p>';
-    h+='<p style="font-size:10px;color:#8896A6;line-height:1.6"><strong>iPhone:</strong> Saves your check-in as a contact card with all details - property, room, dates, confirmation, crew ID. Find it instantly in Contacts by searching GoCrew. You can also add this page to your Home Screen for one-tap access.<br><br><strong>Android:</strong> Saves a calendar event with all check-in details, property location, and a 2-hour reminder before check-in. Get notified automatically.</p></div>';
+    h+='<div class="card" style="padding:16px"><p style="font-size:11px;color:var(--brand-dark);font-weight:600;margin-bottom:6px">How It Works</p><p style="font-size:9px;color:var(--brand-green);margin-bottom:8px;font-style:italic">Production version: saves directly to Apple Wallet / Google Wallet with live-updating QR code and location-based notifications.</p>';
+    h+='<p style="font-size:10px;color:#8A9483;line-height:1.6"><strong>iPhone:</strong> Saves your check-in as a contact card with all details - property, room, dates, confirmation, crew ID. Find it instantly in Contacts by searching GoCrew. You can also add this page to your Home Screen for one-tap access.<br><br><strong>Android:</strong> Saves a calendar event with all check-in details, property location, and a 2-hour reminder before check-in. Get notified automatically.</p></div>';
   }
 
   // ═══ SELF CHECK-IN TAB ═══
   if(tab==="selfservice"&&state==="READY"){
-    h+='<div class="card" style="padding:16px;text-align:center"><p style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">Self-Service Check-In</p><p style="font-size:11px;color:#8896A6;line-height:1.5">Scan the GoCrew QR code posted at the hotel lobby or kiosk. No waiting in line.</p></div>';
+    h+='<div class="card" style="padding:16px;text-align:center"><p style="font-size:13px;font-weight:700;color:var(--brand-dark);margin-bottom:4px">Self-Service Check-In</p><p style="font-size:11px;color:#8A9483;line-height:1.5">Scan the GoCrew QR code posted at the hotel lobby or kiosk. No waiting in line.</p></div>';
     if(!scanResult&&!scanActive){
       h+='<button class="btn btn-g" onclick="startScan()"><span style="display:inline-flex;align-items:center;gap:8px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round"><path d="M4 7V4h3M20 7V4h-3M4 17v3h3M20 17v3h-3"/><rect x="7" y="7" width="10" height="10" rx="1"/></svg>Open Camera</span></button>';
-      h+='<div class="card" style="text-align:center"><p style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:4px">Demo: Property QR</p>';
+      h+='<div class="card" style="text-align:center"><p style="font-size:12px;font-weight:600;color:var(--brand-dark);margin-bottom:4px">Demo: Property QR</p>';
       h+='<canvas id="prop-qr" width="240" height="240" style="width:120px;height:120px;display:block;margin:8px auto;border-radius:8px"></canvas>';
       h+='<button class="btn btn-o btn-sm" onclick="doSelfCheckIn()">Simulate Scan</button></div>';
     } else if(scanActive){
       h+='<div style="background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 24px rgba(0,0,0,.06);margin-bottom:16px">';
-      h+='<div style="padding:16px 20px;background:#1B2A4A;color:#fff;text-align:center"><p style="font-size:14px;font-weight:700;margin-bottom:4px">Scanning...</p><p style="font-size:11px;color:rgba(255,255,255,.6)">Point camera at property QR code</p></div>';
+      h+='<div style="padding:16px 20px;background:#203319;color:#fff;text-align:center"><p style="font-size:14px;font-weight:700;margin-bottom:4px">Scanning...</p><p style="font-size:11px;color:rgba(255,255,255,.6)">Point camera at property QR code</p></div>';
       h+='<div id="cam-container" style="width:100%;height:300px;background:#000;position:relative;overflow:hidden">';
       h+='<video id="cam-v" autoplay playsinline muted webkit-playsinline style="width:100%;height:100%;object-fit:cover"></video>';
       h+='<div id="cam-error"></div>';
-      h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5"><div style="width:180px;height:180px;border:3px solid #C4972A;border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.35)"></div></div>';
+      h+='<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;z-index:5"><div style="width:180px;height:180px;border:3px solid #EAB308;border-radius:12px;box-shadow:0 0 0 2000px rgba(0,0,0,.35)"></div></div>';
       h+='</div>';
       h+='<div style="padding:12px 16px">';
       h+='<button class="btn btn-o btn-sm" onclick="stopScan()">Cancel</button>';
       h+='<button class="btn btn-g btn-sm" onclick="doSelfCheckIn()" style="margin-bottom:0">Simulate Successful Scan</button>';
       h+='</div></div>';
     } else if(scanResult==="validating"){
-      h+='<div class="card" style="text-align:center;padding:40px 20px"><div style="width:48px;height:48px;border:3px solid var(--teal);border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p style="font-size:14px;font-weight:700;color:var(--navy)">Validating...</p><p style="font-size:11px;color:#8896A6;margin-top:8px">Property + Assignment + Geofence + 7-Layer FRS</p></div>';
+      h+='<div class="card" style="text-align:center;padding:40px 20px"><div style="width:48px;height:48px;border:3px solid var(--brand-green);border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 16px"></div><p style="font-size:14px;font-weight:700;color:var(--brand-dark)">Validating...</p><p style="font-size:11px;color:#8A9483;margin-top:8px">Property + Assignment + Geofence + 7-Layer FRS</p></div>';
     } else if(scanResult==="success"){
-      h+='<div class="card" style="text-align:center;padding:32px 20px;border:2px solid rgba(5,150,105,.3)"><div style="font-size:40px;margin-bottom:8px">&#10003;</div><p style="font-size:16px;font-weight:700;color:var(--emerald)">Property Verified</p><p style="font-size:12px;color:#8896A6;margin-top:4px">'+C.prop+'</p></div>';
+      h+='<div class="card" style="text-align:center;padding:32px 20px;border:2px solid rgba(156,200,82,.3)"><div style="font-size:40px;margin-bottom:8px">&#10003;</div><p style="font-size:16px;font-weight:700;color:var(--brand-green)">Property Verified</p><p style="font-size:12px;color:#8A9483;margin-top:4px">'+C.prop+'</p></div>';
     }
   }
 
   // ═══ MANAGE STAY TAB ═══
   if(tab==="manage"&&state==="CHECKED_IN"){
-    h+='<div class="card" style="padding:16px;text-align:center"><p style="font-size:13px;font-weight:700;color:var(--navy);margin-bottom:4px">Manage Your Stay</p><p style="font-size:11px;color:#8896A6">Request changes to your assignment directly from your phone.</p></div>';
+    h+='<div class="card" style="padding:16px;text-align:center"><p style="font-size:13px;font-weight:700;color:var(--brand-dark);margin-bottom:4px">Manage Your Stay</p><p style="font-size:11px;color:#8A9483">Request changes to your assignment directly from your phone.</p></div>';
 
     h+='<div class="manage-btns">';
     h+='<button class="manage-btn ext" onclick="showForm(\'extend\')">';
-    h+='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
+    h+='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand-green)" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>';
     h+='Extend Stay</button>';
     h+='<button class="manage-btn early" onclick="showForm(\'early\')">';
-    h+='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
+    h+='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--state-yellow)" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>';
     h+='Early Departure</button>';
-    h+='<button class="manage-btn" onclick="showForm(\'roomchange\')" style="border-color:rgba(27,42,74,.3)">';
-    h+='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M14 9l3 3-3 3"/></svg>';
+    h+='<button class="manage-btn" onclick="showForm(\'roomchange\')" style="border-color:rgba(32,51,25,.3)">';
+    h+='<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--brand-dark)" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 3v18"/><path d="M14 9l3 3-3 3"/></svg>';
     h+='Change Room</button>';
     h+='</div>';
 
@@ -840,7 +840,7 @@ function render(){
 
     // Early departure form
     if(overlay==="form_early"){
-      h+='<div class="card form-card" style="border-color:rgba(196,151,42,.3);background:rgba(196,151,42,.02)">';
+      h+='<div class="card form-card" style="border-color:rgba(234,179,8,.3);background:rgba(234,179,8,.02)">';
       h+='<div class="form-title">Request Early Departure</div>';
       h+='<div class="form-sub">Your current check-out: <strong>'+C.co+'</strong></div>';
       h+='<div class="form-group"><label class="form-label">REQUESTED DEPARTURE DATE</label><input type="date" class="form-input" id="early-date" value="2026-03-25"></div>';
@@ -855,7 +855,7 @@ function render(){
 
     // Room change form
     if(overlay==="form_roomchange"){
-      h+='<div class="card form-card" style="border-color:rgba(27,42,74,.3);background:rgba(27,42,74,.02)">';
+      h+='<div class="card form-card" style="border-color:rgba(32,51,25,.3);background:rgba(32,51,25,.02)">';
       h+='<div class="form-title">Request Room Change</div>';
       h+='<div class="form-sub">Current room: <strong>'+C.room+' ('+C.rt+')</strong></div>';
       h+='<div class="form-group"><label class="form-label">NEW ROOM NUMBER</label><input type="text" class="form-input" id="newroom-input" inputmode="numeric" placeholder="Enter new room number"></div>';
@@ -868,28 +868,28 @@ function render(){
     }
 
     if(!overlay||overlay==="req_sent"){
-      h+='<div class="card" style="padding:16px"><p style="font-size:11px;color:var(--navy);font-weight:600;margin-bottom:6px">How Requests Work</p>';
-      h+='<p style="font-size:10px;color:#8896A6;line-height:1.6">Requests are routed to Operations for approval. You will receive confirmation within 2 hours. Extensions may require rate re-approval. Early departures update the roster and trigger financial reconciliation. All requests are logged in the GoCrew system with full audit trail.</p></div>';
+      h+='<div class="card" style="padding:16px"><p style="font-size:11px;color:var(--brand-dark);font-weight:600;margin-bottom:6px">How Requests Work</p>';
+      h+='<p style="font-size:10px;color:#8A9483;line-height:1.6">Requests are routed to Operations for approval. You will receive confirmation within 2 hours. Extensions may require rate re-approval. Early departures update the roster and trigger financial reconciliation. All requests are logged in the GoCrew system with full audit trail.</p></div>';
     }
   }
 
   // ═══ ASSIGNMENT + CREW CARDS ═══
   if(state!=="CHECKED_OUT"&&tab!=="wallet"&&tab!=="manage"){
-    h+='<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div style="width:36px;height:36px;border-radius:10px;background:rgba(27,42,74,.05);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div style="font-size:14px;font-weight:700;color:var(--navy)">'+C.prop+'</div><div style="font-size:11px;color:#8896A6">'+C.addr+'</div></div></div>';
+    h+='<div class="card"><div style="display:flex;align-items:center;gap:8px;margin-bottom:14px"><div style="width:36px;height:36px;border-radius:10px;background:rgba(32,51,25,.05);display:flex;align-items:center;justify-content:center;flex-shrink:0"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand-dark)" stroke-width="2" stroke-linecap="round"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg></div><div><div style="font-size:14px;font-weight:700;color:var(--brand-dark)">'+C.prop+'</div><div style="font-size:11px;color:#8A9483">'+C.addr+'</div></div></div>';
     h+='<div class="grid"><div class="gi"><div class="gl mono">CHECK IN</div><div class="gv">'+C.ci+'</div></div><div class="gi"><div class="gl mono">CHECK OUT</div><div class="gv">'+C.co+'</div></div><div class="gi"><div class="gl mono">CONFIRMATION</div><div class="gv">'+C.conf+'</div></div><div class="gi"><div class="gl mono">ROOM</div><div class="gv">'+C.room+' ('+C.rt+')</div></div></div>';
-    h+='<div class="frs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--teal)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg><span class="mono" style="font-size:11px;color:var(--teal)">FRS: '+frs+'/100 CLEARED</span><div class="frs-dots"><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div></div></div></div>';
+    h+='<div class="frs"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--brand-green)" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg><span class="mono" style="font-size:11px;color:var(--brand-green)">FRS: '+frs+'/100 CLEARED</span><div class="frs-dots"><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div><div class="frs-dot"></div></div></div></div>';
     // Property Contact + Directions
     h+='<div class="card" style="padding:16px">';
     h+='<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">';
-    h+='<span style="font-size:12px;font-weight:700;color:#1B2A4A">Property Contact</span>';
-    h+='<a href="https://maps.google.com/?q='+encodeURIComponent(C.prop+' '+C.addr)+'" target="_blank" style="font-size:10px;font-weight:600;color:#0D7377;text-decoration:none;padding:4px 10px;border-radius:8px;background:rgba(13,115,119,.08)">Get Directions</a>';
+    h+='<span style="font-size:12px;font-weight:700;color:#203319">Property Contact</span>';
+    h+='<a href="https://maps.google.com/?q='+encodeURIComponent(C.prop+' '+C.addr)+'" target="_blank" style="font-size:10px;font-weight:600;color:#9cc852;text-decoration:none;padding:4px 10px;border-radius:8px;background:rgba(156,200,82,.08)">Get Directions</a>';
     h+='</div>';
     h+='<div style="display:flex;gap:8px">';
-    h+='<a href="tel:'+C.phone+'" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:#F2F4F7;text-decoration:none;color:#1B2A4A;font-size:11px;font-weight:600">';
-    h+='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0D7377" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>';
+    h+='<a href="tel:'+C.phone+'" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:#F5F7F2;text-decoration:none;color:#203319;font-size:11px;font-weight:600">';
+    h+='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9cc852" stroke-width="2" stroke-linecap="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>';
     h+='Call Front Desk</a>';
-    h+='<a href="mailto:'+C.email+'" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:#F2F4F7;text-decoration:none;color:#1B2A4A;font-size:11px;font-weight:600">';
-    h+='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0D7377" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>';
+    h+='<a href="mailto:'+C.email+'" style="flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:10px;border-radius:10px;background:#F5F7F2;text-decoration:none;color:#203319;font-size:11px;font-weight:600">';
+    h+='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#9cc852" stroke-width="2" stroke-linecap="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>';
     h+='Email</a>';
     h+='</div>';
     h+='</div>';
@@ -900,27 +900,27 @@ function render(){
 
   // ═══ ROOM CONFIRMATION ═══
   if(showRoomConfirm){
-    h+='<div style="position:fixed;inset:0;z-index:90;background:rgba(27,42,74,.6);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .3s">';
+    h+='<div style="position:fixed;inset:0;z-index:90;background:rgba(32,51,25,.6);display:flex;align-items:center;justify-content:center;padding:24px;animation:fadeIn .3s">';
     h+='<div style="background:white;border-radius:24px;padding:28px;max-width:360px;width:100%;text-align:center;box-shadow:0 24px 48px rgba(0,0,0,.2)">';
-    h+='<div style="width:56px;height:56px;border-radius:50%;background:rgba(13,115,119,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#0D7377" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>';
-    h+='<p style="font-size:9px;color:#0D7377;font-weight:600;letter-spacing:1px;margin-bottom:8px" class="mono">STEP '+ roomStep +' OF 2</p>';
-    h+='<p style="font-size:18px;font-weight:700;color:#1B2A4A;margin-bottom:6px">'+(roomStep===1?"Enter Room Number":"Confirm Room Number")+'</p>';
-    h+='<p style="font-size:12px;color:#8896A6;margin-bottom:20px;line-height:1.5">'+(roomStep===1?"Enter the room number you have been assigned.":"Re-enter your room number to confirm.")+'</p>';
+    h+='<div style="width:56px;height:56px;border-radius:50%;background:rgba(156,200,82,.1);display:flex;align-items:center;justify-content:center;margin:0 auto 16px"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#9cc852" stroke-width="2" stroke-linecap="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>';
+    h+='<p style="font-size:9px;color:#9cc852;font-weight:600;letter-spacing:1px;margin-bottom:8px" class="mono">STEP '+ roomStep +' OF 2</p>';
+    h+='<p style="font-size:18px;font-weight:700;color:#203319;margin-bottom:6px">'+(roomStep===1?"Enter Room Number":"Confirm Room Number")+'</p>';
+    h+='<p style="font-size:12px;color:#8A9483;margin-bottom:20px;line-height:1.5">'+(roomStep===1?"Enter the room number you have been assigned.":"Re-enter your room number to confirm.")+'</p>';
     if(roomStep===1){
       h+='<input type="tel" id="room-input" inputmode="numeric" autocomplete="off" placeholder="Room #" maxlength="6" ';
-      h+='style="width:100%;padding:18px;border-radius:14px;border:2.5px solid '+(roomError?"#DC2626":"#E2E8F0")+';font-size:28px;text-align:center;font-weight:700;color:#1B2A4A;background:'+(roomError?"rgba(220,38,38,.04)":"#F2F4F7")+';outline:none;font-family:DM Mono,monospace;letter-spacing:10px" ';
+      h+='style="width:100%;padding:18px;border-radius:14px;border:2.5px solid '+(roomError?"#DC2626":"#DFE5D8")+';font-size:28px;text-align:center;font-weight:700;color:#203319;background:'+(roomError?"rgba(220,38,38,.04)":"#F5F7F2")+';outline:none;font-family:SF Mono,monospace;letter-spacing:10px" ';
       h+='onkeyup="if(event.keyCode===13)confirmRoom()">';
     } else {
-      h+='<div style="background:#F2F4F7;border-radius:10px;padding:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:10px;color:#8896A6">You entered:</span><span style="font-size:20px;font-weight:700;color:#1B2A4A;font-family:DM Mono,monospace;letter-spacing:6px">'+roomInput+'</span></div>';
+      h+='<div style="background:#F5F7F2;border-radius:10px;padding:10px;margin-bottom:12px;display:flex;align-items:center;justify-content:center;gap:8px"><span style="font-size:10px;color:#8A9483">You entered:</span><span style="font-size:20px;font-weight:700;color:#203319;font-family:SF Mono,monospace;letter-spacing:6px">'+roomInput+'</span></div>';
       h+='<input type="tel" id="room-input-2" inputmode="numeric" autocomplete="off" placeholder="Re-enter room #" maxlength="6" ';
-      h+='style="width:100%;padding:18px;border-radius:14px;border:2.5px solid '+(roomError?"#DC2626":"#E2E8F0")+';font-size:28px;text-align:center;font-weight:700;color:#1B2A4A;background:'+(roomError?"rgba(220,38,38,.04)":"#F2F4F7")+';outline:none;font-family:DM Mono,monospace;letter-spacing:10px" ';
+      h+='style="width:100%;padding:18px;border-radius:14px;border:2.5px solid '+(roomError?"#DC2626":"#DFE5D8")+';font-size:28px;text-align:center;font-weight:700;color:#203319;background:'+(roomError?"rgba(220,38,38,.04)":"#F5F7F2")+';outline:none;font-family:SF Mono,monospace;letter-spacing:10px" ';
       h+='onkeyup="if(event.keyCode===13)confirmRoom()">';
     }
     if(roomError){
       h+='<p style="font-size:12px;color:#DC2626;margin-top:10px;font-weight:600">'+roomErrorMsg+'</p>';
     }
-    h+='<button onclick="confirmRoom()" style="width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.85));color:white;font-size:15px;font-weight:700;margin-top:16px;cursor:pointer;font-family:DM Sans,sans-serif">'+(roomStep===1?"Next":"Verify & Check In")+'</button>';
-    h+='<button onclick="cancelRoomConfirm()" style="width:100%;padding:12px;border-radius:14px;border:2px solid #E2E8F0;background:transparent;color:#1B2A4A;font-size:13px;font-weight:600;margin-top:8px;cursor:pointer;font-family:DM Sans,sans-serif">Cancel</button>';
+    h+='<button onclick="confirmRoom()" style="width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#9cc852,rgba(156,200,82,.85));color:white;font-size:15px;font-weight:700;margin-top:16px;cursor:pointer;font-family:Inter,sans-serif">'+(roomStep===1?"Next":"Verify & Check In")+'</button>';
+    h+='<button onclick="cancelRoomConfirm()" style="width:100%;padding:12px;border-radius:14px;border:2px solid #DFE5D8;background:transparent;color:#203319;font-size:13px;font-weight:600;margin-top:8px;cursor:pointer;font-family:Inter,sans-serif">Cancel</button>';
     h+='</div></div>';
   }
 
@@ -934,15 +934,15 @@ function render(){
     if(!feedbackDone){
       h+='<div class="card" style="padding:24px;text-align:center">';
       h+='<div style="font-size:36px;margin-bottom:8px">&#9989;</div>';
-      h+='<div style="font-size:16px;font-weight:700;color:var(--navy);margin-bottom:4px">Stay Complete</div>';
-      h+='<div style="font-size:12px;color:#8896A6;margin-bottom:20px">All records synced. Please rate your stay.</div>';
+      h+='<div style="font-size:16px;font-weight:700;color:var(--brand-dark);margin-bottom:4px">Stay Complete</div>';
+      h+='<div style="font-size:12px;color:#8A9483;margin-bottom:20px">All records synced. Please rate your stay.</div>';
       
       // Star rating
       h+='<div style="margin-bottom:16px">';
-      h+='<p style="font-size:11px;font-weight:600;color:#1B2A4A;margin-bottom:8px">How was your stay at '+C.prop+'?</p>';
+      h+='<p style="font-size:11px;font-weight:600;color:#203319;margin-bottom:8px">How was your stay at '+C.prop+'?</p>';
       h+='<div id="stars" style="display:flex;justify-content:center;gap:8px">';
       for(var s=1;s<=5;s++){
-        h+='<span onclick="setRating('+s+')" style="font-size:32px;cursor:pointer;color:'+(s<=feedbackRating?"#C4972A":"#E2E8F0")+'">'+(s<=feedbackRating?"&#9733;":"&#9734;")+'</span>';
+        h+='<span onclick="setRating('+s+')" style="font-size:32px;cursor:pointer;color:'+(s<=feedbackRating?"#EAB308":"#DFE5D8")+'">'+(s<=feedbackRating?"&#9733;":"&#9734;")+'</span>';
       }
       h+='</div></div>';
       
@@ -951,14 +951,14 @@ function render(){
       var tags = ["Clean","Comfortable","Good location","Friendly staff","Quiet","Needs improvement"];
       for(var t2=0;t2<tags.length;t2++){
         var sel = feedbackTags.indexOf(tags[t2]) >= 0;
-        h+='<button onclick="toggleTag(\''+tags[t2]+'\')" style="padding:6px 12px;border-radius:20px;border:1.5px solid '+(sel?"#0D7377":"#E2E8F0")+';background:'+(sel?"rgba(13,115,119,.08)":"white")+';color:'+(sel?"#0D7377":"#8896A6")+';font-size:11px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">'+tags[t2]+'</button>';
+        h+='<button onclick="toggleTag(\''+tags[t2]+'\')" style="padding:6px 12px;border-radius:20px;border:1.5px solid '+(sel?"#9cc852":"#DFE5D8")+';background:'+(sel?"rgba(156,200,82,.08)":"white")+';color:'+(sel?"#9cc852":"#8A9483")+';font-size:11px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">'+tags[t2]+'</button>';
       }
       h+='</div>';
       
       // Issues
       h+='<div style="margin-bottom:16px;text-align:left">';
-      h+='<label style="font-size:10px;font-weight:600;color:#1B2A4A;letter-spacing:.5px;display:block;margin-bottom:6px">COMMENTS (OPTIONAL)</label>';
-      h+='<textarea id="feedback-text" placeholder="Any issues or comments about your stay..." style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #E2E8F0;font-size:12px;min-height:60px;resize:vertical;font-family:DM Sans,sans-serif;color:#1B2A4A;outline:none"></textarea>';
+      h+='<label style="font-size:10px;font-weight:600;color:#203319;letter-spacing:.5px;display:block;margin-bottom:6px">COMMENTS (OPTIONAL)</label>';
+      h+='<textarea id="feedback-text" placeholder="Any issues or comments about your stay..." style="width:100%;padding:12px;border-radius:10px;border:1.5px solid #DFE5D8;font-size:12px;min-height:60px;resize:vertical;font-family:Inter,sans-serif;color:#203319;outline:none"></textarea>';
       h+='</div>';
       
       h+='<button class="btn btn-t" onclick="submitFeedback()" style="margin-bottom:0">Submit Feedback</button>';
@@ -966,9 +966,9 @@ function render(){
     } else {
       h+='<div class="card" style="text-align:center;padding:24px">';
       h+='<div style="font-size:36px;margin-bottom:8px">&#9989;</div>';
-      h+='<div style="font-size:16px;font-weight:700;color:var(--navy)">Stay Complete</div>';
-      h+='<div style="font-size:12px;color:var(--emerald);margin-top:4px">Thank you for your feedback!</div>';
-      h+='<div style="font-size:11px;color:#8896A6;margin-top:8px">All records synced to Mission Data Brain</div>';
+      h+='<div style="font-size:16px;font-weight:700;color:var(--brand-dark)">Stay Complete</div>';
+      h+='<div style="font-size:12px;color:var(--brand-green);margin-top:4px">Thank you for your feedback!</div>';
+      h+='<div style="font-size:11px;color:#8A9483;margin-top:8px">All records synced to Mission Data Brain</div>';
       h+='</div>';
     }
   }
@@ -979,20 +979,20 @@ function render(){
     var undoSecs = Math.max(0, undoWindow - Math.floor((Date.now()-checkinTime)/1000));
     var undoMins = Math.floor(undoSecs/60);
     h+='<div style="text-align:center;margin-bottom:12px">';
-    h+='<button onclick="undoCheckIn()" style="padding:12px 24px;border-radius:12px;border:2px solid rgba(220,38,38,.3);background:rgba(220,38,38,.05);color:#DC2626;font-size:12px;font-weight:600;cursor:pointer;font-family:DM Sans,sans-serif">Checked in by mistake? Undo ('+undoMins+' min left)</button>';
+    h+='<button onclick="undoCheckIn()" style="padding:12px 24px;border-radius:12px;border:2px solid rgba(220,38,38,.3);background:rgba(220,38,38,.05);color:#DC2626;font-size:12px;font-weight:600;cursor:pointer;font-family:Inter,sans-serif">Checked in by mistake? Undo ('+undoMins+' min left)</button>';
     h+='</div>';
   }
 
   // Help + Support
   h+='<div style="text-align:center;margin-bottom:12px">';
-  h+='<a href="tel:+18005551234" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:12px;background:rgba(13,115,119,.08);border:1px solid rgba(13,115,119,.15);text-decoration:none;color:#0D7377;font-size:12px;font-weight:600">';
-  h+='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0D7377" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>';
+  h+='<a href="tel:+18005551234" style="display:inline-flex;align-items:center;gap:6px;padding:10px 20px;border-radius:12px;background:rgba(156,200,82,.08);border:1px solid rgba(156,200,82,.15);text-decoration:none;color:#9cc852;font-size:12px;font-weight:600">';
+  h+='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9cc852" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>';
   h+='Need Help? Call GoCrew Support 24/7</a></div>';
 
   h+='<div class="footer">';
   h+='<p class="mono">CMMC L2 &middot; AES-256 &middot; TLS 1.3 &middot; FIPS 140-2 &middot; ZERO TRUST</p>';
-  h+='<p style="margin-top:8px"><a href="#" onclick="showTerms();return false" style="font-size:9px;color:#A0AEC0;margin-right:12px">Terms of Service</a><a href="#" onclick="showPrivacy();return false" style="font-size:9px;color:#A0AEC0">Privacy Policy</a></p>';
-  h+='<p class="mono" style="margin-top:6px;font-size:8px;color:#CBD5E0">GoCrew v1.7 - Live Test by Crew Logistics</p>';
+  h+='<p style="margin-top:8px"><a href="#" onclick="showTerms();return false" style="font-size:9px;color:#8A9483;margin-right:12px">Terms of Service</a><a href="#" onclick="showPrivacy();return false" style="font-size:9px;color:#8A9483">Privacy Policy</a></p>';
+  h+='<p class="mono" style="margin-top:6px;font-size:8px;color:#DFE5D8">GoCrew v1.7 - Live Test by Crew Logistics</p>';
   h+='</div></div>';
 
   // ═══ SUCCESS OVERLAY ═══
@@ -1034,7 +1034,7 @@ function render(){
     h+='<div style="max-width:360px;width:100%;text-align:center">';
     
     // GoCrew icon
-    h+='<div style="width:72px;height:72px;border-radius:18px;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.8));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;font-weight:700;color:white;box-shadow:0 8px 24px rgba(13,115,119,.4)">G</div>';
+    h+='<div style="width:72px;height:72px;border-radius:18px;background:linear-gradient(135deg,#9cc852,rgba(156,200,82,.8));display:flex;align-items:center;justify-content:center;margin:0 auto 20px;font-size:28px;font-weight:700;color:white;box-shadow:0 8px 24px rgba(156,200,82,.4)">G</div>';
     
     h+='<p style="font-size:22px;font-weight:700;color:white;margin-bottom:8px">Save GoCrew</p>';
     h+='<p style="font-size:13px;color:rgba(255,255,255,.7);margin-bottom:24px;line-height:1.5">Add GoCrew to your home screen for one-tap access to your check-in pass. Works like a native app.</p>';
@@ -1045,46 +1045,46 @@ function render(){
     if(isIOS){
       // iPhone instructions
       h+='<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px">';
-      h+='<div style="width:28px;height:28px;border-radius:50%;background:#0D7377;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">1</div>';
+      h+='<div style="width:28px;height:28px;border-radius:50%;background:#9cc852;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">1</div>';
       h+='<div><p style="font-size:13px;font-weight:600;color:white;margin-bottom:2px">Tap the Share button</p>';
       h+='<p style="font-size:11px;color:rgba(255,255,255,.6)">The square with an arrow <span style="display:inline-block;border:1.5px solid rgba(255,255,255,.5);border-radius:3px;width:16px;height:16px;text-align:center;line-height:14px;font-size:9px;vertical-align:middle">&#8593;</span> at the bottom of Safari</p></div></div>';
       
       h+='<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px">';
-      h+='<div style="width:28px;height:28px;border-radius:50%;background:#0D7377;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">2</div>';
+      h+='<div style="width:28px;height:28px;border-radius:50%;background:#9cc852;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">2</div>';
       h+='<div><p style="font-size:13px;font-weight:600;color:white;margin-bottom:2px">Scroll down in the menu</p>';
-      h+='<p style="font-size:11px;color:rgba(255,255,255,.6)">Find and tap <strong style="color:#0D7377">Add to Home Screen</strong></p></div></div>';
+      h+='<p style="font-size:11px;color:rgba(255,255,255,.6)">Find and tap <strong style="color:#9cc852">Add to Home Screen</strong></p></div></div>';
       
       h+='<div style="display:flex;align-items:flex-start;gap:12px">';
-      h+='<div style="width:28px;height:28px;border-radius:50%;background:#0D7377;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">3</div>';
+      h+='<div style="width:28px;height:28px;border-radius:50%;background:#9cc852;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">3</div>';
       h+='<div><p style="font-size:13px;font-weight:600;color:white;margin-bottom:2px">Tap Add</p>';
       h+='<p style="font-size:11px;color:rgba(255,255,255,.6)">GoCrew icon appears on your home screen</p></div></div>';
       
       if(!isSafari){
-        h+='<div style="margin-top:16px;padding:12px;border-radius:10px;background:rgba(196,151,42,.15);border:1px solid rgba(196,151,42,.3)">';
-        h+='<p style="font-size:11px;color:#C4972A;font-weight:600">Open in Safari first</p>';
-        h+='<p style="font-size:10px;color:rgba(196,151,42,.8);margin-top:4px">Add to Home Screen only works in Safari. Tap the menu and select "Open in Safari" or copy the link to Safari.</p></div>';
+        h+='<div style="margin-top:16px;padding:12px;border-radius:10px;background:rgba(234,179,8,.15);border:1px solid rgba(234,179,8,.3)">';
+        h+='<p style="font-size:11px;color:#EAB308;font-weight:600">Open in Safari first</p>';
+        h+='<p style="font-size:10px;color:rgba(234,179,8,.8);margin-top:4px">Add to Home Screen only works in Safari. Tap the menu and select "Open in Safari" or copy the link to Safari.</p></div>';
       }
     } else {
       // Android instructions
       h+='<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px">';
-      h+='<div style="width:28px;height:28px;border-radius:50%;background:#0D7377;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">1</div>';
+      h+='<div style="width:28px;height:28px;border-radius:50%;background:#9cc852;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">1</div>';
       h+='<div><p style="font-size:13px;font-weight:600;color:white;margin-bottom:2px">Tap the menu</p>';
       h+='<p style="font-size:11px;color:rgba(255,255,255,.6)">Three dots <strong>&#8942;</strong> at the top right of Chrome</p></div></div>';
       
       h+='<div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px">';
-      h+='<div style="width:28px;height:28px;border-radius:50%;background:#0D7377;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">2</div>';
+      h+='<div style="width:28px;height:28px;border-radius:50%;background:#9cc852;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">2</div>';
       h+='<div><p style="font-size:13px;font-weight:600;color:white;margin-bottom:2px">Tap Install App or Add to Home Screen</p>';
       h+='<p style="font-size:11px;color:rgba(255,255,255,.6)">GoCrew installs as a standalone app</p></div></div>';
       
       h+='<div style="display:flex;align-items:flex-start;gap:12px">';
-      h+='<div style="width:28px;height:28px;border-radius:50%;background:#0D7377;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">3</div>';
+      h+='<div style="width:28px;height:28px;border-radius:50%;background:#9cc852;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:13px;font-weight:700;color:white">3</div>';
       h+='<div><p style="font-size:13px;font-weight:600;color:white;margin-bottom:2px">Open from home screen</p>';
       h+='<p style="font-size:11px;color:rgba(255,255,255,.6)">Runs full-screen like a native app</p></div></div>';
     }
     
     h+='</div>';
     
-    h+='<button onclick="overlay=null;render()" style="width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.85));color:white;font-size:16px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:12px">Got It</button>';
+    h+='<button onclick="overlay=null;render()" style="width:100%;padding:16px;border-radius:14px;border:none;background:linear-gradient(135deg,#9cc852,rgba(156,200,82,.85));color:white;font-size:16px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:12px">Got It</button>';
     h+='<p style="font-size:10px;color:rgba(255,255,255,.4)">Your check-in pass will be available anytime from your home screen</p>';
     
     h+='</div></div>';
@@ -1106,10 +1106,10 @@ function render(){
     h+='<p style="font-size:12px;color:rgba(255,255,255,.6);margin-bottom:20px">This action is logged and reported to Operations.</p>';
     h+='<div style="background:rgba(255,255,255,.1);border-radius:12px;padding:14px;margin-bottom:20px;backdrop-filter:blur(10px)">';
     h+='<p style="font-size:11px;color:rgba(255,255,255,.5);margin-bottom:4px">Undo window remaining:</p>';
-    h+='<p style="font-size:24px;font-weight:700;color:white;font-family:DM Mono,monospace">'+mins+':'+String(secs).padStart(2,"0")+'</p>';
+    h+='<p style="font-size:24px;font-weight:700;color:white;font-family:SF Mono,monospace">'+mins+':'+String(secs).padStart(2,"0")+'</p>';
     h+='</div>';
-    h+='<button onclick="confirmUndo()" style="width:100%;padding:16px;border-radius:14px;border:2px solid white;background:transparent;color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-bottom:10px">Yes, Reverse My Check-In</button>';
-    h+='<button onclick="overlay=null;render()" style="width:100%;padding:16px;border-radius:14px;border:none;background:white;color:#DC2626;font-size:15px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif">No, Keep My Check-In</button>';
+    h+='<button onclick="confirmUndo()" style="width:100%;padding:16px;border-radius:14px;border:2px solid white;background:transparent;color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-bottom:10px">Yes, Reverse My Check-In</button>';
+    h+='<button onclick="overlay=null;render()" style="width:100%;padding:16px;border-radius:14px;border:none;background:white;color:#DC2626;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif">No, Keep My Check-In</button>';
     h+='</div></div>';
   }
 
@@ -1119,9 +1119,9 @@ function render(){
     var isTerms = overlay==="terms";
     h+='<div style="position:fixed;inset:0;z-index:95;background:rgba(15,23,42,.9);display:flex;align-items:center;justify-content:center;padding:20px;animation:fadeIn .3s;overflow-y:auto">';
     h+='<div style="background:white;border-radius:20px;padding:24px;max-width:400px;width:100%;max-height:80vh;overflow-y:auto">';
-    h+='<p style="font-size:16px;font-weight:700;color:#1B2A4A;margin-bottom:12px">'+(isTerms?"Terms of Service":"Privacy Policy")+'</p>';
+    h+='<p style="font-size:16px;font-weight:700;color:#203319;margin-bottom:12px">'+(isTerms?"Terms of Service":"Privacy Policy")+'</p>';
     if(isTerms){
-      h+='<div style="font-size:11px;color:#4A5568;line-height:1.7">';
+      h+='<div style="font-size:11px;color:#5A6354;line-height:1.7">';
       h+='<p style="margin-bottom:8px"><strong>GoCrew Smart Check-In - Terms of Service</strong></p>';
       h+='<p style="margin-bottom:8px">By using the GoCrew Smart Check-In system, you agree to provide accurate information including your room number and location data for verification purposes.</p>';
       h+='<p style="margin-bottom:8px"><strong>Check-In Verification:</strong> Room numbers entered during check-in are recorded for compliance and audit purposes. Providing false information may result in disciplinary action per your deployment agreement.</p>';
@@ -1131,7 +1131,7 @@ function render(){
       h+='<p><strong>Modifications:</strong> Requests to extend, depart early, or change rooms are subject to Operations approval and may affect billing.</p>';
       h+='</div>';
     } else {
-      h+='<div style="font-size:11px;color:#4A5568;line-height:1.7">';
+      h+='<div style="font-size:11px;color:#5A6354;line-height:1.7">';
       h+='<p style="margin-bottom:8px"><strong>GoCrew Smart Check-In - Privacy Policy</strong></p>';
       h+='<p style="margin-bottom:8px"><strong>Data Collected:</strong> Name, crew ID, assignment details, room number (self-reported), GPS coordinates at check-in/check-out, device identifier, and timestamp.</p>';
       h+='<p style="margin-bottom:8px"><strong>How We Use It:</strong> To verify crew attendance at assigned properties, detect fraud, ensure compliance with federal lodging requirements, and generate audit trails.</p>';
@@ -1141,7 +1141,7 @@ function render(){
       h+='<p><strong>Contact:</strong> privacy@crewlogistics.com</p>';
       h+='</div>';
     }
-    h+='<button onclick="overlay=null;render()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#0D7377,rgba(13,115,119,.85));color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:DM Sans,sans-serif;margin-top:16px">Close</button>';
+    h+='<button onclick="overlay=null;render()" style="width:100%;padding:14px;border-radius:14px;border:none;background:linear-gradient(135deg,#9cc852,rgba(156,200,82,.85));color:white;font-size:15px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;margin-top:16px">Close</button>';
     h+='</div></div>';
   }
 
